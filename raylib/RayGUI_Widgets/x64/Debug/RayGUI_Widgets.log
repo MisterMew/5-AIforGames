@@ -1,0 +1,4 @@
+﻿Simulation.obj : error LNK2005: "struct Color __cdecl GuiColorPanelEx(struct Rectangle,struct Color,float)" (?GuiColorPanelEx@@YA?AUColor@@URectangle@@U1@M@Z) already defined in Main.obj
+Simulation.obj : error LNK2005: "char * * __cdecl GuiLoadIcons(char const *,bool)" (?GuiLoadIcons@@YAPEAPEADPEBD_N@Z) already defined in Main.obj
+Simulation.obj : error LNK2005: "float __cdecl GuiSliderPro(struct Rectangle,char const *,char const *,float,float,float,int)" (?GuiSliderPro@@YAMURectangle@@PEBD1MMMH@Z) already defined in Main.obj
+C:\Users\thebe\Documents\GitHub\5-AIforGames\raylib\bin\x64\Debug\ProjectName.exe : fatal error LNK1169: one or more multiply defined symbols found
