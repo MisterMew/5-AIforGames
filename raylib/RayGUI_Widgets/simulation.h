@@ -1,30 +1,30 @@
 #pragma once
 
-#include <iostream>
-#include <string>
-
-using namespace std;
-
-#define RAYGUI_IMPLEMENTATION
-#define RAYGUI_SUPPORT_ICONS
-#define RAYGUI_STATIC
-
 #include "raylib.h"
-#include "raygui.h"
-
-#undef RAYGUI_IMPLEMENTATION
-
 
 /// Variables
 class Entity {
-	Vector2 mPos;
-	Vector2 mSpeed;
-	Color color;
-	float mRadius;
+	Color mColor = MAGENTA;
+	Vector2 mCentre = { (GetScreenWidth() / 2.0f) , (GetScreenHeight() / 2.0f) };
+	Vector2 mPosition;
+	Vector2 mVelocity;
+	float mMaxSpeed;
+	float mDetectionRadius;
 
 	struct Fish {};
 	struct Shark {};
 	struct Whale {};
-};
 
-/// Function Declarations
+public:
+	/// Function Declarations
+	void SpawnEntity();
+	void DrawEntity();
+
+	/// Function Definitions
+	Vector2 GetCentre() { return mCentre; }
+	Vector2 GetPosition() { return mPosition; }
+	Color GetColor() { return mColor; }
+
+	void SetPosition(Vector2 position) { mPosition = position; }
+	void SetColor(Color color) { mColor = color; }
+};
