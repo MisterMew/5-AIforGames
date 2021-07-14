@@ -1,0 +1,6 @@
+﻿  Simulation.cpp
+C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Simulation.cpp(5,52): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Simulation.cpp(6,53): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Simulation.cpp(18,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Simulation.cpp(19,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  RayGUI_Widgets.vcxproj -> C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\bin\x64\Debug\ProjectName.exe
