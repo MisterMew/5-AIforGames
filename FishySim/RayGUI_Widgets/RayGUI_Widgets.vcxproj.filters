@@ -15,9 +15,15 @@
     <ClCompile Include="Simulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="vector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simulation.h">
+      <Filter>Header Fiels</Filter>
+    </ClInclude>
+    <ClInclude Include="vector.h">
       <Filter>Header Fiels</Filter>
     </ClInclude>
   </ItemGroup>
