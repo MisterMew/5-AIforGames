@@ -13,11 +13,9 @@
 const int screenWidth = 1280;  //Set screen width
 const int screenHeight = 720; //Set screen height
 
-vector<Entity> entities;
-//Entity* entity = new Entity();
-vector<Entity> fish;
-vector<Entity> shark;
-vector<Entity> whale;
+EntityObject* entity = new EntityObject();
+vector<EntityObject> fish;
+vector<EntityObject> shark;
 
 
  /// INITIALISATION
@@ -30,19 +28,14 @@ void Init() {
 }
 
 void Update() {
-	for (Entity& fish : fish) {
+	for (EntityObject& fish : fish) {
 		fish.RenderFish();
 		fish.UpdateEntity();
 	}
 
-	for (Entity& shark : shark) {
+	for (EntityObject& shark : shark) {
 		shark.RenderShark();
 		shark.UpdateEntity();
-	}
-
-	for (Entity& whale : whale) {
-		whale.RenderWhale();
-		whale.UpdateEntity();
 	}
 }
 
@@ -62,7 +55,7 @@ void Draw() {
 	if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
 		DrawCircle((int)mousePos.x, (int)mousePos.y, 15, Fade(BLUE, 0.4f));
 
-		shark.push_back(Entity ({ mousePos.x, mousePos.y }, { (float)GetRandomValue(-5, 5), (float)GetRandomValue(-5, 5) }, true));
+		shark.push_back(EntityObject ({ mousePos.x, mousePos.y }, { (float)GetRandomValue(-5, 5), (float)GetRandomValue(-5, 5) }, true));
 	}
 	
 	EndDrawing();
@@ -73,7 +66,7 @@ int main() {
 	Init(); //Initialisation
 
 	for (int i = 0; i < 200; ++i) {
-		fish.push_back(Entity({
+		fish.push_back(EntityObject({
 			(float)GetRandomValue(0, screenWidth),
 			(float)GetRandomValue(0, screenHeight), 
 		}, {

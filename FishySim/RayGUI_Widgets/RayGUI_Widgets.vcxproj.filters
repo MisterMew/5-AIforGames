@@ -15,7 +15,25 @@
     <ClCompile Include="Simulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="vector.cpp">
+    <ClCompile Include="Vector2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Agent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Fish.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -23,7 +41,25 @@
     <ClInclude Include="simulation.h">
       <Filter>Header Fiels</Filter>
     </ClInclude>
-    <ClInclude Include="vector.h">
+    <ClInclude Include="Vector2.h">
+      <Filter>Header Fiels</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>Header Fiels</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix3.h">
+      <Filter>Header Fiels</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityObject.h">
+      <Filter>Header Fiels</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySprite.h">
+      <Filter>Header Fiels</Filter>
+    </ClInclude>
+    <ClInclude Include="Agent.h">
+      <Filter>Header Fiels</Filter>
+    </ClInclude>
+    <ClInclude Include="Fish.h">
       <Filter>Header Fiels</Filter>
     </ClInclude>
   </ItemGroup>

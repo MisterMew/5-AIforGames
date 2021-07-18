@@ -19,7 +19,7 @@ using namespace std;
 // WANDER: Moving anywhere
 
 /// Variables
-class Entity {
+class EntityObject {
 
 	bool mIsPredator = false;
 
@@ -39,14 +39,14 @@ class Entity {
 
 
 public:
-	Entity();
-	Entity(Vector2 pos, Vector2 vel, float size) {
+	EntityObject();
+	EntityObject(Vector2 pos, Vector2 vel, float size) {
 		mPosition = pos;
 		mVelocity = vel;
 		mSize = size;
 		mAcceleration = Vector2();
 	}
-	Entity(Vector2 pos, Vector2 vel, bool isPredator) {
+	EntityObject(Vector2 pos, Vector2 vel, bool isPredator) {
 		mPosition = pos;
 		mVelocity = vel;
 		mAcceleration = Vector2();

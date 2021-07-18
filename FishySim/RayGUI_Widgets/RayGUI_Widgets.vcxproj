@@ -168,13 +168,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Agent.cpp" />
+    <ClCompile Include="EntityObject.cpp" />
+    <ClCompile Include="EntitySprite.cpp" />
+    <ClCompile Include="Fish.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Matrix3.cpp" />
     <ClCompile Include="Simulation.cpp" />
-    <ClCompile Include="vector.cpp" />
+    <ClCompile Include="Vector2.cpp" />
+    <ClCompile Include="Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Agent.h" />
+    <ClInclude Include="EntityObject.h" />
+    <ClInclude Include="EntitySprite.h" />
+    <ClInclude Include="Fish.h" />
+    <ClInclude Include="Matrix3.h" />
     <ClInclude Include="simulation.h" />
-    <ClInclude Include="vector.h" />
+    <ClInclude Include="Vector2.h" />
+    <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
