@@ -5,7 +5,9 @@
 #define RAYGUI_STATIC
 
 #include "EntityObject.h"
-#include "Fish.h"
+#include "AgentFish.h"
+#include "AgentShark.h"
+#include "AgentWhale.h"
 #include "raygui.h"
 
 #undef RAYGUI_IMPLEMENTATION
@@ -29,10 +31,6 @@ void Init() {
  /// UPDATING
 /* Program updates */
 void Update() {
-	if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-		DrawCircle(GetMouseX(), GetMouseY(), 15, Fade(RAYWHITE, 0.1f));
-		mEntity.push_back(new Fish(GetMouseX(), GetMouseY()));
-	}
 }
 
  /// DRAWING
@@ -44,14 +42,20 @@ void Draw() {
 	DrawRectangleGradientV(0, 0, GetScreenWidth(), (GetScreenHeight() / 8), Fade(BLACK, 0.3f), Fade(DARKBLUE, 0.005f));
 
 	Vector2 mousePos = GetMousePosition(); //Get the mouse coordinates
-	DrawText(TextFormat("X, Y: [ %i, %i ]", (int)mousePos.x, (int)mousePos.y), 10, 28, 12, RAYWHITE); //Draws the mouse coords in the top left corner
-	DrawText(TextFormat("FPS: [ %i ]", (int)GetFPS()), 10, 10, 18, RAYWHITE);						 //Draws the FPS in the top left corner
+
+	if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+		DrawCircle(GetMouseX(), GetMouseY(), 15, Fade(RAYWHITE, 0.1f));
+		mEntity.push_back(new Fish({ mousePos.x, mousePos.y }));
+	}
 
 	for (auto fish : mEntity) {
 		fish->Update();
 		fish->Draw();
 	}
-	
+
+	DrawText(TextFormat("X, Y: [ %i, %i ]", (int)mousePos.x, (int)mousePos.y), 10, 28, 12, RAYWHITE); //Draws the mouse coords in the top left corner
+	DrawText(TextFormat("FPS: [ %i ]", (int)GetFPS()), 10, 10, 18, RAYWHITE);						 //Draws the FPS in the top left corner
+
 	EndDrawing();
 }
 
@@ -59,11 +63,8 @@ void Draw() {
 int main() {
 	Init(); //Initialisation
 
-	for (int i = 0; i < 200; i++) {
-		mEntity.push_back(new Fish(screenWidth / 2, screenHeight / 2));
-	}
-	for (int i = 0; i < 200; i++) {
-		mEntity[i]->Start();
+	for (int i = 0; i < 1; i++) {
+		mEntity.push_back(new Fish({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) }));
 	}
 
 	bool exitWindow = false;

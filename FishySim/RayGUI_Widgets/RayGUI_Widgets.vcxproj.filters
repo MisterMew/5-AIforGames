@@ -7,6 +7,18 @@
     <Filter Include="Header Files">
       <UniqueIdentifier>{028c93f9-8540-4beb-aa42-f696fd3dfd9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Agents">
+      <UniqueIdentifier>{94b37549-cb71-40c7-8feb-a8c7688aeba6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Agents">
+      <UniqueIdentifier>{1f011e07-d119-48dc-9a17-58f61e22c506}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MathsOperations">
+      <UniqueIdentifier>{370f5724-de28-4811-89d6-a2b4b896bbd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MathsOperations">
+      <UniqueIdentifier>{91d71992-4742-483d-a632-ae1b3c2bd2c9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -15,39 +27,36 @@
     <ClCompile Include="Simulation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Vector2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Matrix3.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="EntityObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EntitySprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Agent.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Vector3.cpp">
+      <Filter>Source Files\MathsOperations</Filter>
     </ClCompile>
-    <ClCompile Include="Fish.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Vector2.cpp">
+      <Filter>Source Files\MathsOperations</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix3.cpp">
+      <Filter>Source Files\MathsOperations</Filter>
+    </ClCompile>
+    <ClCompile Include="Agent.cpp">
+      <Filter>Source Files\Agents</Filter>
+    </ClCompile>
+    <ClCompile Include="AgentFish.cpp">
+      <Filter>Source Files\Agents</Filter>
+    </ClCompile>
+    <ClCompile Include="Shark.cpp">
+      <Filter>Source Files\Agents</Filter>
+    </ClCompile>
+    <ClCompile Include="Whale.cpp">
+      <Filter>Source Files\Agents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="simulation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector2.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vector3.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Matrix3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EntityObject.h">
@@ -57,10 +66,25 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Agent.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Agents</Filter>
     </ClInclude>
-    <ClInclude Include="Fish.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="AgentShark.h">
+      <Filter>Header Files\Agents</Filter>
+    </ClInclude>
+    <ClInclude Include="AgentWhale.h">
+      <Filter>Header Files\Agents</Filter>
+    </ClInclude>
+    <ClInclude Include="AgentFish.h">
+      <Filter>Header Files\Agents</Filter>
+    </ClInclude>
+    <ClInclude Include="Matrix3.h">
+      <Filter>Header Files\MathsOperations</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Header Files\MathsOperations</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector3.h">
+      <Filter>Header Files\MathsOperations</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

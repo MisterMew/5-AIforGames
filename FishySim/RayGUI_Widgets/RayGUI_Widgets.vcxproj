@@ -171,18 +171,22 @@
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="EntityObject.cpp" />
     <ClCompile Include="EntitySprite.cpp" />
-    <ClCompile Include="Fish.cpp" />
+    <ClCompile Include="AgentFish.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Matrix3.cpp" />
+    <ClCompile Include="Shark.cpp" />
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />
+    <ClCompile Include="Whale.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agent.h" />
+    <ClInclude Include="AgentShark.h" />
+    <ClInclude Include="AgentWhale.h" />
     <ClInclude Include="EntityObject.h" />
     <ClInclude Include="EntitySprite.h" />
-    <ClInclude Include="Fish.h" />
+    <ClInclude Include="AgentFish.h" />
     <ClInclude Include="Matrix3.h" />
     <ClInclude Include="simulation.h" />
     <ClInclude Include="Vector2.h" />

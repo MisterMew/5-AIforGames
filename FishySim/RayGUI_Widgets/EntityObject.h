@@ -11,7 +11,6 @@ class EntityObject {
 	vector<EntityObject*> mEntityChildren;
 	
 	/// Entity Variables
-	Vector2 mPosition = {50, 50};
 	Matrix3 mLocalPos;
 	Matrix3 mGlobalPos;
 
@@ -41,7 +40,7 @@ public:
 	Matrix3 GetPosG() { return mGlobalPos; }
 
 	/* Set Position Functions */
-	void SetPos(Vector2 pos) { mPosition.x = mLocalPos.m7, mPosition.y = mLocalPos.m8; UpdatePosition(); }
+	void SetPos(Vector2 pos) { SetPosL(pos); }
 	void SetPosL(Vector2 pos) { mLocalPos.SetTranslate(pos.x, pos.y); UpdatePosition(); }
 	void SetPosG(Vector2 pos) { mGlobalPos.SetTranslate(pos.x, pos.y); }
 

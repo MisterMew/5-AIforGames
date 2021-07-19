@@ -71,7 +71,7 @@ float Vector2::Magnitude() {
 }
 
 /* Vector3 Normalisation */
-void Vector2::Normalisation() {
+void Vector2::Normalise() {
     float magnitude = Magnitude();
 
     x /= magnitude;

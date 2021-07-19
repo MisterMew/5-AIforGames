@@ -11,6 +11,8 @@
 // WANDER: Moving anywhere
 
 class Agent : public EntityObject {
+	/// Variables
+	/* Boid Variables */
 	bool mIsPredator;
 
 	float mSeperation;
@@ -20,8 +22,15 @@ class Agent : public EntityObject {
 	Vector2 mSeekTarget;
 	Vector2 mFleeTarget;
 
-public:
+	/* Movement Variables */
+protected:
+	Vector2 mVelocity = {5, 5};
+	Vector2 mAcceleration = {2, 2};
+
+public: 
 	 /// Function Declarations
+	void Update() override;
+
 	/* Boid Law Functions */
 	void Seperate();
 	void Align();
@@ -31,7 +40,9 @@ public:
 	void Seek();
 	void Flee();
 
-	/// Function Definitions
+
+	 /// Function Definitions
+	/* Boid Functions */
 	bool IsPredator() { return mIsPredator; }
 
 	Vector2 GetTargetSeek() { return mSeekTarget; }
@@ -39,5 +50,11 @@ public:
 
 	void SetTargetSeek(Vector2 seekTarget) { mSeekTarget = seekTarget; }
 	void SetTargetFlee(Vector2 fleeTarget) { mFleeTarget = fleeTarget; }
-};
 
+	/* Movement Functions */
+	Vector2 GetVel() { return mVelocity; }
+	Vector2 GetAcc() { return mAcceleration; }
+
+	void SetVel(Vector2 vel) { mVelocity = vel; }
+	void SetAcc(Vector2 acc) { mAcceleration = acc; }
+};

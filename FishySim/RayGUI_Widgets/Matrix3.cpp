@@ -20,7 +20,7 @@ Matrix3 Matrix3::operator+(const Matrix3& v) {
     temp.m1 = m1 + v.m1; temp.m2 = m2 + v.m2; temp.m3 = m3 + v.m3;    
     temp.m4 = m4 + v.m4; temp.m5 = m5 + v.m5; temp.m6 = m6 + v.m6;
     temp.m7 = m7 + v.m7; temp.m8 = m8 + v.m8; temp.m9 = m9 + v.m9;
-    return Matrix3();
+    return temp;
 }
 
 /* Overload Matrix4 subtraction */
@@ -29,7 +29,7 @@ Matrix3 Matrix3::operator-(const Matrix3& v) {
     temp.m1 = m1 - v.m1; temp.m2 = m2 - v.m2; temp.m3 = m3 - v.m3;
     temp.m4 = m4 - v.m4; temp.m5 = m5 - v.m5; temp.m6 = m6 - v.m6;
     temp.m7 = m7 - v.m7; temp.m8 = m8 - v.m8; temp.m9 = m9 - v.m9;
-    return Matrix3();
+    return temp;
 }
 
 /* Overload Matrix4 division */
@@ -38,7 +38,7 @@ Matrix3 Matrix3::operator/(const Matrix3& v) {
     temp.m1 = m1 / v.m1; temp.m2 = m2 / v.m2; temp.m3 = m3 / v.m3;
     temp.m4 = m4 / v.m4; temp.m5 = m5 / v.m5; temp.m6 = m6 / v.m6;
     temp.m7 = m7 / v.m7; temp.m8 = m8 / v.m8; temp.m9 = m9 / v.m9;
-    return Matrix3();
+    return temp;
 }
 
 /* Overload Matrix4 multiplication */
@@ -47,7 +47,7 @@ Matrix3 Matrix3::operator*(const Matrix3& v) {
     temp.m1 = (m1 * v.m1) + (m2 * v.m4) + (m3 * v.m7); temp.m2 = (m1 * v.m2) + (m2 * v.m5) + (m3 * v.m8); temp.m3 = (m1 * v.m3) + (m2 * v.m6) + (m3 * v.m9);
     temp.m4 = (m4 * v.m1) + (m5 * v.m4) + (m6 * v.m7); temp.m5 = (m4 * v.m2) + (m5 * v.m5) + (m6 * v.m8); temp.m6 = (m4 * v.m3) + (m5 * v.m6) + (m6 * v.m9);
     temp.m7 = (m7 * v.m1) + (m8 * v.m4) + (m9 * v.m7); temp.m8 = (m7 * v.m2) + (m8 * v.m5) + (m9 * v.m8); temp.m9 = (m7 * v.m3) + (m8 * v.m6) + (m9 * v.m9);
-    return Matrix3();
+    return temp;
 }
 
 /* Overload Matrix4 multiplication with Scalar */
@@ -56,7 +56,7 @@ Matrix3 Matrix3::operator*(float s) {
     temp.m1 = m1 * s; temp.m2 = m2 * s; temp.m3 = m3 * s;
     temp.m4 = m4 * s; temp.m5 = m5 * s; temp.m6 = m6 * s;
     temp.m7 = m7 * s; temp.m8 = m8 * s; temp.m9 = m9 * s;
-    return Matrix3();
+    return temp;
 }
 #pragma endregion
 

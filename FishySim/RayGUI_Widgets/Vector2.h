@@ -25,5 +25,5 @@ public:
 
     /* Magnitude and Normalisation */
     float Magnitude();
-    void Normalisation();
+    void Normalise();
 };

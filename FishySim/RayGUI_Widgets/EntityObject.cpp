@@ -6,7 +6,7 @@ EntityObject::~EntityObject() {}
 
 void EntityObject::UpdatePosition() {
 	if (mEntity != nullptr) {
-		mGlobalPos = mEntity->GetPosG() * GetPosL();
+		mGlobalPos = mEntity->mGlobalPos * mLocalPos;
 	}
 	else {
 		mGlobalPos = GetPosL();
@@ -14,12 +14,6 @@ void EntityObject::UpdatePosition() {
 
 	for (auto entity : mEntityChildren) {
 		entity->UpdatePosition();
-
-		//Entity Screen Wrap
-		if (GetPos().x < 0) { mPosition.x = GetScreenWidth(); }
-		if (GetPos().y < 0) { mPosition.y = GetScreenHeight(); }
-		if (GetPos().x > GetScreenWidth()) { mPosition.x = 0; }
-		if (GetPos().y > GetScreenHeight()) { mPosition.y = 0; }
 	}
 }
 
@@ -40,6 +34,7 @@ int EntityObject::GetChildCount() { return sizeof(mEntityChildren); }
 void EntityObject::AddChild(EntityObject* child) {
 	child->mEntity = this;
 	mEntityChildren.push_back(child);
+	child->UpdatePosition();
 }
 
 /* Remove a child from mEntity */
