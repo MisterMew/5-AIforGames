@@ -4,12 +4,17 @@
 
 #include <cmath>
 
-class EntitySprite : EntityObject {
+class EntitySprite : public EntityObject {
 	float mWidth;
 	float mHeight;
+
 public:
+	EntitySprite();
+	~EntitySprite();
+
+	/// Function Declarations
 	void Start() override;
 	void Update() override;
-	virtual void Draw() = 0;
+	virtual void Draw();
 };
 

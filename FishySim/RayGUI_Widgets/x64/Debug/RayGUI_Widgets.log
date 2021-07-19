@@ -1,18 +1,3 @@
-﻿  EntityObject.cpp
-  Matrix4.cpp
-  Simulation.cpp
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Simulation.cpp(8,52): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Simulation.cpp(9,53): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Simulation.cpp(55,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Simulation.cpp(56,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Simulation.cpp(88,28): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Simulation.cpp(88,20): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Simulation.cpp(98,13): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  Generating Code...
-raylib.lib(core.obj) : warning LNK4099: PDB 'raylib.pdb' was not found with 'raylib.lib(core.obj)' or at 'C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\bin\x64\Debug\raylib.pdb'; linking object as if no debug info
-raylib.lib(rglfw.obj) : warning LNK4099: PDB '' was not found with 'raylib.lib(rglfw.obj)' or at ''; linking object as if no debug info
-raylib.lib(shapes.obj) : warning LNK4099: PDB 'raylib.pdb' was not found with 'raylib.lib(shapes.obj)' or at 'C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\bin\x64\Debug\raylib.pdb'; linking object as if no debug info
-raylib.lib(text.obj) : warning LNK4099: PDB 'raylib.pdb' was not found with 'raylib.lib(text.obj)' or at 'C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\bin\x64\Debug\raylib.pdb'; linking object as if no debug info
-raylib.lib(textures.obj) : warning LNK4099: PDB 'raylib.pdb' was not found with 'raylib.lib(textures.obj)' or at 'C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\bin\x64\Debug\raylib.pdb'; linking object as if no debug info
-raylib.lib(utils.obj) : warning LNK4099: PDB 'raylib.pdb' was not found with 'raylib.lib(utils.obj)' or at 'C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\bin\x64\Debug\raylib.pdb'; linking object as if no debug info
-  RayGUI_Widgets.vcxproj -> C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\bin\x64\Debug\ProjectName.exe
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(519,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (ProjectName.vcxproj).  This can lead to incorrect clean and rebuild behavior.
+  Fish.cpp
+  RayGUI_Widgets.vcxproj -> C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\bin\x64\Debug\FishySim.exe

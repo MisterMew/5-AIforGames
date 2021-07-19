@@ -5,7 +5,10 @@
 class Fish : public Agent {
 public:
 	EntitySprite* mSprite;
+	Agent* mAgent;
 
+	Fish();
+	Fish(Vector2 pos);
 	Fish(float x, float y);
 	~Fish();
 

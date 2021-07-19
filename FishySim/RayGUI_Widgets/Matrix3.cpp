@@ -2,8 +2,8 @@
 
 Matrix3::Matrix3() {
     m1 = 1; m2 = 0; m3 = 0;  
-    m4 = 0; m5 = 0; m6 = 1;  
-    m7 = 0; m8 = 0; m9 = 0;
+    m4 = 0; m5 = 1; m6 = 0;  
+    m7 = 0; m8 = 0; m9 = 1;
 }
 
 Matrix3::Matrix3(float m1, float m2, float m3, float m4, float m5, float m6, float m7, float m8, float m9) {
@@ -118,10 +118,14 @@ void Matrix3::RotateZ(double radians) {
 #pragma region [ Translation ]
 /* Translation */
 void Matrix3::SetTranslate(float x, float y) {
-    m7 = x; m8 = y;
+    m1 = 1; m2 = 0; m3 = 0;
+    m4 = 0; m5 = 1; m6 = 0;
+    m7 = x; m8 = y; m9 = 1;
 }
 
 void Matrix3::Translate(float x, float y) {
-    m7 += x; m8 += y;
+    Matrix3 t = Matrix3(1, 0, 0, 0, 1, 0, 0, 0, 1);
+    t.SetTranslate(x, y);
+    SetM3(t * *this);
 }
 #pragma endregion

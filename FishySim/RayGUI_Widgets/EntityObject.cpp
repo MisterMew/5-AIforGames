@@ -1,17 +1,52 @@
 #include "EntityObject.h"
 
-EntityObject::EntityObject() {}
+EntityObject::EntityObject() { return; }
+EntityObject::EntityObject(Vector2 pos) { EntityObject::SetPos(pos); }
 EntityObject::~EntityObject() {}
 
 void EntityObject::UpdatePosition() {
-	if (entity != nullptr) {
-		mGlobalPos = entity->GetPosG() * GetPosL();
+	if (mEntity != nullptr) {
+		mGlobalPos = mEntity->GetPosG() * GetPosL();
 	}
 	else {
 		mGlobalPos = GetPosL();
 	}
 
-	for (auto entity : entityChild) {
-		entity.UpdatePosition();
+	for (auto entity : mEntityChildren) {
+		entity->UpdatePosition();
+
+		//Entity Screen Wrap
+		if (GetPos().x < 0) { mPosition.x = GetScreenWidth(); }
+		if (GetPos().y < 0) { mPosition.y = GetScreenHeight(); }
+		if (GetPos().x > GetScreenWidth()) { mPosition.x = 0; }
+		if (GetPos().y > GetScreenHeight()) { mPosition.y = 0; }
+	}
+}
+
+void EntityObject::Start() {}
+void EntityObject::Update() {}
+void EntityObject::Draw() {}
+
+
+  /// CHILD MANAGEMENT FUNCTIONS
+#pragma region [ Children Functions ]
+/* Get a child from EntityObjects */
+EntityObject* EntityObject::GetChild(int index) { return mEntityChildren[index]; }
+
+/* Return a count of all children */
+int EntityObject::GetChildCount() { return sizeof(mEntityChildren); }
+
+/* Add a child to mEntity */
+void EntityObject::AddChild(EntityObject* child) {
+	child->mEntity = this;
+	mEntityChildren.push_back(child);
+}
+
+/* Remove a child from mEntity */
+void EntityObject::RemoveChild(EntityObject* child) {
+	vector<EntityObject*>::iterator position = find(mEntityChildren.begin(), mEntityChildren.end(), child);
+	if (position != mEntityChildren.end()) {
+		mEntityChildren.erase(position);
+		child->mEntity = nullptr; //Yeet the child
 	}
 }

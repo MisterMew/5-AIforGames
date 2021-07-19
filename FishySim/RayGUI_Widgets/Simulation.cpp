@@ -1,9 +1,9 @@
 #include "simulation.h"
 
-EntityObject::EntityObject() {}
+Entity::Entity() {}
 //Entity::~Entity() {}
 
-void EntityObject::UpdateEntity() {
+void Entity::UpdateEntity() {
 	//Wrap Screen
 	if (GetPos().x < 0) { mPosition.x = GetScreenWidth(); }
 	if (GetPos().y < 0) { mPosition.y = GetScreenHeight(); }
@@ -26,23 +26,23 @@ void EntityObject::UpdateEntity() {
 
  /// BOID RULES: Seperation
 /* Simulates the seperation of boid agents */
-void EntityObject::Seperate() {}
+void Entity::Seperate() {}
 
 /// BOID RULES: Alignment
 /* Simulates the alignment of boid agents */
-void EntityObject::Align() {}
+void Entity::Align() {}
 
 /// BOID RULES: Cohesion
 /* Simulates the cohesion of boid agents */
-void EntityObject::Cohese() {}
+void Entity::Cohese() {}
 
 #pragma endregion
 
 #pragma region [ Entity AI ]
 
-void EntityObject::Seek() {}
+void Entity::Seek() {}
 
-void EntityObject::Flee() {}
+void Entity::Flee() {}
 
 #pragma endregion
 
@@ -50,7 +50,7 @@ void EntityObject::Flee() {}
 
  /// RENDER: Fish
 /* Renders the fish entities */
-void EntityObject::RenderFish() {
+void Entity::RenderFish() {
 	float angleH = atan2(GetVel().y, GetVel().x);
 	float angleL = angleH + 0.3 + PI / 2;
 	float angleR = angleH - 0.3 - PI / 2;
@@ -78,7 +78,7 @@ void EntityObject::RenderFish() {
 
  /// RENDER: Shark
 /* Renders the shark entities */
-void EntityObject::RenderShark() {
+void Entity::RenderShark() {
 	float angleH = atan2(GetVel().y, GetVel().x);
 	Vector2 head = {
 	10 * cos(angleH) + GetPos().x,
@@ -90,7 +90,7 @@ void EntityObject::RenderShark() {
 
  /// RENDER: Whale
 /* Renders the whale entities */
-void EntityObject::RenderWhale() {}
+void Entity::RenderWhale() {}
 
 #pragma endregion
 

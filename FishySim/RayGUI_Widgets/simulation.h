@@ -2,24 +2,14 @@
 #include <stdlib.h>
 #include <iostream>
 #include <string>
-#include <vector>
 #include <cmath>
 
 using namespace std;
 
 #include "raylib.h"
 
-/// TO DO:
-// SEPERATION: Steer to avoid collision/crowding with flockmates
-// ALIGNMENT: Steer towards average heading of flockmates
-// COHESION: Steer to move towards the average position (centre of mass) of local flockmates 
-
-// SEEK: Moving towards a target
-// FLEE: Evading a target
-// WANDER: Moving anywhere
-
 /// Variables
-class EntityObject {
+class Entity {
 
 	bool mIsPredator = false;
 
@@ -39,14 +29,14 @@ class EntityObject {
 
 
 public:
-	EntityObject();
-	EntityObject(Vector2 pos, Vector2 vel, float size) {
+	Entity();
+	Entity(Vector2 pos, Vector2 vel, float size) {
 		mPosition = pos;
 		mVelocity = vel;
 		mSize = size;
 		mAcceleration = Vector2();
 	}
-	EntityObject(Vector2 pos, Vector2 vel, bool isPredator) {
+	Entity(Vector2 pos, Vector2 vel, bool isPredator) {
 		mPosition = pos;
 		mVelocity = vel;
 		mAcceleration = Vector2();
