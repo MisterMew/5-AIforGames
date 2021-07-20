@@ -1,5 +1,8 @@
 #pragma once
 #include "EntityObject.h"
+#include "raymath.h"
+#include <vector>
+#include <cmath>
 
 /// TO DO:
 // SEPERATION: Steer to avoid collision/crowding with flockmates
@@ -12,9 +15,13 @@
 
 class Agent : public EntityObject {
 	 /// Variables
-	/* Boid Variables */
 	bool mIsPredator;
 
+	float mPerceptionRadius;
+	float mMaxSpeed;
+	float mMaxForce;
+
+	/* Boid Variables */
 	float mSeperation;
 	float mAlignment;
 	float mCohesion;
@@ -31,7 +38,7 @@ public:
 	void Update() override;
 
 	/* Boid Law Functions */
-	void Seperate();
+	Vector2 Seperate(Agent* agent);
 	void Align();
 	void Cohese();
 
@@ -39,10 +46,28 @@ public:
 	void Seek();
 	void Flee();
 
+	bool InPerception(Agent* target, float radius, float distance);
 
 	 /// Function Definitions
-	/* Boid Functions */
 	bool IsPredator() { return mIsPredator; }
+
+	float GetPerception() { return mPerceptionRadius; }
+	float GetMaxSpeed() { return mMaxSpeed; }
+	float GetMaxForce() { return mMaxForce; }
+
+	void SetPerception(float p) { mPerceptionRadius = p; }
+	void SetMaxSpeed(float maxSpd) { mMaxSpeed = maxSpd; }
+	void SetMaxForce(float maxFrc) { mMaxSpeed = maxFrc; }
+
+
+	/* Boid Functions */
+	float GetSeperation() { return mSeperation; }
+	float GetAlignment() { return mAlignment; }
+	float GetCohesion() { return mCohesion; }
+
+	void SetSeperation(float sep) { mSeperation = sep; }
+	void SetAlignment(float ali) { mAlignment = ali; }
+	void SetCohesion(float coh) { mCohesion = coh; }
 
 	Vector2 GetTargetSeek() { return mSeekTarget; }
 	Vector2 GetTargetFlee() { return mFleeTarget; }

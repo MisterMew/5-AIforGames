@@ -7,15 +7,15 @@
 using namespace std;
 
 class EntityObject {
-	EntityObject* mEntity = nullptr;
-	vector<EntityObject*> mEntityChildren;
+	EntityObject* mParent = nullptr;
+	vector<EntityObject*> mChildren;
 	
 	/// Entity Variables
 	Matrix3 mLocalPos;
 	Matrix3 mGlobalPos;
 
 	/* Movement Variables */
-	Vector2 mVelocity = {10, 10};
+	Vector2 mVelocity;
 	Vector2 mAcceleration;
 
 public:
@@ -35,7 +35,8 @@ public:
 	int GetChildCount();
 	void AddChild(EntityObject* child);
 	void RemoveChild(EntityObject* child);
-
+	EntityObject* GetParent();
+	bool HasParent();
 
 	 /// Function Definitions
 	/* Get Position Functions */

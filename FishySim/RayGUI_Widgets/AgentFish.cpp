@@ -3,14 +3,11 @@
   /// FISHY CONSTRUCTORS
 #pragma region [ Constructors ]
 /* Default Constructor */
-Fish::Fish() { 
-	mSprite = new EntitySprite(); 
-	Start();
-}
+Fish::Fish() : Fish({ 0, 0 }) { } // Calls other fish constructor
 
-Fish::Fish(Vector2 pos) { 
+Fish::Fish(Vector2 pos) : Agent(pos) { // Calls inherited constructor
 	SetPos(pos); 
-	mSprite = new EntitySprite();
+	mSprite = new EntitySprite(SpriteDrawType::Fish);
 	Start();
 }
 
@@ -24,10 +21,10 @@ void Fish::Start() {
 }
 
 void Fish::Update() {
-	Agent::Update();
+	Agent::Update(); // Agent updates MY position & velocity
 	EntityObject::UpdatePosition();
 }
 
 void Fish::Draw() {
-	mSprite->Draw();
+	mSprite->Draw(); // Sprite draws at MY position, since it is a child and follows me
 }
