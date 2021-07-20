@@ -45,3 +45,4 @@ void EntityObject::RemoveChild(EntityObject* child) {
 		child->mEntity = nullptr; //Yeet the child
 	}
 }
+#pragma endregion

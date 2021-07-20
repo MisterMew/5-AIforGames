@@ -8,7 +8,6 @@ public:
 
 	Fish();
 	Fish(Vector2 pos);
-	Fish(float x, float y);
 	~Fish();
 
 	void Start() override;

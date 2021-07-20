@@ -5,8 +5,8 @@
 #include <cmath>
 
 class EntitySprite : public EntityObject {
-	float mWidth;
-	float mHeight;
+	float mWidth = 10;
+	float mHeight = 10;
 
 public:
 	EntitySprite();

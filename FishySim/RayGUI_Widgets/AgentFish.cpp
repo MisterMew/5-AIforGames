@@ -14,12 +14,6 @@ Fish::Fish(Vector2 pos) {
 	Start();
 }
 
-Fish::Fish(float x, float y) { 
-	SetPos({ x, y });
-	mSprite = new EntitySprite();
-	Start();
-}
-
 Fish::~Fish() {}
 
 #pragma endregion

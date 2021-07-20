@@ -14,6 +14,10 @@ class EntityObject {
 	Matrix3 mLocalPos;
 	Matrix3 mGlobalPos;
 
+	/* Movement Variables */
+	Vector2 mVelocity = {10, 10};
+	Vector2 mAcceleration;
+
 public:
 	EntityObject();
 	EntityObject(Vector2 pos);
@@ -39,13 +43,19 @@ public:
 	Matrix3 GetPosL() { return mLocalPos; }
 	Matrix3 GetPosG() { return mGlobalPos; }
 
+	Vector2 GetVel() { return mVelocity; }
+	Vector2 GetAcc() { return mAcceleration; }
+
 	/* Set Position Functions */
-	void SetPos(Vector2 pos) { SetPosL(pos); }
+	void SetPos(Vector2 pos) { SetPosL(pos); UpdatePosition(); }
 	void SetPosL(Vector2 pos) { mLocalPos.SetTranslate(pos.x, pos.y); UpdatePosition(); }
-	void SetPosG(Vector2 pos) { mGlobalPos.SetTranslate(pos.x, pos.y); }
+	void SetPosG(Vector2 pos) { mGlobalPos.SetTranslate(pos.x, pos.y); UpdatePosition(); }
+
+	void SetVel(Vector2 vel) { mVelocity = vel; }
+	void SetAcc(Vector2 acc) { mAcceleration = acc; }
 
 	/* Rotation & Translation Functions*/
-	void SetRot(float radians) { mLocalPos.SetRotateZ(radians); }
-	void Translate(Vector2 pos) { mLocalPos.Translate(pos.x, pos.y); }
-	void Rotate(float radians) { mLocalPos.RotateZ(radians); }
+	void Translate(Vector2 pos) { mLocalPos.Translate(pos.x, pos.y); UpdatePosition(); }
+	void SetRot(float radians) { mLocalPos.SetRotateZ(radians); UpdatePosition(); }
+	void Rotate(float radians) { mLocalPos.RotateZ(radians); UpdatePosition(); }
 };

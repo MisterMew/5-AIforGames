@@ -1,6 +1,18 @@
 #include "Agent.h"
 
+Agent::Agent() {}
+
+Agent::Agent(Vector2 pos) {
+	/*EntityObject::SetPos(pos);
+	SetVel({(float)(rand()%5 - 2), (float)(rand()%5 - 2)});
+	SetAcc({2, 2});
+	*/
+}
+
+Agent::~Agent() {}
+
 void Agent::Update() {
+	Vector2 vel = GetVel();
 	Vector2 pos = GetPos();
 
 	//Entity Screen Wrap
@@ -11,14 +23,10 @@ void Agent::Update() {
 
 	// Position
 	SetPos(pos);
-	//Translate({(float)GetRandomValue(-5, 5), (float)GetRandomValue(-5, 5) });
+	Translate({(float)GetRandomValue(5, 0), (float)GetRandomValue(0, 5) });
 
-	Vector2 facing = {GetPosG().m7, GetPosG().m8};
-	Translate({ facing.x * GetVel().x, facing.y * GetVel().y });
-
-	// Movement
-	mVelocity.x += GetAcc().x;
-	mVelocity.y += GetAcc().y;
+	vel.x += GetAcc().x;
+	vel.y += GetAcc().y;
 
 	pos.x += GetVel().x;
 	pos.y += GetVel().y;
