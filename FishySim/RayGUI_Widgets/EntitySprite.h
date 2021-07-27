@@ -4,7 +4,7 @@
 
 #include <cmath>
 
-enum class SpriteDrawType { Fish, Shark, Whale };
+enum class SpriteDrawType { SprFish, SprShark, SprWhale };
 
 class EntitySprite : public EntityObject {
 	float mWidth = 10;

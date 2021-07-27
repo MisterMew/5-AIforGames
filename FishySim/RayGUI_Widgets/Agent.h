@@ -17,9 +17,11 @@ class Agent : public EntityObject {
 	 /// Variables
 	bool mIsPredator;
 
+	Vector2 mSteeringDirection;
 	float mPerceptionRadius;
 	float mMaxSpeed;
 	float mMaxForce;
+
 
 	/* Boid Variables */
 	float mSeperation;
@@ -38,15 +40,14 @@ public:
 	void Update() override;
 
 	/* Boid Law Functions */
-	Vector2 Seperate(Agent* agent);
+	void Seperate(Agent* agent);
 	void Align();
 	void Cohese();
 
 	/* AI Functions */
 	void Seek();
 	void Flee();
-
-	bool InPerception(Agent* target, float radius, float distance);
+	void Astar();
 
 	 /// Function Definitions
 	bool IsPredator() { return mIsPredator; }

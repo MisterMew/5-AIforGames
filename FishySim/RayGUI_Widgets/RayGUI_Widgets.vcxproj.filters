@@ -48,10 +48,10 @@
     <ClCompile Include="AgentFish.cpp">
       <Filter>Source Files\Agents</Filter>
     </ClCompile>
-    <ClCompile Include="Shark.cpp">
+    <ClCompile Include="AgentShark.cpp">
       <Filter>Source Files\Agents</Filter>
     </ClCompile>
-    <ClCompile Include="Whale.cpp">
+    <ClCompile Include="AgentWhale.cpp">
       <Filter>Source Files\Agents</Filter>
     </ClCompile>
   </ItemGroup>

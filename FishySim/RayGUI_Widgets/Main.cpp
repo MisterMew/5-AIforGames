@@ -5,6 +5,7 @@
 #define RAYGUI_STATIC
 
 #include "EntityObject.h"
+#include "Agent.h"
 #include "AgentFish.h"
 #include "AgentShark.h"
 #include "AgentWhale.h"
@@ -86,27 +87,33 @@ void Draw() {
 	DrawPoly({ 200, 30 }, 5, 25, 0, Color{ 10, 10, 10, 100 });
 	DrawPoly({ 250, 30 }, 5, 25, 0, Color{ 10, 10, 10, 100 });
 
-	DrawText("F", 145, 22, 20, BLACK);
-	DrawText("S", 195, 22, 20, BLACK);
-	DrawText("W", 245, 22, 20, BLACK);
+	DrawText("F", 145, 22, 20, GRAY);
+	DrawText("S", 195, 22, 20, GRAY);
+	DrawText("W", 245, 22, 20, GRAY);
 
 	switch (spawnIndex) {
 	case SpawnFish:
-		DrawPolyLines({ 150, 30 }, 5, 25, 10, RAYWHITE);
+		DrawPolyLines({ 150, 30 }, 5, 26, 10, BLACK);
+		DrawPolyLines({ 150, 30 }, 5, 25, 10, BLACK);
+		DrawPolyLines({ 150, 30 }, 5, 24, 10, BLACK);
 		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
 			mEntity.push_back(new Fish({ mousePos.x, mousePos.y }));
 		}
 		break;
 	case SpawnShark:
-		DrawPolyLines({ 200, 30 }, 5, 25, 10, RAYWHITE);
+		DrawPolyLines({ 200, 30 }, 5, 26, 10, BLACK);
+		DrawPolyLines({ 200, 30 }, 5, 25, 10, BLACK);
+		DrawPolyLines({ 200, 30 }, 5, 24, 10, BLACK);
 		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-			//mEntity.push_back(new Shark({ mousePos.x, mousePos.y }));
+			mEntity.push_back(new Shark({ mousePos.x, mousePos.y }));
 		}
 		break;
 	case SpawnWhale:
-		DrawPolyLines({ 250, 30 }, 5, 25, 10, RAYWHITE);
+		DrawPolyLines({ 250, 30 }, 5, 26, 10, BLACK);
+		DrawPolyLines({ 250, 30 }, 5, 25, 10, BLACK);
+		DrawPolyLines({ 250, 30 }, 5, 24, 10, BLACK);
 		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-			//mEntity.push_back(new Whale({ mousePos.x, mousePos.y }));
+			mEntity.push_back(new Whale({ mousePos.x, mousePos.y }));
 		}
 		break;
 	default:
@@ -125,6 +132,8 @@ int main() {
 #ifndef NDEBUG
 	/* if(BUILD IS DEBUG MODE) */
 	for (int i = 0; i < 100; i++) { mEntity.push_back(new Fish({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
+	//for (int i = 0; i < 5; i++) { mEntity.push_back(new Shark({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
+	//for (int i = 0; i < 2; i++) { mEntity.push_back(new Whale({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
 #endif
 
 	bool exitWindow = false;

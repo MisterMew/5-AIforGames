@@ -1,9 +1,14 @@
 #include "Agent.h"
 
+/// VARIABLES
+extern vector<EntityObject*> mEntity;
 float MaxRandomVelocity = 5;
 int MaxRandomAcceleration = 2;
 
-Agent::Agent() {}
+/// AGENT CONSTRUCTORS
+#pragma region [ Agent Constructors ]
+
+Agent::Agent() : Agent({ 0, 0 }) {}
 
 Agent::Agent(Vector2 pos) {
 	EntityObject::SetPos(pos);
@@ -19,58 +24,53 @@ Agent::Agent(Vector2 pos) {
 
 Agent::~Agent() {}
 
+#pragma endregion
+
+ /// UPDATE: AGENTS
+/* Updates the AI for all agents */
 void Agent::Update() {
 	Vector2 vel = GetVel();
 	Vector2 pos = GetPos();
 	Vector2 acc = GetAcc();
 
 	// Change velocity and position based on motion/acceleration
-
 	vel.x += acc.x;
 	vel.y += acc.y;
 	SetVel(vel);
-	SetAcc({ acc.x * 0.4f, acc.y * 0.4f }); // Slowly reduce acceleration
+	SetAcc({ acc.x * 0.4f, acc.y * 0.4f }); //Slowly reduce acceleration
 
 	pos.x += vel.x;
 	pos.y += vel.y;
 
 	// Entity Screen Wrap
-	if (pos.x < 0) { pos.x = GetScreenWidth(); }
-	if (pos.y < 0) { pos.y = GetScreenHeight(); }
-	if (pos.x > GetScreenWidth()) { pos.x = 0; }
-	if (pos.y > GetScreenHeight()) { pos.y = 0; }
+	if (pos.x < 0) { pos.x = (float)GetScreenWidth(); }
+	if (pos.y < 0) { pos.y = (float)GetScreenHeight(); }
+	if (pos.x > (float)GetScreenWidth()) { pos.x = 0; }
+	if (pos.y > (float)GetScreenHeight()) { pos.y = 0; }
 
 	// Position
 	SetPos(pos);
+
+	// Boids
+	for (auto enitity : mEntity) {
+		Seperate(this);
+	}
 }
 
 #pragma region [ Boid Rules ]
 
  /// BOID RULES: Seperation
 /* Simulates the seperation of boid agents */
-Vector2 Agent::Seperate(Agent* agent) {
-	mPerceptionRadius = 50;
-	Vector2 steering = Vector2();
+void Agent::Seperate(Agent* agent) {
+	Vector2 steer = {0, 0};
+	SetSeperation(20);
 
-	float total = 0;
-	for (int i = 0; i < sizeof(agent); i++) {
-		float dist = 0;
-		if (InPerception(agent[i], GetPerception(), 0)) {
-			Vector2 difference = Vector2Subtract(difference, agent[i].GetPos());
-			if (dist * dist != 0)
-				difference = Vector2Divide(difference, dist * dist);
-			steering = Vector2Add(steering, difference);
-			total++;
-		}
+	int count = 0;
+	for (int i = 0; i < mEntity.size(); i++) {
+		float distance;
+
+		if (sqrt(distance) != 0) {}
 	}
-	if (total > 0)
-	{
-		steering = Vector2Divide(steering, total);
-		steering = Vector2MultiplyV(steering, mMaxSpeed);
-		steering = Vector2Subtract(steering, GetVel());
-		steering = Clamp(steering, -mMaxForce, mMaxForce);
-	}
-	return steering;
 }
 
  /// BOID RULES: Alignment
@@ -85,24 +85,22 @@ void Agent::Cohese() {}
 
 #pragma region [ Entity AI ]
 
+ /// STEERING: SEEK
 /* AI for an agent to Seek a target */
 void Agent::Seek() {}
 
+ /// STEERING: FLEE
 /* AI for an agent to Flee a target */
 void Agent::Flee() {}
 
+ /// PATHFINDING: A*
+/* AI to assist with pathfinding */
+void Agent::Astar() {}
+
 #pragma endregion
 
-bool Agent::InPerception(Agent* target, float radius, float distance) {
-	if (this == target) {
-		distance = 0;
-		return false;
-	}
 
-	// calculate distance between both boids.
-	distance = Vector2Distance(this.GetPos(), target.GetPos());
-	if (distance > radius)
-		return false;
 
-	return true;
+float Vector2Magnitude(float x, float y) {
+	return sqrt(x * x) + (y * y);
 }

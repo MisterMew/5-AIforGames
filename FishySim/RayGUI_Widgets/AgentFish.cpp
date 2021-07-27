@@ -7,7 +7,7 @@ Fish::Fish() : Fish({ 0, 0 }) { } // Calls other fish constructor
 
 Fish::Fish(Vector2 pos) : Agent(pos) { // Calls inherited constructor
 	SetPos(pos); 
-	mSprite = new EntitySprite(SpriteDrawType::Fish);
+	mSprite = new EntitySprite(SpriteDrawType::SprFish);
 	Start();
 }
 
