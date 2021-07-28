@@ -20,6 +20,9 @@ Agent::Agent(Vector2 pos) {
 		(float)(rand() % MaxRandomAcceleration + 1),
 		(float)(rand() % MaxRandomAcceleration + 1)
 	});
+
+	mMaxSpeed = 3.5;
+	mMaxForce = 0.5;
 }
 
 Agent::~Agent() {}
@@ -54,6 +57,8 @@ void Agent::Update() {
 	// Boids
 	for (auto enitity : mEntity) {
 		Seperate(this);
+		Cohese(this);
+		Align(this);
 	}
 }
 
@@ -61,25 +66,15 @@ void Agent::Update() {
 
  /// BOID RULES: Seperation
 /* Simulates the seperation of boid agents */
-void Agent::Seperate(Agent* agent) {
-	Vector2 steer = {0, 0};
-	SetSeperation(20);
-
-	int count = 0;
-	for (int i = 0; i < mEntity.size(); i++) {
-		float distance;
-
-		if (sqrt(distance) != 0) {}
-	}
-}
+Vector2 Agent::Seperate(Agent* agent) {}
 
  /// BOID RULES: Alignment
 /* Simulates the alignment of boid agents */
-void Agent::Align() {}
+Vector2 Agent::Align(Agent* agent) {}
 
  /// BOID RULES: Cohesion
 /* Simulates the cohesion of boid agents */
-void Agent::Cohese() {}
+Vector2 Agent::Cohese(Agent* agent) {}
 
 #pragma endregion
 
@@ -87,7 +82,7 @@ void Agent::Cohese() {}
 
  /// STEERING: SEEK
 /* AI for an agent to Seek a target */
-void Agent::Seek() {}
+Vector2 Agent::Seek(const Vector2& v) {}
 
  /// STEERING: FLEE
 /* AI for an agent to Flee a target */
@@ -101,6 +96,16 @@ void Agent::Astar() {}
 
 
 
-float Vector2Magnitude(float x, float y) {
-	return sqrt(x * x) + (y * y);
+float Agent::Vector2Magnitude(Vector2 vec) {
+	return sqrt((vec.x * vec.x) + (vec.y * vec.y));
+}
+
+Vector2 Agent::Vector2Clamp(Vector2 vec, float min, float max) {
+	if (vec.x < min) { vec.x = min; }
+	if (vec.y < min) { vec.y = min; }
+
+	if (vec.x > max) { vec.x = max; }
+	if (vec.y > max) { vec.y = max; }
+
+	return vec;
 }

@@ -40,22 +40,29 @@ public:
 	void Update() override;
 
 	/* Boid Law Functions */
-	void Seperate(Agent* agent);
-	void Align();
-	void Cohese();
+	Vector2 Seperate(Agent* agent);
+	Vector2 Align(Agent* agent);
+	Vector2 Cohese(Agent* agent);
 
 	/* AI Functions */
-	void Seek();
+	Vector2 Seek(const Vector2& v);
 	void Flee();
 	void Astar();
+
+	/* Assists */
+	float Vector2Magnitude(Vector2 vec);
+	Vector2 Vector2Clamp(Vector2 vec, float min, float max);
+
 
 	 /// Function Definitions
 	bool IsPredator() { return mIsPredator; }
 
+	Vector2 GetSteerDirection() { return mSteeringDirection; }
 	float GetPerception() { return mPerceptionRadius; }
 	float GetMaxSpeed() { return mMaxSpeed; }
 	float GetMaxForce() { return mMaxForce; }
 
+	void SetSteering(Vector2 steer) { mSteeringDirection = steer; }
 	void SetPerception(float p) { mPerceptionRadius = p; }
 	void SetMaxSpeed(float maxSpd) { mMaxSpeed = maxSpd; }
 	void SetMaxForce(float maxFrc) { mMaxSpeed = maxFrc; }
