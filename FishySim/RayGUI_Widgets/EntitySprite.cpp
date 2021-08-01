@@ -73,18 +73,18 @@ void EntitySprite::RenderWhale() {
 	DrawRectanglePro({ right.x, right.y, whaleHead, distance }, { 0,0 }, (atan2(vel.y, vel.x) * RAD2DEG), Color{255, 255, 255, 150});
 	DrawRectangleLinesPro({ right.x, right.y, whaleHead, distance }, { 0,0 }, (atan2(vel.y, vel.x) * RAD2DEG), RAYWHITE);
 	
-	DrawTriangle(head, right, GetPos(), Color{80, 80, 80, 150});     //top-left
+	DrawTriangle(head, right, GetPos(), Color{200, 200, 200, 100});     //top-left
 	DrawTriangle(right, tail, GetPos(), Color{255, 255, 255, 100}); //bot-left
-	DrawTriangle(head, GetPos(), left, Color{127, 106, 79, 150});  //top-right
-	DrawTriangle(left, GetPos(), tail, Color{211, 176, 131, 100});//bot-right
+	DrawTriangle(head, GetPos(), left, Color{80, 80, 80, 100});  //top-right
+	DrawTriangle(left, GetPos(), tail, Color{130, 130, 130, 100});//bot-right
 
-	DrawTriangleLines(head, right, GetPos(), DARKGRAY);
-	DrawTriangleLines(tail, right, GetPos(), LIGHTGRAY);
-	DrawTriangleLines(head, GetPos(), left, DARKBROWN);
-	DrawTriangleLines(tail, GetPos(), left, BEIGE);
+	DrawTriangleLines(head, right, GetPos(), LIGHTGRAY);
+	DrawTriangleLines(tail, right, GetPos(), WHITE);
+	DrawTriangleLines(head, GetPos(), left, DARKGRAY);
+	DrawTriangleLines(tail, GetPos(), left, GRAY);
 
-	DrawTriangle(left, GetPos(), right, Color{0, 0, 0, 150}); //Back
-	DrawTriangleLines(left, GetPos(), right, BLACK);
+	DrawTriangle(left, GetPos(), right, Color{135, 60, 190, 50}); //Back
+	DrawTriangleLines(left, GetPos(), right, VIOLET);
 }
 #pragma endregion
 

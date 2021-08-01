@@ -131,9 +131,9 @@ int main() {
 	  /// DEBUG MODE
 //#ifndef NDEBUG
 	/* if(BUILD IS DEBUG MODE) */
-	for (int i = 0; i < 100; i++) { mEntity.push_back(new Fish({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
-	for (int i = 0; i < 5; i++) { mEntity.push_back(new Shark({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
-	for (int i = 0; i < 2; i++) { mEntity.push_back(new Whale({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
+	for (int i = 0; i < 150; i++) { mEntity.push_back(new Fish({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
+	//for (int i = 0; i < 5; i++) { mEntity.push_back(new Shark({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
+	//for (int i = 0; i < 2; i++) { mEntity.push_back(new Whale({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
 //#endif
 
 	bool exitWindow = false;
