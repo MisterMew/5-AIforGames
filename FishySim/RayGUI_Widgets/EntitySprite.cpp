@@ -6,7 +6,7 @@ EntitySprite::~EntitySprite() {}
 void EntitySprite::Start() {}
 void EntitySprite::Update() {}
 
-/* Render the fish sprite */
+/* Choose which sprite to render */
 void EntitySprite::Draw() {
 	if (!HasParent()) { return; }
 

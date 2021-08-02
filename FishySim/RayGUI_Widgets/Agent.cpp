@@ -34,7 +34,7 @@ Agent::~Agent() {}
 
 #pragma endregion
 
-/// UPDATE: AGENTS
+ /// UPDATE: AGENTS
 /* Updates the AI for all agents */
 void Agent::Update() {
 	Vector2 vel = GetVel();
@@ -57,7 +57,6 @@ void Agent::Update() {
 	if (pos.y > (float)GetScreenHeight()) { pos.y = 0; }
 
 	// Boids
-	for (auto enitity : mEntity) {
 		Vector2 sep = Seperate(this);
 		Vector2 coh = Cohese(this);
 		Vector2 ali = Align(this);
@@ -69,14 +68,13 @@ void Agent::Update() {
 		SetAcc(Vector2Add(GetAcc(), sep));
 		SetAcc(Vector2Add(GetAcc(), coh));
 		SetAcc(Vector2Add(GetAcc(), ali));
-	}
 
 	// Position
 	SetPos(pos);
 }
 
 #pragma region [ Boid Rules ]
-/// BOID RULES: Seperation
+ /// BOID RULES: Seperation
 /* Simulates the seperation of boid agents */
 Vector2 Agent::Seperate(Agent* agent) {
 	SetSteering({ 0, 0 });
@@ -86,7 +84,7 @@ Vector2 Agent::Seperate(Agent* agent) {
 	for (int i = 0; i < mEntity.size(); i++) { //for every boid in the list
 
 		float distance = Vector2Distance(agent->GetPos(), mEntity[i]->GetPos()); //Calculate the distance between current boid and the other boid
-		if (distance > 0 && distance < GetSeperation()) {						//If the boid is within range of the current boid,
+		if (distance > 0 && distance < GetPerception()) {						//If the boid is within range of the current boid,
 			Vector2 direction = { 0, 0 };									   //Seperate the boids:
 			direction = Vector2Subtract(agent->GetPos(), mEntity[i]->GetPos());
 			direction = Vector2Normalize(direction);
