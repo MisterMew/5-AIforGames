@@ -1,3 +1,11 @@
+
+/// TO DO:
+// Individualise AI update to be indepent (stop sharks from boiding with fish)
+// Give whales obstacle collision
+// Make fish flee from sharks
+// Make sharks hunt fish
+
+#include <iostream>
 #include <ctime>
 
 #define RAYGUI_IMPLEMENTATION
@@ -64,10 +72,10 @@ void Draw() {
 
 	  /// Entity Manager
 #pragma region [ Entity Manager ]
-	/* Update and draw fish entity */
-	for (auto enitity : mEntity) {
-		enitity->Update();
-		enitity->Draw();
+	/* Update and draw all entities */
+	for (auto entity : mEntity) {
+		entity->Update();
+		entity->Draw();
 	}
 
 	for (int i = 0; i < sizeof(mEntity); i++) {
@@ -128,13 +136,7 @@ void Draw() {
 int main() {
 	Init(); //Initialisation
 
-	  /// DEBUG MODE
-//#ifndef NDEBUG
-	/* if(BUILD IS DEBUG MODE) */
-	for (int i = 0; i < 50; i++) { mEntity.push_back(new Fish({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
-	//for (int i = 0; i < 5; i++) { mEntity.push_back(new Shark({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
-	//for (int i = 0; i < 2; i++) { mEntity.push_back(new Whale({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
-//#endif
+	for (int i = 0; i < 250; i++) { mEntity.push_back(new Fish({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
 
 	bool exitWindow = false;
 	while (!exitWindow) {

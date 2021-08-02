@@ -24,9 +24,6 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Simulation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="EntityObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -56,9 +53,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="simulation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EntityObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>

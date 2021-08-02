@@ -13,30 +13,32 @@ Agent::Agent() : Agent({ 0, 0 }) {}
 Agent::Agent(Vector2 pos) {
 	EntityObject::SetPos(pos);
 	SetVel({
-		rand() % (int)MaxRandomVelocity - MaxRandomVelocity,
-		rand() % (int)MaxRandomVelocity - MaxRandomVelocity
-	});
+		rand() % (int)MaxRandomVelocity - MaxRandomVelocity, //Set the velocity's X value
+		rand() % (int)MaxRandomVelocity - MaxRandomVelocity //Set the velocity's Y value
+		});
 	SetAcc({
-		(float)(rand() % MaxRandomAcceleration + 1),
-		(float)(rand() % MaxRandomAcceleration + 1)
-	});
+		(float)(rand() % MaxRandomAcceleration + 1), //Set the acceleration's X value
+		(float)(rand() % MaxRandomAcceleration + 1) //Set the acceleration's Y value
+		});
 
-	mMaxSpeed = 3.5;
+	mMaxSpeed = 2.5;
 	mMaxForce = 0.5;
 
 	SetPerception(20);
-	SetSeperation(0.5f);
-	SetAlignment(10);
-	SetCohesion(20);
+	SetSeperation(17.5f);
+	SetAlignment(20);
+	SetCohesion(17.5f);
 }
 
 Agent::~Agent() {}
 
 #pragma endregion
 
- /// UPDATE: AGENTS
+/// UPDATE: AGENTS
 /* Updates the AI for all agents */
 void Agent::Update() {
+	Flock();
+
 	Vector2 vel = GetVel();
 	Vector2 pos = GetPos();
 	Vector2 acc = GetAcc();
@@ -44,8 +46,8 @@ void Agent::Update() {
 	// Change velocity and position based on motion/acceleration
 	vel.x += acc.x;
 	vel.y += acc.y;
-	SetVel(vel);
-	SetAcc({ acc.x * 0.4f, acc.y * 0.4f }); //Slowly reduce acceleration
+	SetVel(Vector2Clamp(vel, -mMaxSpeed, mMaxSpeed));
+	SetAcc({ 0, 0 });
 
 	pos.x += vel.x;
 	pos.y += vel.y;
@@ -56,35 +58,23 @@ void Agent::Update() {
 	if (pos.x > (float)GetScreenWidth()) { pos.x = 0; }
 	if (pos.y > (float)GetScreenHeight()) { pos.y = 0; }
 
-	// Boids
-		Vector2 sep = Seperate(this);
-		Vector2 coh = Cohese(this);
-		Vector2 ali = Align(this);
-
-		sep = Vector2Scale(sep, 1.5);
-		coh = Vector2Scale(coh, 1.5);
-		ali = Vector2Scale(ali, 1.5);
-
-		SetAcc(Vector2Add(GetAcc(), sep));
-		SetAcc(Vector2Add(GetAcc(), coh));
-		SetAcc(Vector2Add(GetAcc(), ali));
-
 	// Position
 	SetPos(pos);
 }
 
+   /// BOID RULES ///
 #pragma region [ Boid Rules ]
+
  /// BOID RULES: Seperation
 /* Simulates the seperation of boid agents */
 Vector2 Agent::Seperate(Agent* agent) {
-	SetSteering({ 0, 0 });
-	Vector2 steer = GetSteerDirection();
+	Vector2 steer = { 0, 0 }; // GetSteerDirection();
 
 	float count = 0;
 	for (int i = 0; i < mEntity.size(); i++) { //for every boid in the list
 
 		float distance = Vector2Distance(agent->GetPos(), mEntity[i]->GetPos()); //Calculate the distance between current boid and the other boid
-		if (distance > 0 && distance < GetPerception()) {						//If the boid is within range of the current boid,
+		if (distance > 0.1f && distance < GetSeperation()) {					//If the boid is within range of the current boid,
 			Vector2 direction = { 0, 0 };									   //Seperate the boids:
 			direction = Vector2Subtract(agent->GetPos(), mEntity[i]->GetPos());
 			direction = Vector2Normalize(direction);
@@ -103,11 +93,11 @@ Vector2 Agent::Seperate(Agent* agent) {
 		steer = Vector2Normalize(steer);
 		steer = Vector2Scale(steer, mMaxSpeed);
 		steer = Vector2Subtract(steer, GetVel());
-		steer = Vector2Clamp(steer, 0, mMaxForce);
+		steer = Vector2Clamp(steer, -mMaxForce, mMaxForce);
+		steer = Vector2Normalize(steer);
 	}
-	
-	SetSteering(steer);
-	return GetSteerDirection();
+
+	return steer;
 }
 
 /// BOID RULES: Alignment
@@ -119,8 +109,8 @@ Vector2 Agent::Align(Agent* agent) {
 	for (int i = 0; i < mEntity.size(); i++) {
 
 		float distance = Vector2Distance(agent->GetPos(), mEntity[i]->GetPos());
-		if (distance > 0 && distance < GetPerception()) {
-			ali = Vector2Add(ali, mEntity[i]->GetPos());
+		if (distance > 0 && distance < /* GetPerception() */ GetAlignment()) {
+			ali = Vector2Add(ali, mEntity[i]->GetVel() /* ->GetPos() */);
 			count++;
 		}
 	}
@@ -130,10 +120,10 @@ Vector2 Agent::Align(Agent* agent) {
 		ali = Vector2Normalize(ali);		   //Normalise into unit vector
 		ali = Vector2Scale(ali, mMaxSpeed);	  //Multiply by maxSpeed
 
-		SetSteering((Vector2Subtract(ali, GetVel())));
-		Vector2Clamp(GetSteerDirection(), 0, mMaxForce);
+		Vector2 steer = Vector2Subtract(ali, GetVel());
+		steer = Vector2Clamp(steer, -mMaxForce, mMaxForce);
 
-		return GetSteerDirection();
+		return steer;
 	}
 	else { return { 0, 0 }; }
 }
@@ -147,7 +137,7 @@ Vector2 Agent::Cohese(Agent* agent) {
 	for (int i = 0; i < mEntity.size(); i++) {
 
 		float distance = Vector2Distance(agent->GetPos(), mEntity[i]->GetPos());
-		if (distance > 0 && distance < GetPerception()) {
+		if (distance > 0 && distance < GetCohesion()) {
 			coh = Vector2Add(coh, mEntity[i]->GetPos());
 			count++;
 		}
@@ -155,7 +145,9 @@ Vector2 Agent::Cohese(Agent* agent) {
 
 	if (count > 0) {
 		coh = Vector2Divide(coh, (float)count);
-		return Seek(coh);
+		coh = Vector2Subtract(coh, agent->GetPos());
+		coh = Vector2Normalize(coh);
+		return coh;
 	}
 	else { return { 0, 0 }; }
 }
@@ -164,26 +156,58 @@ Vector2 Agent::Cohese(Agent* agent) {
 
 #pragma region [ Entity AI ]
 
-/// STEERING: SEEK
-/* AI for an agent to Seek a target */
-Vector2 Agent::Seek(const Vector2& v) {
-	Vector2 seek = GetTargetSeek();
+ /// BOID: Flocking
+/* Execute Flocking behaviour */
+void Agent::Flock() {
+	// Boids
+	Vector2 sep = Seperate(this);
+	Vector2 coh = Cohese(this);
+	Vector2 ali = Align(this);
 
-	seek = Vector2Subtract(seek, v); //Points to the desired target
-	Vector2Normalize(seek);
-	Vector2Scale(seek, mMaxSpeed);
+	sep = Vector2Scale(sep, 0.75f);
+	coh = Vector2Scale(coh, 0.5f);
+	ali = Vector2Scale(ali, 0.8f);
 
-	SetAcc((Vector2Subtract(seek, GetVel())));
-	SetAcc((Vector2Clamp(GetAcc(), 0, mMaxForce)));
-
-	return GetAcc();
+	AddAcc(sep);
+	AddAcc(ali);
+	AddAcc(coh);
 }
 
-/// STEERING: FLEE
-/* AI for an agent to Flee a target */
-void Agent::Flee() {}
+ /// STEERING: SEEK
+/* AI for an agent to Seek a target */
+Vector2 Agent::Seek(const Vector2& vector) {
+	Vector2 seek = GetTargetSeek(); // GetTargetSeek();
 
-/// PATHFINDING: A*
+	seek = Vector2Subtract(seek, vector); //Points to the desired target
+	seek = Vector2Normalize(seek);
+	seek = Vector2Scale(seek, mMaxSpeed);
+
+	return Vector2Clamp(Vector2Subtract(seek, GetVel()), -mMaxForce, mMaxForce);
+}
+
+ /// STEERING: FLEE
+/* AI for an agent to Flee a target */
+bool Agent::Flee(Agent* agent) {
+	Vector2 flee = Vector2Subtract(agent->GetPos(), mFleeTarget);
+
+	float distance = Vector2Length(flee);
+	if (distance > GetPerception()) {
+		agent->AddForce({ -agent->GetVel().x, -agent->GetVel().y });
+		return true;
+	}
+
+	if (distance == 0)	// on top of destination
+		flee = { 1,0 };	// avoid errors when attempting to normalize a 0 vector
+
+	Vector2 desiredVelocity = Vector2Scale(Vector2Normalize(flee), agent->GetMaxSpeed());
+	Vector2 steeringForce = Vector2Subtract(desiredVelocity, agent->GetVel());
+
+	agent->AddForce(steeringForce);
+
+	return true;
+}
+
+ /// PATHFINDING: A*
 /* AI to assist with pathfinding */
 void Agent::Astar() {}
 
@@ -203,4 +227,10 @@ Vector2 Agent::Vector2Clamp(Vector2 vec, float min, float max) {
 	if (vec.y > max) { vec.y = max; }
 
 	return vec;
+}
+
+Vector2 Agent::Truncate(Vector2 v, float max) {
+	float i = max / Vector2Length(v);
+	i = i < 1.0 ? i : 1.0;
+	return Vector2Scale(v, i);
 }

@@ -4,15 +4,6 @@
 #include <vector>
 #include <cmath>
 
-/// TO DO:
-// SEPERATION: Steer to avoid collision/crowding with flockmates
-// ALIGNMENT: Steer towards average heading of flockmates
-// COHESION: Steer to move towards the average position (centre of mass) of local flockmates 
-
-// SEEK: Moving towards a target
-// FLEE: Evading a target
-// WANDER: Moving anywhere
-
 class Agent : public EntityObject {
 	 /// Variables
 	bool mIsPredator;
@@ -40,18 +31,19 @@ public:
 	void Update() override;
 
 	/* Boid Law Functions */
+	void Flock();
 	Vector2 Seperate(Agent* agent);
 	Vector2 Align(Agent* agent);
 	Vector2 Cohese(Agent* agent);
 
-	/* AI Functions */
 	Vector2 Seek(const Vector2& v);
-	void Flee();
+	bool Flee(Agent* agent);
 	void Astar();
 
-	/* Assists */
+	/* Math Assists */
 	float Vector2Magnitude(Vector2 vec);
 	Vector2 Vector2Clamp(Vector2 vec, float min, float max);
+	Vector2 Truncate(Vector2 v, float max);
 
 
 	 /// Function Definitions
@@ -67,6 +59,7 @@ public:
 	void SetMaxSpeed(float maxSpd) { mMaxSpeed = maxSpd; }
 	void SetMaxForce(float maxFrc) { mMaxSpeed = maxFrc; }
 
+	void AddForce(Vector2 force) { SetVel(Vector2Add(force, GetVel())); }
 
 	/* Boid Functions */
 	float GetSeperation() { return mSeperation; }

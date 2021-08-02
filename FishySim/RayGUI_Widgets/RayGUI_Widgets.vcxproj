@@ -175,7 +175,6 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Matrix3.cpp" />
     <ClCompile Include="AgentShark.cpp" />
-    <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="Vector2.cpp" />
     <ClCompile Include="Vector3.cpp" />
     <ClCompile Include="AgentWhale.cpp" />
@@ -188,7 +187,6 @@
     <ClInclude Include="EntitySprite.h" />
     <ClInclude Include="AgentFish.h" />
     <ClInclude Include="Matrix3.h" />
-    <ClInclude Include="simulation.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="Vector3.h" />
   </ItemGroup>

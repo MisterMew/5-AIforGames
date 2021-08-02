@@ -1,8 +1,9 @@
 #pragma once
 #include "raylib.h"
 #include "Matrix3.h"
-#include <vector>
+#include "raymath.h"
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
@@ -54,6 +55,9 @@ public:
 
 	void SetVel(Vector2 vel) { mVelocity = vel; }
 	void SetAcc(Vector2 acc) { mAcceleration = acc; }
+
+	void AddVel(Vector2 vel) { mVelocity = Vector2Add(mVelocity, vel); }
+	void AddAcc(Vector2 acc) { mAcceleration = Vector2Add(mAcceleration, acc); }
 
 	/* Rotation & Translation Functions*/
 	void Translate(Vector2 pos) { mLocalPos.Translate(pos.x, pos.y); UpdatePosition(); }
