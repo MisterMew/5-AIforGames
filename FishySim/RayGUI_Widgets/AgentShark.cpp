@@ -7,6 +7,7 @@ Shark::Shark() : Shark({ 0, 0 }) { } // Calls other shark constructor
 
 Shark::Shark(Vector2 pos) : Agent(pos) { // Calls inherited constructor
 	SetPos(pos);
+	mAgentType = mShark;
 	mSprite = new EntitySprite(SpriteDrawType::SprShark);
 	Start();
 }

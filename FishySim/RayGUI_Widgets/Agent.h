@@ -4,6 +4,8 @@
 #include <vector>
 #include <cmath>
 
+enum AgentType {mFish, mShark, mWhale};
+
 class Agent : public EntityObject {
 	 /// Variables
 	bool mIsPredator;
@@ -23,6 +25,8 @@ class Agent : public EntityObject {
 	Vector2 mFleeTarget;
 
 public: 
+	AgentType mAgentType;
+
 	 /// Function Declarations
 	Agent();
 	Agent(Vector2 pos);
@@ -39,6 +43,9 @@ public:
 	Vector2 Seek(const Vector2& v);
 	bool Flee(Agent* agent);
 	void Astar();
+
+	/* Create Entities */
+	void AllocateEntityParams();
 
 	/* Math Assists */
 	float Vector2Magnitude(Vector2 vec);

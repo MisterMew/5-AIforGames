@@ -1,6 +1,6 @@
 
 /// TO DO:
-// Individualise AI update to be indepent (stop sharks from boiding with fish)
+// Prevent fish from boiding with other entities
 // Give whales obstacle collision
 // Make fish flee from sharks
 // Make sharks hunt fish

@@ -2,8 +2,8 @@
 
 /// VARIABLES
 extern vector<EntityObject*> mEntity;
-float MaxRandomVelocity = 5;
-int MaxRandomAcceleration = 2;
+float MaxRandomVelocity = 0;
+int MaxRandomAcceleration = 0;
 
 /// AGENT CONSTRUCTORS
 #pragma region [ Agent Constructors ]
@@ -12,6 +12,8 @@ Agent::Agent() : Agent({ 0, 0 }) {}
 
 Agent::Agent(Vector2 pos) {
 	EntityObject::SetPos(pos);
+	AllocateEntityParams();
+
 	SetVel({
 		rand() % (int)MaxRandomVelocity - MaxRandomVelocity, //Set the velocity's X value
 		rand() % (int)MaxRandomVelocity - MaxRandomVelocity //Set the velocity's Y value
@@ -20,14 +22,7 @@ Agent::Agent(Vector2 pos) {
 		(float)(rand() % MaxRandomAcceleration + 1), //Set the acceleration's X value
 		(float)(rand() % MaxRandomAcceleration + 1) //Set the acceleration's Y value
 		});
-
-	mMaxSpeed = 2.5;
-	mMaxForce = 0.5;
-
-	SetPerception(20);
-	SetSeperation(17.5f);
-	SetAlignment(20);
-	SetCohesion(17.5f);
+	
 }
 
 Agent::~Agent() {}
@@ -37,7 +32,7 @@ Agent::~Agent() {}
 /// UPDATE: AGENTS
 /* Updates the AI for all agents */
 void Agent::Update() {
-	Flock();
+	if (mAgentType == mFish) { Flock(); }
 
 	Vector2 vel = GetVel();
 	Vector2 pos = GetPos();
@@ -210,6 +205,49 @@ bool Agent::Flee(Agent* agent) {
  /// PATHFINDING: A*
 /* AI to assist with pathfinding */
 void Agent::Astar() {}
+
+#pragma endregion
+
+#pragma region [ Spawn Declarations ]
+
+void Agent::AllocateEntityParams() {
+	if (mAgentType == mFish) { //Allocate the parameters for Fish entities
+		MaxRandomVelocity = 5;
+		MaxRandomAcceleration = 2;
+
+		mMaxSpeed = 2.0f;
+		mMaxForce = 0.5f;
+
+		SetPerception(20.0f);
+		SetSeperation(17.5f);
+		SetAlignment(20.0f);
+		SetCohesion(17.5f);
+	}
+	if (mAgentType == mShark) { //Allocate the parameters for Shark entities
+		MaxRandomVelocity = 7;
+		MaxRandomAcceleration = 2;
+
+		mMaxSpeed = 2.5f;
+		mMaxForce = 0.7f;
+
+		SetPerception(50.0f);
+		SetSeperation(20.0f);
+		SetAlignment(20.0f);
+		SetCohesion(17.5f);
+	}
+	if (mAgentType == mWhale) { //Allocate the parameters for Whale entities
+		MaxRandomVelocity = 0.5;
+		MaxRandomAcceleration = 1;
+
+		mMaxSpeed = 0.5;
+		mMaxForce = 0.2;
+
+		SetPerception(100);
+		SetSeperation(30.0f);
+		SetAlignment(20);
+		SetCohesion(17.5f);
+	}
+}
 
 #pragma endregion
 
