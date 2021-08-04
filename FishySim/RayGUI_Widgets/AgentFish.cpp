@@ -7,7 +7,7 @@ Fish::Fish() : Fish({ 0, 0 }) { } // Calls other fish constructor
 
 Fish::Fish(Vector2 pos) : Agent(pos) { // Calls inherited constructor
 	SetPos(pos); 
-	mAgentType = mFish;
+	mAgentType = AgentType::mFish;
 	mSprite = new EntitySprite(SpriteDrawType::SprFish);
 	Start();
 }
@@ -22,10 +22,10 @@ void Fish::Start() {
 }
 
 void Fish::Update() {
-	Agent::Update(); // Agent updates MY position & velocity
+	Agent::Update(); //Agent updates MY position & velocity
 	EntityObject::UpdatePosition();
 }
 
 void Fish::Draw() {
-	mSprite->Draw(); // Sprite draws at MY position, since it is a child and follows me
+	mSprite->Draw(); //Sprite draws at MY position, since it is a child and follows me
 }

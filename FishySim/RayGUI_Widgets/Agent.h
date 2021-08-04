@@ -4,7 +4,9 @@
 #include <vector>
 #include <cmath>
 
-enum AgentType {mFish, mShark, mWhale};
+enum class AgentType {mFish, mShark, mWhale};
+AgentType mAgent;
+AgentType GetAgentType() { return mAgent; }
 
 class Agent : public EntityObject {
 	 /// Variables
@@ -35,7 +37,7 @@ public:
 	void Update() override;
 
 	/* Boid Law Functions */
-	void Flock();
+	void Flock(float sepCoef, float aliCoef, float cohCoef);
 	Vector2 Seperate(Agent* agent);
 	Vector2 Align(Agent* agent);
 	Vector2 Cohese(Agent* agent);
@@ -45,7 +47,8 @@ public:
 	void Astar();
 
 	/* Create Entities */
-	void AllocateEntityParams();
+	void CheckAgentType();
+	void AllocateEntityParams(float maxVel, int maxAcc, float maxSpd, float maxForce, float perception, float sep, float ali, float coh);
 
 	/* Math Assists */
 	float Vector2Magnitude(Vector2 vec);

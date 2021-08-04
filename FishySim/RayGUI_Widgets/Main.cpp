@@ -1,5 +1,5 @@
 
-/// TO DO:
+ /// TO DO:
 // Prevent fish from boiding with other entities
 // Give whales obstacle collision
 // Make fish flee from sharks
@@ -136,7 +136,8 @@ void Draw() {
 int main() {
 	Init(); //Initialisation
 
-	for (int i = 0; i < 250; i++) { mEntity.push_back(new Fish({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
+	//for (int i = 0; i < 250; i++) { mEntity.push_back(new Fish({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
+	for (int i = 0; i < 75; i++) { mEntity.push_back(new Shark({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
 
 	bool exitWindow = false;
 	while (!exitWindow) {

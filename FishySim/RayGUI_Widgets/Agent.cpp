@@ -12,7 +12,7 @@ Agent::Agent() : Agent({ 0, 0 }) {}
 
 Agent::Agent(Vector2 pos) {
 	EntityObject::SetPos(pos);
-	AllocateEntityParams();
+	CheckAgentType();
 
 	SetVel({
 		rand() % (int)MaxRandomVelocity - MaxRandomVelocity, //Set the velocity's X value
@@ -32,7 +32,9 @@ Agent::~Agent() {}
 /// UPDATE: AGENTS
 /* Updates the AI for all agents */
 void Agent::Update() {
-	if (mAgentType == mFish) { Flock(); }
+	if (mAgentType == AgentType::mFish) { Flock(0.75, 0.8, 0.5); }
+	if (mAgentType == AgentType::mShark) { Flock(0.75, 0.8, 0.5); }
+	if (mAgentType == AgentType::mShark) { Flock(0.75, 0.8, 0.5); }
 
 	Vector2 vel = GetVel();
 	Vector2 pos = GetPos();
@@ -153,15 +155,15 @@ Vector2 Agent::Cohese(Agent* agent) {
 
  /// BOID: Flocking
 /* Execute Flocking behaviour */
-void Agent::Flock() {
+void Agent::Flock(float sepCoef, float aliCoef, float cohCoef) {
 	// Boids
 	Vector2 sep = Seperate(this);
 	Vector2 coh = Cohese(this);
 	Vector2 ali = Align(this);
 
-	sep = Vector2Scale(sep, 0.75f);
-	coh = Vector2Scale(coh, 0.5f);
-	ali = Vector2Scale(ali, 0.8f);
+	sep = Vector2Scale(sep, sepCoef);
+	ali = Vector2Scale(ali, aliCoef);
+	coh = Vector2Scale(coh, cohCoef);
 
 	AddAcc(sep);
 	AddAcc(ali);
@@ -208,51 +210,39 @@ void Agent::Astar() {}
 
 #pragma endregion
 
-#pragma region [ Spawn Declarations ]
+#pragma region [ Spawn Validation ]
 
-void Agent::AllocateEntityParams() {
-	if (mAgentType == mFish) { //Allocate the parameters for Fish entities
-		MaxRandomVelocity = 5;
-		MaxRandomAcceleration = 2;
+void Agent::CheckAgentType() {
+	switch (mAgentType) {
+	case AgentType::mFish: AllocateEntityParams(5, 2, 2, 0.5, 20, 17.5, 20, 17.5); break;
 
-		mMaxSpeed = 2.0f;
-		mMaxForce = 0.5f;
+	case AgentType::mShark: AllocateEntityParams(7, 2, 2.5, 0.7, 50, 20, 20, 17.5); break;
 
-		SetPerception(20.0f);
-		SetSeperation(17.5f);
-		SetAlignment(20.0f);
-		SetCohesion(17.5f);
+	case AgentType::mWhale: AllocateEntityParams(0.5, 1, 0.5, 0.2, 100, 30, 20, 17.5); break;
+
+	default: break;
 	}
-	if (mAgentType == mShark) { //Allocate the parameters for Shark entities
-		MaxRandomVelocity = 7;
-		MaxRandomAcceleration = 2;
+}
 
-		mMaxSpeed = 2.5f;
-		mMaxForce = 0.7f;
+void Agent::AllocateEntityParams(float maxVel, int maxAcc, float maxSpd, float maxForce, float perception, float sep, float ali, float coh) {
+		MaxRandomVelocity = maxVel;
+		MaxRandomAcceleration = maxAcc;
 
-		SetPerception(50.0f);
-		SetSeperation(20.0f);
-		SetAlignment(20.0f);
-		SetCohesion(17.5f);
-	}
-	if (mAgentType == mWhale) { //Allocate the parameters for Whale entities
-		MaxRandomVelocity = 0.5;
-		MaxRandomAcceleration = 1;
+		mMaxSpeed = maxSpd;
+		mMaxForce = maxForce;
 
-		mMaxSpeed = 0.5;
-		mMaxForce = 0.2;
-
-		SetPerception(100);
-		SetSeperation(30.0f);
-		SetAlignment(20);
-		SetCohesion(17.5f);
-	}
+		SetPerception(perception);
+		SetSeperation(sep);
+		SetAlignment(ali);
+		SetCohesion(coh);
 }
 
 #pragma endregion
 
 
 /// MATH STUFF
+#pragma region [ Math Stuff ] 
+
 float Agent::Vector2Magnitude(Vector2 vec) {
 	return sqrt((vec.x * vec.x) + (vec.y * vec.y));
 }
@@ -272,3 +262,5 @@ Vector2 Agent::Truncate(Vector2 v, float max) {
 	i = i < 1.0 ? i : 1.0;
 	return Vector2Scale(v, i);
 }
+
+#pragma endregion
