@@ -1,7 +1,7 @@
 #pragma once
 #include "raylib.h"
-#include "Matrix3.h"
 #include "raymath.h"
+#include "Matrix3.h"
 #include <iostream>
 #include <vector>
 

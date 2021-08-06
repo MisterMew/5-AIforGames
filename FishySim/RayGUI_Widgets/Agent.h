@@ -4,9 +4,7 @@
 #include <vector>
 #include <cmath>
 
-enum class AgentType {mFish, mShark, mWhale};
-AgentType mAgent;
-AgentType GetAgentType() { return mAgent; }
+
 
 class Agent : public EntityObject {
 	 /// Variables
@@ -27,7 +25,7 @@ class Agent : public EntityObject {
 	Vector2 mFleeTarget;
 
 public: 
-	AgentType mAgentType;
+	//AgentType mAgentType;
 
 	 /// Function Declarations
 	Agent();

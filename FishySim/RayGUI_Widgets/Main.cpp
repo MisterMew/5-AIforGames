@@ -1,5 +1,5 @@
 
- /// TO DO:
+/// TO DO:
 // Prevent fish from boiding with other entities
 // Give whales obstacle collision
 // Make fish flee from sharks
@@ -12,25 +12,24 @@
 #define RAYGUI_SUPPORT_ICONS
 #define RAYGUI_STATIC
 
+#include "raylib.h"
+#include "raygui.h"
 #include "EntityObject.h"
 #include "Agent.h"
 #include "AgentFish.h"
 #include "AgentShark.h"
 #include "AgentWhale.h"
-#include "raygui.h"
 
 #undef RAYGUI_IMPLEMENTATION
 
 /// Variables
 const int screenWidth = 1280;  //Set screen width
 const int screenHeight = 720; //Set screen height
-
-vector<EntityObject*> mEntity = {};
-
-/// Variables: Item Select
+float deltaTime = 0;
 int spawnIndex = 0;
-enum SpawnArray { Empty = 0, SpawnFish, SpawnShark, SpawnWhale };
 
+enum SpawnArray { Empty = 0, SpawnFish, SpawnShark, SpawnWhale };
+vector<EntityObject*> entities = {};
 
  /// INITIALISATION
 /* Program initialisation */
@@ -41,8 +40,15 @@ void Init() {
 	SetExitKey(0);
 }
 
- /// UPDATING
-/* Program updates */
+ /// START
+/* Starts the program before run */
+void Start() {
+	//for (int i = 0; i < 250; i++) { mEntity.push_back(new Fish({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
+	for (int i = 0; i < 75; i++) { entities.push_back(new Shark({ (float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
+}
+
+ /// UPDATE
+/* Updates program while running */
 void Update() {
 	int mouseMove = GetMouseWheelMove();
 	if (mouseMove > 0) {
@@ -54,7 +60,7 @@ void Update() {
 	else if (mouseMove < 0) {
 		spawnIndex++;
 		if (spawnIndex > sizeof(SpawnArray)) {
-			spawnIndex = sizeof(SpawnArray); // Clamp
+			spawnIndex = sizeof(SpawnArray) - 1; // Clamp
 		}
 	}
 
@@ -64,29 +70,23 @@ void Update() {
 }
 
  /// DRAWING
-/* Program drawing */
+/* Program drawing while running */
 void Draw() {
 	BeginDrawing();
 	ClearBackground({ 23, 23, 23 });
 	DrawRectangleGradientV(0, 0, GetScreenWidth(), GetScreenHeight(), Fade(DARKBLUE, 0.3f), Fade(BLUE, 0.005f));
 
-	  /// Entity Manager
-#pragma region [ Entity Manager ]
-	/* Update and draw all entities */
-	for (auto entity : mEntity) {
+   /// Entity Manager
+  /* Update and draw all entities */
+	for (auto entity : entities) {
 		entity->Update();
 		entity->Draw();
 	}
-
-	for (int i = 0; i < sizeof(mEntity); i++) {
-	}
-#pragma endregion
 
 	Vector2 mousePos = GetMousePosition(); //Get the mouse coordinates
 	DrawRectangleGradientV(0, 0, GetScreenWidth(), (GetScreenHeight() / 8), Fade(BLACK, 0.3f), Fade(DARKBLUE, 0.005f));
 	DrawText(TextFormat("X, Y: [ %i, %i ]", (int)mousePos.x, (int)mousePos.y), 10, 28, 12, RAYWHITE); //Draws the mouse coords in the top left corner
 	DrawText(TextFormat("FPS: [ %i ]", (int)GetFPS()), 10, 10, 18, RAYWHITE);						 //Draws the FPS in the top left corner
-
 
 	  /// DRAW SPAWN ITEMS
 #pragma region [ Draw Spawn Items ]
@@ -105,7 +105,7 @@ void Draw() {
 		DrawPolyLines({ 150, 30 }, 5, 25, 10, BLACK);
 		DrawPolyLines({ 150, 30 }, 5, 24, 10, BLACK);
 		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-			mEntity.push_back(new Fish({ mousePos.x, mousePos.y }));
+			entities.push_back(new Fish({ mousePos.x, mousePos.y }));
 		}
 		break;
 	case SpawnShark:
@@ -113,7 +113,7 @@ void Draw() {
 		DrawPolyLines({ 200, 30 }, 5, 25, 10, BLACK);
 		DrawPolyLines({ 200, 30 }, 5, 24, 10, BLACK);
 		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-			mEntity.push_back(new Shark({ mousePos.x, mousePos.y }));
+			entities.push_back(new Shark({ mousePos.x, mousePos.y }));
 		}
 		break;
 	case SpawnWhale:
@@ -121,7 +121,7 @@ void Draw() {
 		DrawPolyLines({ 250, 30 }, 5, 25, 10, BLACK);
 		DrawPolyLines({ 250, 30 }, 5, 24, 10, BLACK);
 		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-			mEntity.push_back(new Whale({ mousePos.x, mousePos.y }));
+			entities.push_back(new Whale({ mousePos.x, mousePos.y }));
 		}
 		break;
 	default:
@@ -132,12 +132,19 @@ void Draw() {
 	EndDrawing();
 }
 
- /// Main
+/// DEREFERENCING
+/* Deference objects before exit */
+void Dereference() {
+	for (unsigned int i = 0; i < entities.size(); i++) { //For every entitiy
+		delete entities[i];								//Delete entity
+	}
+	entities.clear();
+}
+
+/// Main
 int main() {
 	Init(); //Initialisation
-
-	//for (int i = 0; i < 250; i++) { mEntity.push_back(new Fish({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
-	for (int i = 0; i < 75; i++) { mEntity.push_back(new Shark({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
+	Start();
 
 	bool exitWindow = false;
 	while (!exitWindow) {
@@ -147,5 +154,6 @@ int main() {
 		Draw();
 	}
 
+	Dereference();
 	CloseWindow();
 }

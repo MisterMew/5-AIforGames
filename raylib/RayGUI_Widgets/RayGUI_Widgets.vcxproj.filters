@@ -13,42 +13,60 @@
     <Filter Include="Source Files\Behaviours">
       <UniqueIdentifier>{787cb761-51f8-49ac-96bd-e77c86e07de4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Agents">
+      <UniqueIdentifier>{3e75ba08-68b4-4992-a638-dcf769c84da8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Agents">
+      <UniqueIdentifier>{9da6e758-d7af-457c-bb88-a7f111b0d207}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Agent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SeekBehaviour.cpp">
-      <Filter>Source Files\Behaviours</Filter>
-    </ClCompile>
     <ClCompile Include="Behaviour.cpp">
       <Filter>Source Files\Behaviours</Filter>
     </ClCompile>
-    <ClCompile Include="FleeBehaviour.cpp">
-      <Filter>Source Files\Behaviours</Filter>
+    <ClCompile Include="Agent.cpp">
+      <Filter>Source Files\Agents</Filter>
     </ClCompile>
-    <ClCompile Include="WanderBehaviour.cpp">
-      <Filter>Source Files\Behaviours</Filter>
+    <ClCompile Include="AgentFish.cpp">
+      <Filter>Source Files\Agents</Filter>
+    </ClCompile>
+    <ClCompile Include="Obstacle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AgentWhale.cpp">
+      <Filter>Source Files\Agents</Filter>
+    </ClCompile>
+    <ClCompile Include="AgentShark.cpp">
+      <Filter>Source Files\Agents</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityObject.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Agent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Behaviour.h">
       <Filter>Header Files\Behaviours</Filter>
     </ClInclude>
-    <ClInclude Include="FleeBehaviour.h">
-      <Filter>Header Files\Behaviours</Filter>
+    <ClInclude Include="AgentFish.h">
+      <Filter>Header Files\Agents</Filter>
     </ClInclude>
-    <ClInclude Include="SeekBehaviour.h">
-      <Filter>Header Files\Behaviours</Filter>
+    <ClInclude Include="Agent.h">
+      <Filter>Header Files\Agents</Filter>
     </ClInclude>
-    <ClInclude Include="WanderBehaviour.h">
-      <Filter>Header Files\Behaviours</Filter>
+    <ClInclude Include="Obstacle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AgentShark.h">
+      <Filter>Header Files\Agents</Filter>
+    </ClInclude>
+    <ClInclude Include="AgentWhale.h">
+      <Filter>Header Files\Agents</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityObject.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

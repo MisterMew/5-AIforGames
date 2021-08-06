@@ -1,7 +1,7 @@
 #include "Agent.h"
 
 /// VARIABLES
-extern vector<EntityObject*> mEntity;
+extern vector<EntityObject*> entities;
 float MaxRandomVelocity = 0;
 int MaxRandomAcceleration = 0;
 
@@ -68,12 +68,12 @@ Vector2 Agent::Seperate(Agent* agent) {
 	Vector2 steer = { 0, 0 }; // GetSteerDirection();
 
 	float count = 0;
-	for (int i = 0; i < mEntity.size(); i++) { //for every boid in the list
+	for (int i = 0; i < entities.size(); i++) { //for every boid in the list
 
-		float distance = Vector2Distance(agent->GetPos(), mEntity[i]->GetPos()); //Calculate the distance between current boid and the other boid
+		float distance = Vector2Distance(agent->GetPos(), entities[i]->GetPos()); //Calculate the distance between current boid and the other boid
 		if (distance > 0.1f && distance < GetSeperation()) {					//If the boid is within range of the current boid,
 			Vector2 direction = { 0, 0 };									   //Seperate the boids:
-			direction = Vector2Subtract(agent->GetPos(), mEntity[i]->GetPos());
+			direction = Vector2Subtract(agent->GetPos(), entities[i]->GetPos());
 			direction = Vector2Normalize(direction);
 			direction = Vector2Divide(direction, distance);
 
@@ -103,11 +103,11 @@ Vector2 Agent::Align(Agent* agent) {
 	Vector2 ali = { 0, 0 };
 
 	int count = 0;
-	for (int i = 0; i < mEntity.size(); i++) {
+	for (int i = 0; i < entities.size(); i++) {
 
-		float distance = Vector2Distance(agent->GetPos(), mEntity[i]->GetPos());
+		float distance = Vector2Distance(agent->GetPos(), entities[i]->GetPos());
 		if (distance > 0 && distance < /* GetPerception() */ GetAlignment()) {
-			ali = Vector2Add(ali, mEntity[i]->GetVel() /* ->GetPos() */);
+			ali = Vector2Add(ali, entities[i]->GetVel() /* ->GetPos() */);
 			count++;
 		}
 	}
@@ -131,11 +131,11 @@ Vector2 Agent::Cohese(Agent* agent) {
 	Vector2 coh = { 0, 0 };
 
 	int count = 0;
-	for (int i = 0; i < mEntity.size(); i++) {
+	for (int i = 0; i < entities.size(); i++) {
 
-		float distance = Vector2Distance(agent->GetPos(), mEntity[i]->GetPos());
+		float distance = Vector2Distance(agent->GetPos(), entities[i]->GetPos());
 		if (distance > 0 && distance < GetCohesion()) {
-			coh = Vector2Add(coh, mEntity[i]->GetPos());
+			coh = Vector2Add(coh, entities[i]->GetPos());
 			count++;
 		}
 	}
