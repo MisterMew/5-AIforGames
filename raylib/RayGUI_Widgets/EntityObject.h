@@ -6,7 +6,7 @@
 
 using namespace std;
 
-enum class EntityType { objFish, objShark, objWhale };
+enum class EntityType { objFish, objShark, objWhale, objBubble };
 class EntityObject {
 private:
 	EntityObject* mParent = nullptr;
@@ -14,16 +14,11 @@ private:
 
 protected:
 	/// Variables
-	EntityType mEntity;
+	EntityType mEntityType = {};
 	Vector2 mPosition = { 0, 0 };
+	Vector2 mGlobalPos = { 0, 0 };
+	Vector2 mLocalPos = { 0, 0 };
 	Vector2 mVelocity = { 0, 0 };
-	Vector2 mAcceleration = { 0, 0 };
-	Vector2 mForce = { 0, 0 };
-	float mMaxSpeed = 100;
-	float mMaxForce = 100;
-	float mFriction = 0.99; //0 = no friction, 1 = max friction
-	float mRotation = 0;
-	float mRotDampening = 0;
 
 public:
 	EntityObject();
@@ -38,38 +33,24 @@ public:
 
 	 /// Function Definitions:
 	/* SET Functions */
-	void SetEntity(EntityType entity) { mEntity = entity; }
+	void SetEntity(EntityType entity) { mEntityType = entity; }
 	void SetPos(Vector2 position) { mPosition = position; }
+	void SetGlobalPos(Vector2 globalPos) { mGlobalPos = globalPos; }
+	void SetLocalPos(Vector2 localPos) { mLocalPos = localPos; }
 	void SetVel(Vector2 velocity) { mVelocity = velocity; }
-	void SetAcc(Vector2 acceleration) { mAcceleration = acceleration; }
-	void SetForce(Vector2 force) { mForce = force; }
-	void SetMaxSpeed(float speed) { mMaxSpeed = speed; }
-	void SetMaxForce(float force) { mMaxForce = force; }
-	void SetFriction(float friction) { mFriction = friction; }
-	void SetRotation(float rotation) { mRotation = rotation; }
-	void SetRotDampening(float rotDampening) { mRotDampening = rotDampening; }
 
 	/* GET Functions */
-	EntityType GetEntity() { return mEntity; }
-	Vector2 GetPos() { return mPosition; }
+	EntityType GetEntity() { return mEntityType; }
+	Vector2 GetPos() { return mPosition = GetGlobalPos(); }
+	Vector2 GetGlobalPos() { return mGlobalPos; }
+	Vector2 GetLocalPos() { return mLocalPos; }
 	Vector2 GetVel() { return mVelocity; }
-	Vector2 GetAcc() { return mAcceleration; }
-	Vector2 GetForce() { return mForce; }
-	float GetMaxSpeed() { return mMaxSpeed; }
-	float GetMaxForce() { return mMaxForce; }
-	float GetFriction() { return mFriction; }
-	float GetRotation() { return mRotation; }
-	float GetRotDampening() { return mRotDampening; }
-
-	/* ADD Functions */
-	void AddVel(Vector2 vel) { mVelocity = Vector2Add(mVelocity, vel); }
-	void AddAcc(Vector2 acc) { mAcceleration = Vector2Add(mAcceleration, acc); }
-	void AddForce(Vector2 force) { mForce = Vector2Add(force, mForce); }
 
 	/* Children Functions */
 	EntityObject* GetParent() { return mParent; }
 	EntityObject* GetChild(int index) { return mChildren[index]; }
 	bool HasParent() { return mParent != nullptr; }
+	int GetChildCount() { return sizeof(mChildren); }
 	void AddChild(EntityObject* child);
 	void RemoveChild(EntityObject* child);
 };

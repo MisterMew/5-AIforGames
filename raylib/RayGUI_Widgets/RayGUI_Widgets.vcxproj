@@ -24,7 +24,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>RayGUI_Widgets</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>ProjectName</ProjectName>
+    <ProjectName>FishySim II</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -172,8 +172,15 @@
     <ClCompile Include="AgentFish.cpp" />
     <ClCompile Include="AgentShark.cpp" />
     <ClCompile Include="AgentWhale.cpp" />
+    <ClCompile Include="Avoid.cpp" />
     <ClCompile Include="Behaviour.cpp" />
+    <ClCompile Include="BehaviourEvade.cpp" />
+    <ClCompile Include="BehaviourFlee.cpp" />
+    <ClCompile Include="BehaviourPursue.cpp" />
+    <ClCompile Include="BehaviourSeek.cpp" />
+    <ClCompile Include="BehaviourWander.cpp" />
     <ClCompile Include="EntityObject.cpp" />
+    <ClCompile Include="EntitySprite.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Obstacle.cpp" />
   </ItemGroup>
@@ -182,8 +189,15 @@
     <ClInclude Include="AgentFish.h" />
     <ClInclude Include="AgentShark.h" />
     <ClInclude Include="AgentWhale.h" />
+    <ClInclude Include="Avoid.h" />
     <ClInclude Include="Behaviour.h" />
+    <ClInclude Include="BehaviourEvade.h" />
+    <ClInclude Include="BehaviourFlee.h" />
+    <ClInclude Include="BehaviourPursue.h" />
+    <ClInclude Include="BehaviourSeek.h" />
+    <ClInclude Include="BehaviourWander.h" />
     <ClInclude Include="EntityObject.h" />
+    <ClInclude Include="EntitySprite.h" />
     <ClInclude Include="Obstacle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

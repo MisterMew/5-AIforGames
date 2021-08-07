@@ -7,7 +7,6 @@ Whale::Whale() : Whale({ 0, 0 }) { } // Calls other fish constructor
 
 Whale::Whale(Vector2 pos) : Agent(pos) { // Calls inherited constructor
 	SetPos(pos);
-	mAgentType = AgentType::mWhale;
 	mSprite = new EntitySprite(SpriteDrawType::SprWhale);
 	Start();
 }

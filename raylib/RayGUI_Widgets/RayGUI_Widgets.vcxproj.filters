@@ -21,9 +21,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Behaviour.cpp">
       <Filter>Source Files\Behaviours</Filter>
     </ClCompile>
@@ -33,9 +30,6 @@
     <ClCompile Include="AgentFish.cpp">
       <Filter>Source Files\Agents</Filter>
     </ClCompile>
-    <ClCompile Include="Obstacle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="AgentWhale.cpp">
       <Filter>Source Files\Agents</Filter>
     </ClCompile>
@@ -44,6 +38,31 @@
     </ClCompile>
     <ClCompile Include="EntityObject.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="EntitySprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviourWander.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="Avoid.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviourEvade.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviourFlee.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviourPursue.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviourSeek.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="Obstacle.cpp">
+      <Filter>Source Files\Agents</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,9 +75,6 @@
     <ClInclude Include="Agent.h">
       <Filter>Header Files\Agents</Filter>
     </ClInclude>
-    <ClInclude Include="Obstacle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="AgentShark.h">
       <Filter>Header Files\Agents</Filter>
     </ClInclude>
@@ -67,6 +83,30 @@
     </ClInclude>
     <ClInclude Include="EntityObject.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySprite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourEvade.h">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourFlee.h">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourPursue.h">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourWander.h">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="Avoid.h">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourSeek.h">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="Obstacle.h">
+      <Filter>Header Files\Behaviours</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

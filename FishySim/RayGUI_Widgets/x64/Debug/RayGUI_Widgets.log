@@ -1,42 +1,7 @@
 ﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(519,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (ProjectName.vcxproj).  This can lead to incorrect clean and rebuild behavior.
   Agent.cpp
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(35,6): error C2065: 'mAgentType': undeclared identifier
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(35,20): error C2653: 'AgentType': is not a class or namespace name
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(35,31): error C2065: 'mFish': undeclared identifier
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(35,60): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(36,6): error C2065: 'mAgentType': undeclared identifier
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(36,20): error C2653: 'AgentType': is not a class or namespace name
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(36,31): error C2065: 'mShark': undeclared identifier
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(36,61): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(37,6): error C2065: 'mAgentType': undeclared identifier
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(37,20): error C2653: 'AgentType': is not a class or namespace name
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(37,31): error C2065: 'mShark': undeclared identifier
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(37,61): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(216,10): error C2065: 'mAgentType': undeclared identifier
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(216,22): error C2050: switch expression not integral
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(217,7): error C2653: 'AgentType': is not a class or namespace name
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(217,18): error C2065: 'mFish': undeclared identifier
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(217,18): error C2131: expression did not evaluate to a constant
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(217,18): message : a non-constant (sub-)expression was encountered
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(219,7): error C2653: 'AgentType': is not a class or namespace name
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(219,18): error C2065: 'mShark': undeclared identifier
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(219,18): error C2131: expression did not evaluate to a constant
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(219,18): message : a non-constant (sub-)expression was encountered
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(219,79): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(221,7): error C2653: 'AgentType': is not a class or namespace name
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(221,18): error C2065: 'mWhale': undeclared identifier
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(221,18): error C2131: expression did not evaluate to a constant
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(221,18): message : a non-constant (sub-)expression was encountered
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(221,82): warning C4305: 'argument': truncation from 'double' to 'float'
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(217,1): error C2051: case expression not constant
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(219,1): error C2051: case expression not constant
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(221,1): error C2051: case expression not constant
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(224,2): warning C4065: switch statement contains 'default' but no 'case' labels
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(262,8): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\Agent.cpp(234,8): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
   AgentFish.cpp
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\AgentFish.cpp(10,2): error C2065: 'mAgentType': undeclared identifier
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\AgentFish.cpp(10,15): error C2653: 'AgentType': is not a class or namespace name
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\AgentFish.cpp(10,26): error C2065: 'mFish': undeclared identifier
   Main.cpp
 C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\Raygui\src\raygui.h(749,63): warning C4838: conversion from 'int' to 'float' requires a narrowing conversion
 C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\Raygui\src\raygui.h(749,63): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
@@ -164,11 +129,7 @@ C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\Raygui\src\raygui.h(3341,2
 C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\Raygui\src\raygui.h(3356,107): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\Raygui\src\raygui.h(3356,74): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   AgentShark.cpp
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\AgentShark.cpp(10,2): error C2065: 'mAgentType': undeclared identifier
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\AgentShark.cpp(10,15): error C2653: 'AgentType': is not a class or namespace name
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\AgentShark.cpp(10,26): error C2065: 'mShark': undeclared identifier
   AgentWhale.cpp
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\AgentWhale.cpp(10,2): error C2065: 'mAgentType': undeclared identifier
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\AgentWhale.cpp(10,15): error C2653: 'AgentType': is not a class or namespace name
-C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\RayGUI_Widgets\AgentWhale.cpp(10,26): error C2065: 'mWhale': undeclared identifier
   Generating Code...
+Agent.obj : error LNK2019: unresolved external symbol "public: void __cdecl Agent::CheckAgentType(void)" (?CheckAgentType@Agent@@QEAAXXZ) referenced in function "public: __cdecl Agent::Agent(struct Vector2)" (??0Agent@@QEAA@UVector2@@@Z)
+C:\Users\thebe\Documents\GitHub\5-AIforGames\FishySim\bin\x64\Debug\FishySim.exe : fatal error LNK1120: 1 unresolved externals

@@ -32,9 +32,6 @@ Agent::~Agent() {}
 /// UPDATE: AGENTS
 /* Updates the AI for all agents */
 void Agent::Update() {
-	if (mAgentType == AgentType::mFish) { Flock(0.75, 0.8, 0.5); }
-	if (mAgentType == AgentType::mShark) { Flock(0.75, 0.8, 0.5); }
-	if (mAgentType == AgentType::mShark) { Flock(0.75, 0.8, 0.5); }
 
 	Vector2 vel = GetVel();
 	Vector2 pos = GetPos();
@@ -211,31 +208,6 @@ void Agent::Astar() {}
 #pragma endregion
 
 #pragma region [ Spawn Validation ]
-
-void Agent::CheckAgentType() {
-	switch (mAgentType) {
-	case AgentType::mFish: AllocateEntityParams(5, 2, 2, 0.5, 20, 17.5, 20, 17.5); break;
-
-	case AgentType::mShark: AllocateEntityParams(7, 2, 2.5, 0.7, 50, 20, 20, 17.5); break;
-
-	case AgentType::mWhale: AllocateEntityParams(0.5, 1, 0.5, 0.2, 100, 30, 20, 17.5); break;
-
-	default: break;
-	}
-}
-
-void Agent::AllocateEntityParams(float maxVel, int maxAcc, float maxSpd, float maxForce, float perception, float sep, float ali, float coh) {
-		MaxRandomVelocity = maxVel;
-		MaxRandomAcceleration = maxAcc;
-
-		mMaxSpeed = maxSpd;
-		mMaxForce = maxForce;
-
-		SetPerception(perception);
-		SetSeperation(sep);
-		SetAlignment(ali);
-		SetCohesion(coh);
-}
 
 #pragma endregion
 
