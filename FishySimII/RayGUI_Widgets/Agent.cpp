@@ -6,6 +6,8 @@ Agent::~Agent() {}
 
 // Update the agent and its behaviours
 void Agent::Update(float deltaTime) {
+	//Flock();
+
 	Vector2 pos = GetPos();
 	Vector2 vel = GetVel();
 	Vector2 acc = GetAcc();
@@ -29,7 +31,6 @@ void Agent::Update(float deltaTime) {
 	WrapScreenBounds(&pos); // Changed this to reference 'pos', so that it modifies the value
 	SetPos(pos);
 }
-
 
 #pragma region [ Vector2 Math Operations ]
 
@@ -66,7 +67,7 @@ float Agent::Vector2Magnitude(Vector2 vec) {
 void Agent::Init(Vector2 pos) {
 	EntityObject::SetPos(pos);
 	
-	SetVel({ rand() % (int)5.0F - 5.0F, rand() % (int)5.0F - 5.0F }); //Set the velocity's X, Y values
+	SetVel({ rand() % (int)10.0F - 5.0F, rand() % (int)10.0F - 5.0F }); //Set the velocity's X, Y values
 	SetAcc({ (float)(rand() % 2 + 1), (float)(rand() % 2 + 1) }); //Set the acceleration's X, Y value
 
 	SetMaxSpeed(2.0f);
@@ -93,12 +94,6 @@ void Agent::AvoidEntities() {
 				SetPos(Vector2Subtract(GetPos(), collisionNormal));
 				agent->GetPos() = Vector2Add(agent->GetPos(), collisionNormal);
 			}
-
-			//if (abs() < magicNumberRadius)
-			//{
-			//	agent->m_acceleration -= magicNumberRadius;
-			//	m_acceleration += magicNumberRadius;
-			//}
 		}
 	}
 }

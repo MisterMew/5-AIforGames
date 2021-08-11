@@ -17,11 +17,14 @@ using namespace std;
 
 #include "raylib.h"
 #include "raygui.h"
+
 #include "Obstacle.h"
 #include "EntityObject.h"
 #include "Agent.h"
 #include "AgentFish.h"
+
 #include "BehaviourWander.h"
+#include "BehaviourSeek.h"
 
 #undef RAYGUI_IMPLEMENTATION
 
@@ -30,17 +33,30 @@ const int screenWidth = 1280;
 const int screenHeight = 720;
 float deltaTime = 0;
 
+//Toolbar:
 int toolbarIndex = 1;
 enum Toolbar { Null = 0, Slot1 = 1, Slot2, Slot3, Slot4, Slot5, Slot6, Slot7, Slot8, Slot9 };
+const Vector2 toolSlot = { 115, 10 };
+const float slotSize = 40;
+const int toolbarSize = 9;
 
+//Vector Lists:
+static vector<EntityObject*> entities = {};
 vector<Obstacle*> obstacles;
 vector<Behaviour*> behaviours;
-static vector<EntityObject*> entities = {};
+
+Vector2 target;
+Agent* seeker;
+Seek* seekBehaviour;
  
+
 /// Function Declarations 
 // Definitions below . . .
 void ToolbarUpdate();
 void ToolbarDraw();
+void DrawTBSlot(int xPos, const char *text);
+
+void DrawTarget();
 
 
  /// INITIALISATION
@@ -60,7 +76,15 @@ void Start() {
 		obstacles.push_back(new Obstacle(Vector2{ (float)(rand() % screenWidth), (float)(rand() % screenHeight) }, (float)(rand() % 40)));
 	}
 
-	for (int i = 0; i < 10; i++) { entities.push_back(new Fish({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })); }
+	for (int i = 0; i < 100; i++) { 
+		entities.push_back(new Fish({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) }));
+	}
+
+	// Create Seek behaviour //
+	Agent* seeker = new Agent();
+	Seek* seekBehaviour = new Seek();
+	seekBehaviour->mTargetPosition;
+	seeker->AddBehaviour(seekBehaviour);
 
 	deltaTime = 0;
 }
@@ -71,12 +95,17 @@ void Update() {
 	deltaTime = GetFrameTime();
 
 	ToolbarUpdate();
+
 	if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
 		DrawCircle(GetMouseX(), GetMouseY(), 15, Fade(BLACK, 0.5f));
 	}
 
 	for (unsigned int i = 0; i < entities.size(); i++) {
 		entities[i]->Update(deltaTime);
+	}
+
+	if (seeker != nullptr) {
+		seeker->Update(deltaTime);
 	}
 }
 
@@ -114,11 +143,19 @@ void DereferenceObjects() {
 	}
 	entities.clear();
 
+	/* Delete Behaviours */
+	for (unsigned int i = 0; i < behaviours.size(); i++) {
+		delete behaviours[i];
+	}
+	behaviours.clear();
+
 	/* Delete Obstacles */
 	for (unsigned int i = 0; i < obstacles.size(); i++) {
 		delete obstacles[i];
 	}
 	obstacles.clear();
+
+	delete seekBehaviour;
 }
 
  /// Main
@@ -148,46 +185,82 @@ void ToolbarUpdate() {
 	if (mouseScroll > 0) {
 		toolbarIndex--;
 		if (toolbarIndex < 1) {
-			toolbarIndex = 1;
+			toolbarIndex = toolbarSize;
 		}
 	}
 	else if (mouseScroll < 0) {
 		toolbarIndex++;
-		if (toolbarIndex > sizeof(Toolbar)) {
-			toolbarIndex = sizeof(Toolbar);
+		if (toolbarIndex > toolbarSize) {
+			toolbarIndex = 1;
 		}
 	}
 }
 
 void ToolbarDraw() {
-	const Vector2 toolSlot = { 115, 10 };
-	const float slotSize = 40;
-
 	float tempX = toolSlot.x;
-	for (unsigned int i = 1; i <= sizeof(Toolbar); i++) {
+	for (unsigned int i = 1; i <= toolbarSize; i++) {
 		DrawRectangle(tempX, toolSlot.y, slotSize, slotSize, Color{ 10, 10, 10, 125 });
 		DrawRectangleLinesEx({ tempX, toolSlot.y, slotSize, slotSize }, 3, BLACK);
 		tempX = (tempX + slotSize) + 5;
 	}
 
+	DrawText("O",   128, 21, 20, GRAY);
+	DrawText("<F>", 166, 21, 20, GRAY);
+	DrawText("<S>", 210, 21, 20, GRAY);
+	DrawText("+S", 438, 21, 20, GRAY);
+	DrawText("+F", 483, 21, 20, GRAY);
+
+	Vector2 mousePos = GetMousePosition(); //Get the mouse coordinates
 	switch (toolbarIndex) {
 	case Slot1: 
-		DrawRectangleLines(toolSlot.x, toolSlot.y, slotSize, slotSize, WHITE);
+		DrawTBSlot(0, "Spawn an obstacle.");
+		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+			obstacles.push_back(new Obstacle(Vector2{ mousePos.x, mousePos.y }, (float)(rand() % 40)));
+		}
 		break;
-	case Slot2: 
-		DrawRectangleLines(toolSlot.x + 45, toolSlot.y, slotSize, slotSize, WHITE);
+	case Slot2:
+		DrawTBSlot(45, "Spawn a fish entity.");
+		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+			entities.push_back(new Fish({ mousePos.x, mousePos.y }));
+		}
 		break;
 	case Slot3:
-		DrawRectangleLines(toolSlot.x + 90, toolSlot.y, slotSize, slotSize, WHITE); 
+		DrawTBSlot(90, "Spawns a shark entity. (Not Implemented)");
 		break;
 	case Slot4:
-		DrawRectangleLines(toolSlot.x + 135, toolSlot.y, slotSize, slotSize, WHITE); 
+		DrawTBSlot(135, nullptr);
 		break;
 	case Slot5:
-		DrawRectangleLines(toolSlot.x + 180, toolSlot.y, slotSize, slotSize, WHITE);
+		DrawTBSlot(180, nullptr);
+		break;
+	case Slot6:
+		DrawTBSlot(225, nullptr);
+		break;
+	case Slot7:
+		DrawTBSlot(270, nullptr);
+		break;
+	case Slot8:
+		DrawTBSlot(315, "Cause nearby entities to seek. (Not Implemented)");
+		if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+			DrawTarget();
+			seekBehaviour->mTargetPosition = &mousePos;
+		}
+		break;
+	case Slot9:
+		DrawTBSlot(360, "Cause nearby entities to flee. (Not Implemented)");
 		break;
 	default: break;
 	}
 }
 
+void DrawTBSlot(int xPos, const char *text) {
+	DrawRectangleLines(toolSlot.x + xPos, toolSlot.y, slotSize, slotSize, WHITE);
+	DrawText(text, 525, 22, 16, DARKGRAY);
+}
+
 #pragma endregion
+
+void DrawTarget() {
+	DrawLine(target.x - 5, target.y, target.x + 5, target.y, BLUE);
+	DrawLine(target.x, target.y - 5, target.x, target.y + 5, BLUE);
+}

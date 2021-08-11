@@ -46,7 +46,7 @@
     <ClCompile Include="BehaviourWander.cpp">
       <Filter>Source Files\Behaviours</Filter>
     </ClCompile>
-    <ClCompile Include="Avoid.cpp">
+    <ClCompile Include="BehaviourAvoid.cpp">
       <Filter>Source Files\Behaviours</Filter>
     </ClCompile>
     <ClCompile Include="BehaviourEvade.cpp">
@@ -99,7 +99,7 @@
     <ClInclude Include="BehaviourWander.h">
       <Filter>Header Files\Behaviours</Filter>
     </ClInclude>
-    <ClInclude Include="Avoid.h">
+    <ClInclude Include="BehaviourAvoid.h">
       <Filter>Header Files\Behaviours</Filter>
     </ClInclude>
     <ClInclude Include="BehaviourSeek.h">

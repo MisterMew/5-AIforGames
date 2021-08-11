@@ -23,12 +23,19 @@ protected:
 	float mRotation = 0;
 	float mRotDampening = 0;
 
+	/* Boid Variables */
+	float mSeperation;
+	float mAlignment;
+	float mCohesion;
+
 public:
 	Agent();
 	Agent(Vector2 position);
-	~Agent();
+	virtual ~Agent();
 
+	void Start() override {}
 	void Update(float deltaTime) override;
+	void Draw() override {}
 
 	void AddBehaviour(Behaviour* behaviour) { mBehaviours.push_back(behaviour); }
 
