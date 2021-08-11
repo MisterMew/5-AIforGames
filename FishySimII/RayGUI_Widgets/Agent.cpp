@@ -18,15 +18,15 @@ void Agent::Update(float deltaTime) {
 	}
 
 	// Change velocity and position based on motion/acceleration
-	vel.x += acc.x;
-	vel.y += acc.y;
+	vel.x += acc.x * deltaTime; // * deltaTime to smooth no matter framerate
+	vel.y += acc.y * deltaTime; // * deltaTime to smooth no matter framerate
 	SetVel(Vector2Clamp(vel, -GetMaxSpeed(), GetMaxSpeed()));
 	SetAcc({ 0, 0 });
 
 	pos.x += vel.x;
 	pos.y += vel.y;
 
-	WrapScreenBounds(pos);
+	WrapScreenBounds(&pos); // Changed this to reference 'pos', so that it modifies the value
 	SetPos(pos);
 }
 
@@ -105,11 +105,11 @@ void Agent::AvoidEntities() {
 
  /// SCREEN WRAP
 /* Allows agents to wrap around the screen */
-void Agent::WrapScreenBounds(Vector2 pos) {
-	if (pos.x < 0) { pos.x = (float)GetScreenWidth(); }
-	if (pos.y < 0) { pos.y = (float)GetScreenHeight(); }
-	if (pos.x > (float)GetScreenWidth()) { pos.x = 0; }
-	if (pos.y > (float)GetScreenHeight()) { pos.y = 0; }
+void Agent::WrapScreenBounds(Vector2* pos) { 
+	if (pos->x < 0) { pos->x = (float)GetScreenWidth(); }
+	if (pos->y < 0) { pos->y = (float)GetScreenHeight(); }
+	if (pos->x > (float)GetScreenWidth())  { pos->x = 0; }
+	if (pos->y > (float)GetScreenHeight()) { pos->y = 0; }
 }
 
 #pragma endregion

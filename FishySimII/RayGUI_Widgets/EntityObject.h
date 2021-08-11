@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "raylib.h"
 #include "raymath.h"
 #include <iostream>
@@ -15,7 +15,6 @@ private:
 protected:
 	/// Variables
 	EntityType mEntityType = {};
-	Vector2 mPosition = { 0, 0 };
 	Vector2 mGlobalPos = { 0, 0 };
 	Vector2 mLocalPos = { 0, 0 };
 	Vector2 mVelocity = { 0, 0 };
@@ -34,14 +33,14 @@ public:
 	 /// Function Definitions:
 	/* SET Functions */
 	void SetEntity(EntityType entity) { mEntityType = entity; }
-	void SetPos(Vector2 position) { mPosition = position; }
+	void SetPos(Vector2 position) { SetLocalPos(position); }
 	void SetGlobalPos(Vector2 globalPos) { mGlobalPos = globalPos; }
 	void SetLocalPos(Vector2 localPos) { mLocalPos = localPos; }
 	void SetVel(Vector2 velocity) { mVelocity = velocity; }
 
 	/* GET Functions */
 	EntityType GetEntity() { return mEntityType; }
-	Vector2 GetPos() { return mPosition = GetGlobalPos(); }
+	Vector2 GetPos() { return GetGlobalPos(); }
 	Vector2 GetGlobalPos() { return mGlobalPos; }
 	Vector2 GetLocalPos() { return mLocalPos; }
 	Vector2 GetVel() { return mVelocity; }

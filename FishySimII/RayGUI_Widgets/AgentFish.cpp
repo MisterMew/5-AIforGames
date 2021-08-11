@@ -19,8 +19,8 @@ void Fish::Start() {
 }
 
 void Fish::Update(float deltaTime) {
-	Agent::Update(deltaTime); //Agent updates MY position & velocity
 	EntityObject::UpdatePosition();
+	Agent::Update(deltaTime); //Agent updates MY position & velocity
 }
 
 void Fish::Draw() {

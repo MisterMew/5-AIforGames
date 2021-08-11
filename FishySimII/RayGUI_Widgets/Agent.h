@@ -65,5 +65,5 @@ public:
 private:
 	void Init(Vector2 position);
 	void AvoidEntities();
-	void WrapScreenBounds(Vector2 pos);
+	void WrapScreenBounds(Vector2* pos);
 };

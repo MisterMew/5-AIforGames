@@ -12,7 +12,7 @@ void EntityObject::Draw() {}
 /* Update an entities relative position */
 void EntityObject::UpdatePosition() {
 	if (mParent != nullptr) { 
-		SetGlobalPos(Vector2MultiplyV(mParent->GetGlobalPos(), GetLocalPos()));
+		SetGlobalPos(Vector2Add(mParent->GetGlobalPos(), GetLocalPos()));
 	}
 	else {
 		SetGlobalPos(GetLocalPos());
