@@ -1,7 +1,9 @@
 #pragma once
 #include "EntityObject.h"
-#include "Behaviour.h"
 #include "raymath.h"
+#include "Behaviour.h"
+#include "BehaviourFlock.h"
+
 #include <iostream>
 #include <vector>
 #include <cmath>
@@ -22,11 +24,6 @@ protected:
 	float mFriction = 0.99; //0 = no friction, 1 = max friction
 	float mRotation = 0;
 	float mRotDampening = 0;
-
-	/* Boid Variables */
-	float mSeperation;
-	float mAlignment;
-	float mCohesion;
 
 public:
 	Agent();
@@ -66,8 +63,8 @@ public:
 
 	/* Vector2 Math Operations */
 	Vector2 Vector2Truncate(Vector2 vector, float max);
-	Vector2 Vector2Clamp(Vector2 vector, float clampMin, float clampMax);
-	float Vector2Magnitude(Vector2 vector);
+	static Vector2 Vector2Clamp(Vector2 vector, float clampMin, float clampMax);
+	static float Vector2Magnitude(Vector2 vector);
 
 private:
 	void Init(Vector2 position);

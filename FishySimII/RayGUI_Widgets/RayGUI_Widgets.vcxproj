@@ -176,6 +176,7 @@
     <ClCompile Include="Behaviour.cpp" />
     <ClCompile Include="BehaviourEvade.cpp" />
     <ClCompile Include="BehaviourFlee.cpp" />
+    <ClCompile Include="BehaviourFlock.cpp" />
     <ClCompile Include="BehaviourPursue.cpp" />
     <ClCompile Include="BehaviourSeek.cpp" />
     <ClCompile Include="BehaviourWander.cpp" />
@@ -193,6 +194,7 @@
     <ClInclude Include="Behaviour.h" />
     <ClInclude Include="BehaviourEvade.h" />
     <ClInclude Include="BehaviourFlee.h" />
+    <ClInclude Include="BehaviourFlock.h" />
     <ClInclude Include="BehaviourPursue.h" />
     <ClInclude Include="BehaviourSeek.h" />
     <ClInclude Include="BehaviourWander.h" />

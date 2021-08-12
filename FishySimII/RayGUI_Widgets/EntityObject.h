@@ -7,6 +7,7 @@
 using namespace std;
 
 enum class EntityType { objFish, objShark, objWhale, objBubble };
+
 class EntityObject {
 private:
 	EntityObject* mParent = nullptr;

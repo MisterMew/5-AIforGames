@@ -4,6 +4,23 @@
 // EntityObject.h .cpp checks out ~ no issues
 // Behaviours.cpp remains empty, .h checks out
 
+/* What To Do;
+* Seeking, Fleeing, Wander, Flocking, Avoid
+* 
+* Seeking:
+*	Unsure how to manipulate so that the entities will successfully seek
+* 
+* Flocking:
+*	Errors with either Agents, or circular include dependencies (althought that exists within the behaviour files without issue)
+* 
+* Avoid:
+*	Need to attempt avoiding again (entities currently ignore all obstacles)
+*	Whatever is in the agent.cpp doesn't do anything to aid avoiding, felt cute, might delete later
+* 
+* ;3 mew
+* 
+*/
+
 #include <iostream>
 #include <string>
 #include <vector>
@@ -12,19 +29,22 @@
 using namespace std;
 
 #define RAYGUI_IMPLEMENTATION
+#define RAYGUI_SUPPORT_COLORS
 #define RAYGUI_SUPPORT_ICONS
 #define RAYGUI_STATIC
 
 #include "raylib.h"
 #include "raygui.h"
 
-#include "Obstacle.h"
 #include "EntityObject.h"
+#include "Obstacle.h"
 #include "Agent.h"
 #include "AgentFish.h"
 
-#include "BehaviourWander.h"
 #include "BehaviourSeek.h"
+#include "BehaviourFlee.h"
+#include "BehaviourAvoid.h"
+#include "BehaviourWander.h"
 
 #undef RAYGUI_IMPLEMENTATION
 
@@ -41,16 +61,15 @@ const float slotSize = 40;
 const int toolbarSize = 9;
 
 //Vector Lists:
-static vector<EntityObject*> entities = {};
+vector<EntityObject*> entities = {};
 vector<Obstacle*> obstacles;
 vector<Behaviour*> behaviours;
+SeekBehaviour* seek;
 
-Vector2 target;
-Agent* seeker;
-Seek* seekBehaviour;
+Vector2 mouseXY;
  
 
-/// Function Declarations 
+ /// Function Declarations 
 // Definitions below . . .
 void ToolbarUpdate();
 void ToolbarDraw();
@@ -80,12 +99,6 @@ void Start() {
 		entities.push_back(new Fish({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) }));
 	}
 
-	// Create Seek behaviour //
-	Agent* seeker = new Agent();
-	Seek* seekBehaviour = new Seek();
-	seekBehaviour->mTargetPosition;
-	seeker->AddBehaviour(seekBehaviour);
-
 	deltaTime = 0;
 }
 
@@ -97,15 +110,12 @@ void Update() {
 	ToolbarUpdate();
 
 	if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-		DrawCircle(GetMouseX(), GetMouseY(), 15, Fade(BLACK, 0.5f));
+		mouseXY = GetMousePosition();
+		DrawCircle(mouseXY.x, mouseXY.y, 15, Fade(BLACK, 0.5f));
 	}
 
 	for (unsigned int i = 0; i < entities.size(); i++) {
 		entities[i]->Update(deltaTime);
-	}
-
-	if (seeker != nullptr) {
-		seeker->Update(deltaTime);
 	}
 }
 
@@ -128,7 +138,6 @@ void Draw() {
 	DrawRectangleGradientV(0, 0, GetScreenWidth(), (GetScreenHeight() / 10), Fade(BLACK, 0.3f), Fade(DARKBLUE, 0.005f));
 	DrawText(TextFormat("X, Y: [ %i, %i ]", (int)mousePos.x, (int)mousePos.y), 10, 28, 12, RAYWHITE); //Draws the mouse coords in the top left corner
 	DrawText(TextFormat("FPS: [ %i ]", (int)GetFPS()), 10, 10, 18, RAYWHITE);						 //Draws the FPS in the top left corner
-
 	ToolbarDraw();
 
 	EndDrawing();
@@ -155,7 +164,7 @@ void DereferenceObjects() {
 	}
 	obstacles.clear();
 
-	delete seekBehaviour;
+	delete seek;
 }
 
  /// Main
@@ -166,7 +175,7 @@ int main() {
 	bool exitWindow = false;
 	while (!exitWindow) {
 		exitWindow = WindowShouldClose();
-		
+
 		Update();
 		Draw();
 	}
@@ -178,7 +187,8 @@ int main() {
 
 
 #pragma region [ Private Functions ]
-
+ /// TOOLBAR: Update
+/* Updates the toolbar */
 void ToolbarUpdate() {
 	int mouseScroll = GetMouseWheelMove();
 
@@ -196,7 +206,10 @@ void ToolbarUpdate() {
 	}
 }
 
+/// TOOLBAR: Draw
+/* Draw everything to do with the toolbar */
 void ToolbarDraw() {
+	///Dynamically draw the toolbar
 	float tempX = toolSlot.x;
 	for (unsigned int i = 1; i <= toolbarSize; i++) {
 		DrawRectangle(tempX, toolSlot.y, slotSize, slotSize, Color{ 10, 10, 10, 125 });
@@ -204,27 +217,29 @@ void ToolbarDraw() {
 		tempX = (tempX + slotSize) + 5;
 	}
 
+	///Label the toolbar
 	DrawText("O",   128, 21, 20, GRAY);
 	DrawText("<F>", 166, 21, 20, GRAY);
 	DrawText("<S>", 210, 21, 20, GRAY);
 	DrawText("+S", 438, 21, 20, GRAY);
 	DrawText("+F", 483, 21, 20, GRAY);
 
+	///For each slot of the toolbar
 	Vector2 mousePos = GetMousePosition(); //Get the mouse coordinates
 	switch (toolbarIndex) {
-	case Slot1: 
+	case Slot1: // Create an Obstacle Object
 		DrawTBSlot(0, "Spawn an obstacle.");
 		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
 			obstacles.push_back(new Obstacle(Vector2{ mousePos.x, mousePos.y }, (float)(rand() % 40)));
 		}
 		break;
-	case Slot2:
+	case Slot2: // Create a Fish Entity
 		DrawTBSlot(45, "Spawn a fish entity.");
 		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
 			entities.push_back(new Fish({ mousePos.x, mousePos.y }));
 		}
 		break;
-	case Slot3:
+	case Slot3: // Create a Shark Entity
 		DrawTBSlot(90, "Spawns a shark entity. (Not Implemented)");
 		break;
 	case Slot4:
@@ -239,28 +254,34 @@ void ToolbarDraw() {
 	case Slot7:
 		DrawTBSlot(270, nullptr);
 		break;
-	case Slot8:
+	case Slot8: // Demonstrates Seeking AI
 		DrawTBSlot(315, "Cause nearby entities to seek. (Not Implemented)");
-		if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
-			DrawTarget();
-			seekBehaviour->mTargetPosition = &mousePos;
+		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+			seek->SetTargetPosition(&mouseXY);
 		}
+		DrawTarget();
 		break;
-	case Slot9:
+	case Slot9: // Demonstrates Fleeing AI
 		DrawTBSlot(360, "Cause nearby entities to flee. (Not Implemented)");
+		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+			//flee->SetTargetPosition(&mouseXY);
+		}
+		DrawTarget();
 		break;
 	default: break;
 	}
 }
 
+/* This draws a single tool slot */
 void DrawTBSlot(int xPos, const char *text) {
 	DrawRectangleLines(toolSlot.x + xPos, toolSlot.y, slotSize, slotSize, WHITE);
 	DrawText(text, 525, 22, 16, DARKGRAY);
 }
 
+void DrawTarget() {
+	DrawLine(mouseXY.x - 5, mouseXY.y, mouseXY.x + 5, mouseXY.y, DARKBLUE);
+	DrawLine(mouseXY.x, mouseXY.y - 5, mouseXY.x, mouseXY.y + 5, DARKBLUE);
+}
+
 #pragma endregion
 
-void DrawTarget() {
-	DrawLine(target.x - 5, target.y, target.x + 5, target.y, BLUE);
-	DrawLine(target.x, target.y - 5, target.x, target.y + 5, BLUE);
-}

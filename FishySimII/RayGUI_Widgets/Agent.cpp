@@ -6,7 +6,7 @@ Agent::~Agent() {}
 
 // Update the agent and its behaviours
 void Agent::Update(float deltaTime) {
-	//Flock();
+	FlockBehaviour::Flock(this, 17.5F, 20, 17.5F);
 
 	Vector2 pos = GetPos();
 	Vector2 vel = GetVel();
@@ -15,8 +15,8 @@ void Agent::Update(float deltaTime) {
 	SetForce({0, 0});
 
 	/* UPDATE all behaviours */
-	for (auto behavior : mBehaviours){
-		behavior->Update(*this, deltaTime);
+	for (auto behaviour : mBehaviours){
+		behaviour->Update(*this, deltaTime);
 	}
 
 	// Change velocity and position based on motion/acceleration

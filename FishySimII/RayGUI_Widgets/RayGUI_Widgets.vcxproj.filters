@@ -64,6 +64,9 @@
     <ClCompile Include="Obstacle.cpp">
       <Filter>Source Files\Agents</Filter>
     </ClCompile>
+    <ClCompile Include="BehaviourFlock.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Behaviour.h">
@@ -106,6 +109,9 @@
       <Filter>Header Files\Behaviours</Filter>
     </ClInclude>
     <ClInclude Include="Obstacle.h">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourFlock.h">
       <Filter>Header Files\Behaviours</Filter>
     </ClInclude>
   </ItemGroup>
