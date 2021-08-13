@@ -9,7 +9,7 @@ FlockBehaviour flock;
 // Update the agent and its behaviours
 void Agent::Update(float deltaTime) {
 	if (mBehaviours.empty()) {
-		flock.Flock(this, 17.5F, 20, 17.5F);
+		flock.Flock(this, 0.5F, 0.4F, 0.5F); //this Agent, Sep, Ali, Coh
 
 		Vector2 pos = GetPos();
 		Vector2 vel = GetVel();
@@ -34,6 +34,7 @@ void Agent::Update(float deltaTime) {
 	for (auto behaviour : mBehaviours) {
 		behaviour->Update(*this, deltaTime);
 	}
+		AvoidEntities();
 }
 
 #pragma region [ Vector2 Math Operations ]
@@ -91,3 +92,22 @@ void Agent::WrapScreenBounds(Vector2* pos) {
 }
 
 #pragma endregion
+#include "Obstacle.h"
+extern vector<Obstacle*> obstacles;
+
+void Agent::AvoidEntities() {
+	for (auto obstacle : obstacles) {
+		Vector2 d(Vector2Subtract(obstacle->mPosition, GetGlobalPos()));
+			
+		float distanceSquared = Vector2Magnitude(d);
+
+		float radius = obstacle->mRadius;
+		radius *= 1.5f;
+
+		if (distanceSquared < radius && distanceSquared != 0) { //Dyanimcally adjust radius to obstacle size
+			float distance = sqrt(distanceSquared);
+			Vector2 collisionNormal = Vector2Scale(d, 1.0f / distance); //
+			AddVel(Vector2Scale(collisionNormal, -0.025f)); //Bounce/Yeet away 
+		}
+	}
+}

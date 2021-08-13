@@ -15,7 +15,6 @@ private:
 	vector<Behaviour*> mBehaviours;
 
 protected:
-	vector<Agent*>* mAgents = {};
 
 	Vector2 mAcceleration = { 0, 0 };
 	Vector2 mForce = { 0, 0 };
@@ -68,6 +67,8 @@ public:
 	static float Vector2Magnitude(Vector2 vector);
 
 	void WrapScreenBounds(Vector2* pos);
+
+	void AvoidEntities();
 
 private:
 	void Init(Vector2 position);

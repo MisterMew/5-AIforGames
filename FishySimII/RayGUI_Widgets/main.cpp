@@ -5,16 +5,13 @@
 // Behaviours.cpp remains empty, .h checks out
 
 /* What To Do;
-* Seeking, Fleeing, Wander, Flocking, Avoid
 * 
-* Flocking:
-*	Cannot find where/why flocking wont function
+* Missing Features:
+*	Shark Entities - Intended to hunt by "pursing" a random nearby fish AND pathfind around obstacles
+*	Whale Entities - Intended to act as mobile obstacles for entities to pathfind around
 * 
-* Avoid:
-*	Need to attempt avoiding again (entities currently ignore all obstacles)
-*	Whatever is in the agent.cpp doesn't do anything to aid avoiding, felt cute, might delete later
-* 
-* ;3 mew
+*	Fish:
+*		Currently no state machine to demonstrate behaviours
 * 
 */
 
@@ -113,10 +110,11 @@ void Start() {
 		obstacles.push_back(new Obstacle(Vector2{ (float)(rand() % screenWidth), (float)(rand() % screenHeight) }, (float)(rand() % 40)));
 	}
 
-	for (int i = 0; i < 100; i++) { 
+	unsigned int entityAmount = 150;
+	for (int i = 0; i < entityAmount; i++) { 
 		entities.push_back(new Fish({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) }));
-		InsertBehaviour(avoidBehaviour);
 	}
+		//InsertBehaviour(avoidBehaviour);
 
 	deltaTime = 0;
 }
@@ -133,9 +131,9 @@ void Update() {
 		DrawCircle(mouseXY.x, mouseXY.y, 15, Fade(BLACK, 0.5f));
 	}
 
-	for (unsigned int i = 0; i < entities.size(); i++) {
-		entities[i]->Update(deltaTime);
-	}
+	for (auto entity : entities) {
+		entity->Update(deltaTime);
+	}	
 }
 
  /// DRAW FUNCTION
@@ -156,9 +154,10 @@ void Draw() {
 	Vector2 mousePos = GetMousePosition(); //Get the mouse coordinates
 	DrawRectangleGradientV(0, 0, GetScreenWidth(), (GetScreenHeight() / 10), Fade(BLACK, 0.3f), Fade(DARKBLUE, 0.005f));
 	DrawText(TextFormat("X, Y: [ %i, %i ]", (int)mousePos.x, (int)mousePos.y), 10, 28, 12, RAYWHITE); //Draws the mouse coords in the top left corner
-	DrawText(TextFormat("FPS: [ %i ]", (int)GetFPS()), 10, 10, 18, RAYWHITE);						 //Draws the FPS in the top left corner
-	ToolbarDraw();
+	DrawText(TextFormat("Entities: [ %i ]", (int)entities.size()), 10, 45, 12, RAYWHITE);			 //Draws the entity count
+	DrawText(TextFormat("FPS: [ %i ]", (int)GetFPS()), 10, 10, 18, RAYWHITE);						//Draws the FPS in the top left corner
 
+	ToolbarDraw();
 	EndDrawing();
 }
 
@@ -251,7 +250,7 @@ void ToolbarDraw() {
 	switch (toolbarIndex) {
 	case Slot1: // Create an Obstacle Object
 		DrawTBSlot(0, "Spawn an obstacle.");
-		RemoveBehaviours();
+		//RemoveBehaviours();
 		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
 			obstacles.push_back(new Obstacle(Vector2{ mousePos.x, mousePos.y }, (float)(rand() % 40)));
 		}
@@ -291,20 +290,20 @@ void ToolbarDraw() {
 		break;
 
 	case Slot8: // Demonstrates Seeking AI
-		DrawTBSlot(315, "Cause nearby entities to seek. (Not Implemented)");
+		DrawTBSlot(315, "Cause nearby entities to seek.");
 		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
 			seekBehaviour->SetTargetPosition(&mouseXY);
-			ValidateBehaviour(seekBehaviour, 1);
 		}
+		ValidateBehaviour(seekBehaviour, 1);
 		DrawTarget();
 		break;
 
 	case Slot9: // Demonstrates Fleeing AI
-		DrawTBSlot(360, "Cause nearby entities to flee. (Not Implemented)");
+		DrawTBSlot(360, "Cause nearby entities to flee.");
 		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
 			fleeBehaviour->SetTargetPosition(&mouseXY);
-			ValidateBehaviour(fleeBehaviour, 2);
 		}
+		ValidateBehaviour(fleeBehaviour, 2);
 		DrawTarget();
 		break;
 
@@ -324,8 +323,8 @@ void DrawTarget() {
 	if (behaviourIndex == 1) { TARGETCOLOR = DARKBLUE; }
 	if (behaviourIndex == 2) { TARGETCOLOR = MAROON; }
 
-	DrawLine(mouseXY.x - 5, mouseXY.y, mouseXY.x + 5, mouseXY.y, TARGETCOLOR);
-	DrawLine(mouseXY.x, mouseXY.y - 5, mouseXY.x, mouseXY.y + 5, TARGETCOLOR);
+	DrawLine(mouseXY.x - 6, mouseXY.y, mouseXY.x + 5, mouseXY.y, TARGETCOLOR);
+	DrawLine(mouseXY.x, mouseXY.y - 6, mouseXY.x, mouseXY.y + 5, TARGETCOLOR);
 }
 
 #pragma region [ PRIVATE FUNCTIONS: BEHAVIOURS ]
@@ -334,6 +333,7 @@ void ValidateBehaviour(Behaviour* behaviour, int index) {
 	if (behaviourIndex != index) {
 		RemoveBehaviours();
 		InsertBehaviour(behaviour);
+		//InsertBehaviour(avoidBehaviour);
 		behaviourIndex = index;
 	}
 }

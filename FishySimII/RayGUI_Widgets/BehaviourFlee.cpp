@@ -21,7 +21,6 @@ void FleeBehaviour::Update(Agent& agent, float deltaTime) {
 
 	vel = Vector2Subtract(vel, Vector2Normalize(distance)); // Normalise the direction
 
-
 	vel.x += acc.x * deltaTime; // * deltaTime to smooth no matter framerate
 	vel.y += acc.y * deltaTime; // * deltaTime to smooth no matter framerate
 	agent.SetVel(Agent::Vector2Clamp(vel, -agent.GetMaxSpeed(), agent.GetMaxSpeed()));

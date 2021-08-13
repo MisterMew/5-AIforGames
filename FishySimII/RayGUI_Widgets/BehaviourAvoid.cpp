@@ -4,23 +4,21 @@ AvoidBehaviour::AvoidBehaviour() { Init(); }
 AvoidBehaviour::~AvoidBehaviour() {}
 
 
-void AvoidBehaviour::Update(Agent& agent, float deltaTime) {	
-	Vector2 distance = Vector2Subtract(*mTargetPosition, agent.GetPos()); // Get the distance between the target position and our position
-	Vector2 normal = Vector2Normalize(distance); // Declare and set to 0 incase magnitude is 0
+void AvoidBehaviour::Update(Agent& agent, float deltaTime) {
+	Vector2 distance = Vector2Subtract(*mTargetPosition, agent.GetPos());						  // Get the distance between the target position and our position
+	Vector2 normal = Vector2Normalize(distance);												 // Declare and set to 0 incase magnitude is 0
 	Vector2 force = Vector2Subtract(Vector2Scale(normal, agent.GetMaxSpeed()), agent.GetVel()); // Calculate the force that will be added this frame
 
 	force = Vector2Scale(Vector2Normalize(force), agent.GetMaxForce());
 	
-	agent.GetAcc() = Vector2Add(force, agent.GetAcc()); // set the force to the acceleration
+	agent.SetAcc(Vector2Add(force, agent.GetAcc())); // set the force to the acceleration
 
-	// If m_circles hasnt been set then there is no data to calculations on
 	if (mObstacles == nullptr) { return; }
 
 	normal = Vector2Normalize(agent.GetVel()); // Get a normalized direction of the agent
 
-	float dynamicSeeAhead = Vector2Length(agent.GetVel()) / agent.GetMaxSpeed(); // Calculate how far to look ahead based on the agents velocity
-
-	mAheadPosition = Vector2Add(agent.GetPos(), Vector2Scale(normal, dynamicSeeAhead)); // Calculate the 2 positions to check at based on the dynamic see ahead value
+	float dynamicSeeAhead = Vector2Length(agent.GetVel()) / agent.GetMaxSpeed();				  // Calculate how far to look ahead based on the agents velocity
+	mAheadPosition = Vector2Add(agent.GetPos(), Vector2Scale(normal, dynamicSeeAhead));			 // Calculate the 2 positions to check at based on the dynamic see ahead value
 	mAheadPosition2 = Vector2Add(agent.GetPos(), Vector2Scale(normal, dynamicSeeAhead * 0.5f)); // Ditto: this one uses half of the dynamic see ahead value
 
 	// The closest circle (obsticle)
@@ -51,6 +49,7 @@ void AvoidBehaviour::Update(Agent& agent, float deltaTime) {
 	}
 
 	agent.GetAcc() = Vector2Add(avoidanceForce, agent.GetAcc()); // Apply the force to the agents acceleration
+	agent.SetVel(force);
 }
 
 void AvoidBehaviour::Init() {

@@ -7,9 +7,11 @@ class Agent;
 class FlockBehaviour {
 private:
 	/* Boid Variables */
-	float mSeperation;
-	float mAlignment;
-	float mCohesion;
+	float mSeperation = 0;
+	float mAlignment = 0;
+	float mCohesion = 0;
+
+	float mPerception = 75;
 
 public:
 	FlockBehaviour();

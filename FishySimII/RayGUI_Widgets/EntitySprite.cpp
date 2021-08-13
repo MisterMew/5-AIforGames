@@ -38,6 +38,10 @@ void EntitySprite::Draw() {
 /* Renders the sprite for the FISH */
 void EntitySprite::RenderFish() {
 	GetDrawPoints(10, NULL, 6, 6);
+	
+#ifndef NDEBUG
+	DrawCircleLines(GetPos().x, GetPos().y, 75, BLACK);
+#endif
 
 	/* Draw the fishies */
 	DrawTriangle(head, right, GetPos(), Color{ 255, 161, 0, 100 });
@@ -45,6 +49,7 @@ void EntitySprite::RenderFish() {
 
 	DrawTriangleLines(head, right, GetPos(), ORANGE);
 	DrawTriangleLines(head, GetPos(), left, MAROON);
+
 }
 
  /// RENDER: SHARK
