@@ -35,6 +35,7 @@ public:
 	void Draw() override {}
 
 	void AddBehaviour(Behaviour* behaviour) { mBehaviours.push_back(behaviour); }
+	void ClearBehaviour() { mBehaviours.clear(); }
 
 
 	 /// Function Definitions:
@@ -66,8 +67,8 @@ public:
 	static Vector2 Vector2Clamp(Vector2 vector, float clampMin, float clampMax);
 	static float Vector2Magnitude(Vector2 vector);
 
+	void WrapScreenBounds(Vector2* pos);
+
 private:
 	void Init(Vector2 position);
-	void AvoidEntities();
-	void WrapScreenBounds(Vector2* pos);
 };

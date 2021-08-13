@@ -43,19 +43,10 @@
     <ClCompile Include="EntitySprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BehaviourWander.cpp">
-      <Filter>Source Files\Behaviours</Filter>
-    </ClCompile>
     <ClCompile Include="BehaviourAvoid.cpp">
       <Filter>Source Files\Behaviours</Filter>
     </ClCompile>
-    <ClCompile Include="BehaviourEvade.cpp">
-      <Filter>Source Files\Behaviours</Filter>
-    </ClCompile>
     <ClCompile Include="BehaviourFlee.cpp">
-      <Filter>Source Files\Behaviours</Filter>
-    </ClCompile>
-    <ClCompile Include="BehaviourPursue.cpp">
       <Filter>Source Files\Behaviours</Filter>
     </ClCompile>
     <ClCompile Include="BehaviourSeek.cpp">
@@ -90,16 +81,7 @@
     <ClInclude Include="EntitySprite.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BehaviourEvade.h">
-      <Filter>Header Files\Behaviours</Filter>
-    </ClInclude>
     <ClInclude Include="BehaviourFlee.h">
-      <Filter>Header Files\Behaviours</Filter>
-    </ClInclude>
-    <ClInclude Include="BehaviourPursue.h">
-      <Filter>Header Files\Behaviours</Filter>
-    </ClInclude>
-    <ClInclude Include="BehaviourWander.h">
       <Filter>Header Files\Behaviours</Filter>
     </ClInclude>
     <ClInclude Include="BehaviourAvoid.h">

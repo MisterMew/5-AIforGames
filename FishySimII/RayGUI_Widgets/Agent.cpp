@@ -4,32 +4,36 @@ Agent::Agent() : Agent({0, 0}) {}
 Agent::Agent(Vector2 pos) { Init(pos); }
 Agent::~Agent() {}
 
+FlockBehaviour flock;
+
 // Update the agent and its behaviours
 void Agent::Update(float deltaTime) {
-	FlockBehaviour::Flock(this, 17.5F, 20, 17.5F);
+	if (mBehaviours.empty()) {
+		flock.Flock(this, 17.5F, 20, 17.5F);
 
-	Vector2 pos = GetPos();
-	Vector2 vel = GetVel();
-	Vector2 acc = GetAcc();
+		Vector2 pos = GetPos();
+		Vector2 vel = GetVel();
+		Vector2 acc = GetAcc();
 
-	SetForce({0, 0});
+		SetForce({ 0, 0 });
 
-	/* UPDATE all behaviours */
-	for (auto behaviour : mBehaviours){
-		behaviour->Update(*this, deltaTime);
+		// Change velocity and position based on motion/acceleration
+		vel.x += acc.x * deltaTime; // * deltaTime to smooth no matter framerate
+		vel.y += acc.y * deltaTime; // * deltaTime to smooth no matter framerate
+		SetVel(Vector2Clamp(vel, -GetMaxSpeed(), GetMaxSpeed()));
+		SetAcc({ 0, 0 });
+
+		pos.x += vel.x;
+		pos.y += vel.y;
+
+		WrapScreenBounds(&pos); // Changed this to reference 'pos', so that it modifies the value
+		SetPos(pos);
 	}
 
-	// Change velocity and position based on motion/acceleration
-	vel.x += acc.x * deltaTime; // * deltaTime to smooth no matter framerate
-	vel.y += acc.y * deltaTime; // * deltaTime to smooth no matter framerate
-	SetVel(Vector2Clamp(vel, -GetMaxSpeed(), GetMaxSpeed()));
-	SetAcc({ 0, 0 });
-
-	pos.x += vel.x;
-	pos.y += vel.y;
-
-	WrapScreenBounds(&pos); // Changed this to reference 'pos', so that it modifies the value
-	SetPos(pos);
+	/* UPDATE all behaviours */
+	for (auto behaviour : mBehaviours) {
+		behaviour->Update(*this, deltaTime);
+	}
 }
 
 #pragma region [ Vector2 Math Operations ]
@@ -75,27 +79,6 @@ void Agent::Init(Vector2 pos) {
 
 	SetRotation(0);
 	SetRotDampening(0.15f);
-}
-
- /// COLLISION
-/* Avoids collision with every other entity */
-void Agent::AvoidEntities() {
-	for (auto agent : *mAgents) {
-		if (agent != this) {
-			Vector2 d(Vector2Subtract(agent->GetPos(), GetPos()));
-			float distanceSquared = Vector2Magnitude(d);
-
-			float radius = 50;
-			float radiusSquared = radius * radius;
-
-			if (distanceSquared < radiusSquared && distanceSquared != 0) {
-				float distance = sqrt(distanceSquared);
-				Vector2 collisionNormal = Vector2Scale(d, 1.0f / distance);
-				SetPos(Vector2Subtract(GetPos(), collisionNormal));
-				agent->GetPos() = Vector2Add(agent->GetPos(), collisionNormal);
-			}
-		}
-	}
 }
 
  /// SCREEN WRAP

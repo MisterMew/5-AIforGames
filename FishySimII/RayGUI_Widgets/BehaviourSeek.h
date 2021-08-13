@@ -2,7 +2,6 @@
 #include "Behaviour.h"
 #include "Agent.h"
 
-// AI_SEEK
 class SeekBehaviour : public Behaviour {
 private:
 	Vector2* mTargetPosition;
@@ -14,6 +13,6 @@ public:
 	void Update(Agent& agent, float deltaTime) override;
 	inline virtual const char* GetBehaviorName() { return "Seek"; }
 	
-	void SetTargetPosition(Vector2 *destination) { mTargetPosition = destination; }
+	void SetTargetPosition(Vector2* destination) { mTargetPosition = destination; }
 
 };

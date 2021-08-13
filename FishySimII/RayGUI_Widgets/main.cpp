@@ -44,7 +44,6 @@ using namespace std;
 #include "BehaviourSeek.h"
 #include "BehaviourFlee.h"
 #include "BehaviourAvoid.h"
-#include "BehaviourWander.h"
 
 #undef RAYGUI_IMPLEMENTATION
 
@@ -64,7 +63,10 @@ const int toolbarSize = 9;
 vector<EntityObject*> entities = {};
 vector<Obstacle*> obstacles;
 vector<Behaviour*> behaviours;
-SeekBehaviour* seek;
+
+int behaviourIndex; // seek = 1, flee = 2 //
+SeekBehaviour* seekBehaviour;
+FleeBehaviour* fleeBehaviour;
 
 Vector2 mouseXY;
  
@@ -74,8 +76,11 @@ Vector2 mouseXY;
 void ToolbarUpdate();
 void ToolbarDraw();
 void DrawTBSlot(int xPos, const char *text);
-
 void DrawTarget();
+
+void ValidateBehaviour(Behaviour* behaviour, int index);
+void InsertBehaviour(Behaviour* behaviour);
+void RemoveBehaviours();
 
 
  /// INITIALISATION
@@ -98,6 +103,11 @@ void Start() {
 	for (int i = 0; i < 100; i++) { 
 		entities.push_back(new Fish({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) }));
 	}
+
+	seekBehaviour = new SeekBehaviour();
+	fleeBehaviour = new FleeBehaviour();
+	seekBehaviour->SetTargetPosition(&mouseXY);
+	fleeBehaviour->SetTargetPosition(&mouseXY);
 
 	deltaTime = 0;
 }
@@ -164,7 +174,8 @@ void DereferenceObjects() {
 	}
 	obstacles.clear();
 
-	delete seek;
+	delete seekBehaviour;
+	delete fleeBehaviour;
 }
 
  /// Main
@@ -229,45 +240,63 @@ void ToolbarDraw() {
 	switch (toolbarIndex) {
 	case Slot1: // Create an Obstacle Object
 		DrawTBSlot(0, "Spawn an obstacle.");
+		RemoveBehaviours();
 		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
 			obstacles.push_back(new Obstacle(Vector2{ mousePos.x, mousePos.y }, (float)(rand() % 40)));
 		}
 		break;
+
 	case Slot2: // Create a Fish Entity
 		DrawTBSlot(45, "Spawn a fish entity.");
+		RemoveBehaviours();
 		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
 			entities.push_back(new Fish({ mousePos.x, mousePos.y }));
 		}
 		break;
+
 	case Slot3: // Create a Shark Entity
 		DrawTBSlot(90, "Spawns a shark entity. (Not Implemented)");
+		RemoveBehaviours();
 		break;
+
 	case Slot4:
 		DrawTBSlot(135, nullptr);
+		RemoveBehaviours();
 		break;
+
 	case Slot5:
 		DrawTBSlot(180, nullptr);
+		RemoveBehaviours();
 		break;
+
 	case Slot6:
 		DrawTBSlot(225, nullptr);
+		RemoveBehaviours();
 		break;
+
 	case Slot7:
 		DrawTBSlot(270, nullptr);
+		RemoveBehaviours();
 		break;
+
 	case Slot8: // Demonstrates Seeking AI
 		DrawTBSlot(315, "Cause nearby entities to seek. (Not Implemented)");
 		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-			seek->SetTargetPosition(&mouseXY);
+			seekBehaviour->SetTargetPosition(&mouseXY);
+			ValidateBehaviour(seekBehaviour, 1);
 		}
 		DrawTarget();
 		break;
+
 	case Slot9: // Demonstrates Fleeing AI
 		DrawTBSlot(360, "Cause nearby entities to flee. (Not Implemented)");
 		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-			//flee->SetTargetPosition(&mouseXY);
+			fleeBehaviour->SetTargetPosition(&mouseXY);
+			ValidateBehaviour(fleeBehaviour, 2);
 		}
 		DrawTarget();
 		break;
+
 	default: break;
 	}
 }
@@ -279,9 +308,34 @@ void DrawTBSlot(int xPos, const char *text) {
 }
 
 void DrawTarget() {
-	DrawLine(mouseXY.x - 5, mouseXY.y, mouseXY.x + 5, mouseXY.y, DARKBLUE);
-	DrawLine(mouseXY.x, mouseXY.y - 5, mouseXY.x, mouseXY.y + 5, DARKBLUE);
+	Color TARGETCOLOR = BLACK;
+	if (behaviourIndex == 1) { TARGETCOLOR = DARKBLUE; }
+	if (behaviourIndex == 2) { TARGETCOLOR = MAROON; }
+
+	DrawLine(mouseXY.x - 5, mouseXY.y, mouseXY.x + 5, mouseXY.y, TARGETCOLOR);
+	DrawLine(mouseXY.x, mouseXY.y - 5, mouseXY.x, mouseXY.y + 5, TARGETCOLOR);
 }
 
 #pragma endregion
 
+void ValidateBehaviour(Behaviour* behaviour, int index) {
+	if (behaviourIndex != index) {
+		RemoveBehaviours();
+		InsertBehaviour(behaviour);
+		behaviourIndex = index;
+	}
+}
+
+void InsertBehaviour(Behaviour* behaviour) {
+	for (auto entity : entities) {
+		Agent* agent = (Agent*)entity; //Cast entity to agent
+		agent->AddBehaviour(behaviour);
+	}
+}
+
+void RemoveBehaviours() {
+	for (auto entity : entities) {
+		Agent* agent = (Agent*)entity; //Cast entity to agent
+		agent->ClearBehaviour();
+	}
+}

@@ -3,6 +3,7 @@
 #include "raymath.h"
 #include "Agent.h"
 
+class Agent;
 class FlockBehaviour {
 private:
 	/* Boid Variables */

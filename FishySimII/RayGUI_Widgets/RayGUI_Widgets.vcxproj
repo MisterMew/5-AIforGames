@@ -174,12 +174,9 @@
     <ClCompile Include="AgentWhale.cpp" />
     <ClCompile Include="BehaviourAvoid.cpp" />
     <ClCompile Include="Behaviour.cpp" />
-    <ClCompile Include="BehaviourEvade.cpp" />
     <ClCompile Include="BehaviourFlee.cpp" />
     <ClCompile Include="BehaviourFlock.cpp" />
-    <ClCompile Include="BehaviourPursue.cpp" />
     <ClCompile Include="BehaviourSeek.cpp" />
-    <ClCompile Include="BehaviourWander.cpp" />
     <ClCompile Include="EntityObject.cpp" />
     <ClCompile Include="EntitySprite.cpp" />
     <ClCompile Include="main.cpp" />
@@ -192,12 +189,9 @@
     <ClInclude Include="AgentWhale.h" />
     <ClInclude Include="BehaviourAvoid.h" />
     <ClInclude Include="Behaviour.h" />
-    <ClInclude Include="BehaviourEvade.h" />
     <ClInclude Include="BehaviourFlee.h" />
     <ClInclude Include="BehaviourFlock.h" />
-    <ClInclude Include="BehaviourPursue.h" />
     <ClInclude Include="BehaviourSeek.h" />
-    <ClInclude Include="BehaviourWander.h" />
     <ClInclude Include="EntityObject.h" />
     <ClInclude Include="EntitySprite.h" />
     <ClInclude Include="Obstacle.h" />
