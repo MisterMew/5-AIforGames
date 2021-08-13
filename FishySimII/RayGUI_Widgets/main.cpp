@@ -7,11 +7,8 @@
 /* What To Do;
 * Seeking, Fleeing, Wander, Flocking, Avoid
 * 
-* Seeking:
-*	Unsure how to manipulate so that the entities will successfully seek
-* 
 * Flocking:
-*	Errors with either Agents, or circular include dependencies (althought that exists within the behaviour files without issue)
+*	Cannot find where/why flocking wont function
 * 
 * Avoid:
 *	Need to attempt avoiding again (entities currently ignore all obstacles)
@@ -47,10 +44,15 @@ using namespace std;
 
 #undef RAYGUI_IMPLEMENTATION
 
-/// VARIABLES
+// / / / / / / / / / / | | | \ \ \ \ \ \ \ \ \ \ \\
+
+#pragma region [ VARIABLES ]
+
+//Main Variables
 const int screenWidth = 1280;
 const int screenHeight = 720;
 float deltaTime = 0;
+Vector2 mouseXY;
 
 //Toolbar:
 int toolbarIndex = 1;
@@ -64,12 +66,14 @@ vector<EntityObject*> entities = {};
 vector<Obstacle*> obstacles;
 vector<Behaviour*> behaviours;
 
+//Behaviours:
 int behaviourIndex; // seek = 1, flee = 2 //
 SeekBehaviour* seekBehaviour;
 FleeBehaviour* fleeBehaviour;
+AvoidBehaviour* avoidBehaviour;
 
-Vector2 mouseXY;
- 
+#pragma endregion
+#pragma region [ Function Declarations ]
 
  /// Function Declarations 
 // Definitions below . . .
@@ -82,6 +86,8 @@ void ValidateBehaviour(Behaviour* behaviour, int index);
 void InsertBehaviour(Behaviour* behaviour);
 void RemoveBehaviours();
 
+#pragma endregion
+#pragma region [ Main Program Functions ]
 
  /// INITIALISATION
 /* Program initialisation */
@@ -95,6 +101,13 @@ void Init() {
  /// START FUNCTION
 /* Function to handle the events before running the program (setup) */
 void Start() {
+	seekBehaviour = new SeekBehaviour();
+	fleeBehaviour = new FleeBehaviour();
+	avoidBehaviour = new AvoidBehaviour();
+	seekBehaviour->SetTargetPosition(&mouseXY);
+	fleeBehaviour->SetTargetPosition(&mouseXY);
+	avoidBehaviour->SetTargetPosition(&mouseXY);
+
 	unsigned int obstacleAmount = rand() % 25;
 	for (unsigned int i = 0; i <= obstacleAmount; i++) {
 		obstacles.push_back(new Obstacle(Vector2{ (float)(rand() % screenWidth), (float)(rand() % screenHeight) }, (float)(rand() % 40)));
@@ -102,12 +115,8 @@ void Start() {
 
 	for (int i = 0; i < 100; i++) { 
 		entities.push_back(new Fish({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) }));
+		InsertBehaviour(avoidBehaviour);
 	}
-
-	seekBehaviour = new SeekBehaviour();
-	fleeBehaviour = new FleeBehaviour();
-	seekBehaviour->SetTargetPosition(&mouseXY);
-	fleeBehaviour->SetTargetPosition(&mouseXY);
 
 	deltaTime = 0;
 }
@@ -176,9 +185,10 @@ void DereferenceObjects() {
 
 	delete seekBehaviour;
 	delete fleeBehaviour;
+	delete avoidBehaviour;
 }
 
- /// Main
+ /// Main ///
 int main() {
 	Init(); //Initialisation
 	Start();
@@ -195,9 +205,9 @@ int main() {
 	CloseWindow();
 }
 
+#pragma endregion
+#pragma region [ PRIVATE FUNCTIONS ]
 
-
-#pragma region [ Private Functions ]
  /// TOOLBAR: Update
 /* Updates the toolbar */
 void ToolbarUpdate() {
@@ -229,11 +239,12 @@ void ToolbarDraw() {
 	}
 
 	///Label the toolbar
-	DrawText("O",   128, 21, 20, GRAY);
-	DrawText("<F>", 166, 21, 20, GRAY);
-	DrawText("<S>", 210, 21, 20, GRAY);
-	DrawText("+S", 438, 21, 20, GRAY);
-	DrawText("+F", 483, 21, 20, GRAY);
+	Color TEXTCOLOR = GRAY;
+	DrawText("O",   128, 21, 20, TEXTCOLOR);
+	DrawText("<F>", 166, 21, 20, TEXTCOLOR);
+	DrawText("<S>", 210, 21, 20, DARKGRAY);
+	DrawText("+S", 438, 21, 20, TEXTCOLOR);
+	DrawText("+F", 483, 21, 20, TEXTCOLOR);
 
 	///For each slot of the toolbar
 	Vector2 mousePos = GetMousePosition(); //Get the mouse coordinates
@@ -304,9 +315,10 @@ void ToolbarDraw() {
 /* This draws a single tool slot */
 void DrawTBSlot(int xPos, const char *text) {
 	DrawRectangleLines(toolSlot.x + xPos, toolSlot.y, slotSize, slotSize, WHITE);
-	DrawText(text, 525, 22, 16, DARKGRAY);
+	DrawText(text, 525, 22, 16, GRAY);
 }
 
+/* Draws the little crosshair target for fleeing/seeking */
 void DrawTarget() {
 	Color TARGETCOLOR = BLACK;
 	if (behaviourIndex == 1) { TARGETCOLOR = DARKBLUE; }
@@ -316,7 +328,7 @@ void DrawTarget() {
 	DrawLine(mouseXY.x, mouseXY.y - 5, mouseXY.x, mouseXY.y + 5, TARGETCOLOR);
 }
 
-#pragma endregion
+#pragma region [ PRIVATE FUNCTIONS: BEHAVIOURS ]
 
 void ValidateBehaviour(Behaviour* behaviour, int index) {
 	if (behaviourIndex != index) {
@@ -339,3 +351,6 @@ void RemoveBehaviours() {
 		agent->ClearBehaviour();
 	}
 }
+
+#pragma endregion
+#pragma endregion [ PRIVATE FUNCTIONS ]

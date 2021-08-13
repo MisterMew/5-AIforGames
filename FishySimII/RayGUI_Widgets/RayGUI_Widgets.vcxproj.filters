@@ -52,11 +52,11 @@
     <ClCompile Include="BehaviourSeek.cpp">
       <Filter>Source Files\Behaviours</Filter>
     </ClCompile>
-    <ClCompile Include="Obstacle.cpp">
-      <Filter>Source Files\Agents</Filter>
-    </ClCompile>
     <ClCompile Include="BehaviourFlock.cpp">
       <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="Obstacle.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -90,11 +90,11 @@
     <ClInclude Include="BehaviourSeek.h">
       <Filter>Header Files\Behaviours</Filter>
     </ClInclude>
-    <ClInclude Include="Obstacle.h">
-      <Filter>Header Files\Behaviours</Filter>
-    </ClInclude>
     <ClInclude Include="BehaviourFlock.h">
       <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="Obstacle.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
