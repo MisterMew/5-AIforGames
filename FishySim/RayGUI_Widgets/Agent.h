@@ -1,13 +1,12 @@
 #pragma once
 #include "EntityObject.h"
-#include "raymath.h"
-#include <vector>
-#include <cmath>
 
 class Agent : public EntityObject {
 	 /// Variables
+	/* Boid Variables */
 	bool mIsPredator;
 
+<<<<<<< HEAD
 	Vector2 mSteeringDirection;
 	float mPerceptionRadius;
 	float mMaxSpeed;
@@ -15,6 +14,8 @@ class Agent : public EntityObject {
 
 
 	/* Boid Variables */
+=======
+>>>>>>> parent of ebb9e7f (fixed~)
 	float mSeperation;
 	float mAlignment;
 	float mCohesion;
@@ -33,6 +34,7 @@ public:
 	void Update() override;
 
 	/* Boid Law Functions */
+<<<<<<< HEAD
 	void Flock(float sepCoef, float aliCoef, float cohCoef);
 	Vector2 Seperate(Agent* agent);
 	Vector2 Align(Agent* agent);
@@ -45,6 +47,11 @@ public:
 	/* Create Entities */
 	void CheckAgentType();
 	void AllocateEntityParams(float maxVel, int maxAcc, float maxSpd, float maxForce, float perception, float sep, float ali, float coh);
+=======
+	void Seperate();
+	void Align();
+	void Cohese();
+>>>>>>> parent of ebb9e7f (fixed~)
 
 	/* Math Assists */
 	float Vector2Magnitude(Vector2 vec);
@@ -53,6 +60,7 @@ public:
 
 
 	 /// Function Definitions
+<<<<<<< HEAD
 	bool IsPredator() { return mIsPredator; }
 
 	Vector2 GetSteerDirection() { return mSteeringDirection; }
@@ -67,14 +75,10 @@ public:
 
 	void AddForce(Vector2 force) { SetVel(Vector2Add(force, GetVel())); }
 
+=======
+>>>>>>> parent of ebb9e7f (fixed~)
 	/* Boid Functions */
-	float GetSeperation() { return mSeperation; }
-	float GetAlignment() { return mAlignment; }
-	float GetCohesion() { return mCohesion; }
-
-	void SetSeperation(float sep) { mSeperation = sep; }
-	void SetAlignment(float ali) { mAlignment = ali; }
-	void SetCohesion(float coh) { mCohesion = coh; }
+	bool IsPredator() { return mIsPredator; }
 
 	Vector2 GetTargetSeek() { return mSeekTarget; }
 	Vector2 GetTargetFlee() { return mFleeTarget; }

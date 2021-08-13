@@ -1,5 +1,6 @@
 #include "Agent.h"
 
+<<<<<<< HEAD
 /// VARIABLES
 extern vector<EntityObject*> entities;
 float MaxRandomVelocity = 0;
@@ -23,6 +24,15 @@ Agent::Agent(Vector2 pos) {
 		(float)(rand() % MaxRandomAcceleration + 1) //Set the acceleration's Y value
 		});
 	
+=======
+Agent::Agent() {}
+
+Agent::Agent(Vector2 pos) {
+	/*EntityObject::SetPos(pos);
+	SetVel({(float)(rand()%5 - 2), (float)(rand()%5 - 2)});
+	SetAcc({2, 2});
+	*/
+>>>>>>> parent of ebb9e7f (fixed~)
 }
 
 Agent::~Agent() {}
@@ -35,6 +45,7 @@ void Agent::Update() {
 
 	Vector2 vel = GetVel();
 	Vector2 pos = GetPos();
+<<<<<<< HEAD
 	Vector2 acc = GetAcc();
 
 	// Change velocity and position based on motion/acceleration
@@ -51,9 +62,24 @@ void Agent::Update() {
 	if (pos.y < 0) { pos.y = (float)GetScreenHeight(); }
 	if (pos.x > (float)GetScreenWidth()) { pos.x = 0; }
 	if (pos.y > (float)GetScreenHeight()) { pos.y = 0; }
+=======
+
+	//Entity Screen Wrap
+	if (pos.x < 0) { pos.x = GetScreenWidth(); }
+	if (pos.y < 0) { pos.y = GetScreenHeight(); }
+	if (pos.x > GetScreenWidth()) { pos.x = 0; }
+	if (pos.y > GetScreenHeight()) { pos.y = 0; }
+>>>>>>> parent of ebb9e7f (fixed~)
 
 	// Position
 	SetPos(pos);
+	Translate({(float)GetRandomValue(5, 0), (float)GetRandomValue(0, 5) });
+
+	vel.x += GetAcc().x;
+	vel.y += GetAcc().y;
+
+	pos.x += GetVel().x;
+	pos.y += GetVel().y;
 }
 
    /// BOID RULES ///
@@ -61,6 +87,7 @@ void Agent::Update() {
 
  /// BOID RULES: Seperation
 /* Simulates the seperation of boid agents */
+<<<<<<< HEAD
 Vector2 Agent::Seperate(Agent* agent) {
 	Vector2 steer = { 0, 0 }; // GetSteerDirection();
 
@@ -93,6 +120,9 @@ Vector2 Agent::Seperate(Agent* agent) {
 
 	return steer;
 }
+=======
+void Agent::Seperate() {}
+>>>>>>> parent of ebb9e7f (fixed~)
 
 /// BOID RULES: Alignment
 /* Simulates the alignment of boid agents */
@@ -176,6 +206,7 @@ Vector2 Agent::Seek(const Vector2& vector) {
 	seek = Vector2Normalize(seek);
 	seek = Vector2Scale(seek, mMaxSpeed);
 
+<<<<<<< HEAD
 	return Vector2Clamp(Vector2Subtract(seek, GetVel()), -mMaxForce, mMaxForce);
 }
 
@@ -235,4 +266,6 @@ Vector2 Agent::Truncate(Vector2 v, float max) {
 	return Vector2Scale(v, i);
 }
 
+=======
+>>>>>>> parent of ebb9e7f (fixed~)
 #pragma endregion

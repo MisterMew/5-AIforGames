@@ -1,4 +1,5 @@
 #include "AgentShark.h"
+<<<<<<< HEAD:FishySim/RayGUI_Widgets/AgentShark.cpp
 
   /// SHARKY CONSTRUCTORS
 #pragma region [ Constructors ]
@@ -28,3 +29,5 @@ void Shark::Update() {
 void Shark::Draw() {
 	mSprite->Draw(); //Sprite draws at MY position, since it is a child and follows me
 }
+=======
+>>>>>>> parent of ebb9e7f (fixed~):FishySim/RayGUI_Widgets/Shark.cpp

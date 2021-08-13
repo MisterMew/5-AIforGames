@@ -1,6 +1,7 @@
 #include "EntitySprite.h"
+#include "raymath.h"
 
-EntitySprite::EntitySprite(SpriteDrawType drawType) : mDrawType(drawType) {}
+EntitySprite::EntitySprite() {}
 EntitySprite::~EntitySprite() {}
 
 void EntitySprite::Start() {}
@@ -8,8 +9,10 @@ void EntitySprite::Update() {}
 
 /* Choose which sprite to render */
 void EntitySprite::Draw() {
-	if (!HasParent()) { return; }
+	Vector2 facing = {GetPosG().m7, GetPosG().m8};
+	facing = Vector2Normalize(facing);
 
+<<<<<<< HEAD
 	switch (mDrawType) {
 	case SpriteDrawType::SprFish:
 		RenderFish();
@@ -102,6 +105,15 @@ Vector2 EntitySprite::GetDrawPoints(float h, float t, float L, float R) {
 	head = {
 		h * cos(angleH) + GetPos().x,
 		h * sin(angleH) + GetPos().y,
+=======
+	float angleH = atan2(( facing.y * GetVel().y), (facing.x * GetVel().x ));
+	float angleL = angleH + 0.3 + PI / 2;
+	float angleR = angleH - 0.3 - PI / 2;
+
+	Vector2 head = {
+		20 * cos(angleH) + GetPos().x,
+		20 * sin(angleH) + GetPos().y,
+>>>>>>> parent of ebb9e7f (fixed~)
 	};
 	tail = {
 		t * -cos(angleH) + GetPos().x,
@@ -116,6 +128,7 @@ Vector2 EntitySprite::GetDrawPoints(float h, float t, float L, float R) {
 		R * sin(angleR) + GetPos().y,
 	};
 
+<<<<<<< HEAD
 #ifndef NDEBUG
 	/// DEBUG MODE
    /* if(BUILD IS DEBUG MODE) */
@@ -176,3 +189,15 @@ float EntitySprite::Vector2Mag(Vector2 vec) {
 }
 
 #pragma endregion
+=======
+	DrawLine(head.x, head.y, head.x + facing.x * 20, head.y + facing.y * 20, MAGENTA);
+	DrawLine(head.x, head.y, head.x + GetVel().x * 20, head.y + GetVel().y * 20, PINK);
+
+	// Draw the fishies
+	DrawTriangle(head, tailR, GetPos(), Color{ 255, 161, 0, 100 });
+	DrawTriangle(head, GetPos(), tailL, Color{ 190, 33, 55, 100 });
+
+	DrawTriangleLines(head, tailR, GetPos(), ORANGE);
+	DrawTriangleLines(head, GetPos(), tailL, MAROON);
+}
+>>>>>>> parent of ebb9e7f (fixed~)

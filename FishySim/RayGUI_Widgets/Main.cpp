@@ -25,11 +25,17 @@
 /// Variables
 const int screenWidth = 1280;  //Set screen width
 const int screenHeight = 720; //Set screen height
+<<<<<<< HEAD
 float deltaTime = 0;
 int spawnIndex = 0;
 
 enum SpawnArray { Empty = 0, SpawnFish, SpawnShark, SpawnWhale };
 vector<EntityObject*> entities = {};
+=======
+
+vector<EntityObject*> mEntity = {};
+
+>>>>>>> parent of ebb9e7f (fixed~)
 
  /// INITIALISATION
 /* Program initialisation */
@@ -50,6 +56,7 @@ void Start() {
  /// UPDATE
 /* Updates program while running */
 void Update() {
+<<<<<<< HEAD
 	int mouseMove = GetMouseWheelMove();
 	if (mouseMove > 0) {
 		spawnIndex--;
@@ -67,6 +74,8 @@ void Update() {
 	if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
 		DrawCircle(GetMouseX(), GetMouseY(), 15, Fade(RAYWHITE, 0.1f));
 	}
+=======
+>>>>>>> parent of ebb9e7f (fixed~)
 }
 
  /// DRAWING
@@ -75,7 +84,11 @@ void Draw() {
 	BeginDrawing();
 	ClearBackground({ 23, 23, 23 });
 	DrawRectangleGradientV(0, 0, GetScreenWidth(), GetScreenHeight(), Fade(DARKBLUE, 0.3f), Fade(BLUE, 0.005f));
+	DrawRectangleGradientV(0, 0, GetScreenWidth(), (GetScreenHeight() / 8), Fade(BLACK, 0.3f), Fade(DARKBLUE, 0.005f));
 
+	Vector2 mousePos = GetMousePosition(); //Get the mouse coordinates
+
+<<<<<<< HEAD
    /// Entity Manager
   /* Update and draw all entities */
 	for (auto entity : entities) {
@@ -129,6 +142,21 @@ void Draw() {
 	}
 #pragma endregion
 
+=======
+	if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
+		DrawCircle(GetMouseX(), GetMouseY(), 15, Fade(RAYWHITE, 0.1f));
+		mEntity.push_back(new Fish({ mousePos.x, mousePos.y }));
+	}
+
+	for (auto fish : mEntity) {
+		fish->Update();
+		fish->Draw();
+	}
+
+	DrawText(TextFormat("X, Y: [ %i, %i ]", (int)mousePos.x, (int)mousePos.y), 10, 28, 12, RAYWHITE); //Draws the mouse coords in the top left corner
+	DrawText(TextFormat("FPS: [ %i ]", (int)GetFPS()), 10, 10, 18, RAYWHITE);						 //Draws the FPS in the top left corner
+
+>>>>>>> parent of ebb9e7f (fixed~)
 	EndDrawing();
 }
 
@@ -144,7 +172,14 @@ void Dereference() {
 /// Main
 int main() {
 	Init(); //Initialisation
+<<<<<<< HEAD
 	Start();
+=======
+
+	for (int i = 0; i < 1; i++) {
+		mEntity.push_back(new Fish({(float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) }));
+	}
+>>>>>>> parent of ebb9e7f (fixed~)
 
 	bool exitWindow = false;
 	while (!exitWindow) {
