@@ -4,8 +4,6 @@
 #include <vector>
 #include <cmath>
 
-
-
 class Agent : public EntityObject {
 	 /// Variables
 	bool mIsPredator;
