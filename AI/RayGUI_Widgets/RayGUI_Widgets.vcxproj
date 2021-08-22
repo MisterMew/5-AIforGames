@@ -168,13 +168,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Dijkstras.cpp" />
+    <ClCompile Include="Agent.cpp" />
+    <ClCompile Include="Behaviour.cpp" />
+    <ClCompile Include="PathFinding.cpp" />
+    <ClCompile Include="Edge.cpp" />
     <ClCompile Include="GridMap.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Node.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Dijkstras.h" />
+    <ClInclude Include="Agent.h" />
+    <ClInclude Include="Behaviour.h" />
+    <ClInclude Include="PathFinding.h" />
+    <ClInclude Include="Edge.h" />
     <ClInclude Include="GridMap.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="ProjectName.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
