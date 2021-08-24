@@ -7,15 +7,15 @@
     <Filter Include="Header Files">
       <UniqueIdentifier>{028c93f9-8540-4beb-aa42-f696fd3dfd9c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\AI Objects">
+      <UniqueIdentifier>{e9cfaa94-6943-4813-90b1-e848275e9ddc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AI Object">
+      <UniqueIdentifier>{6bcd74d4-416c-4269-accd-61643d13cbcd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PathFinding.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GridMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Agent.cpp">
@@ -24,20 +24,20 @@
     <ClCompile Include="Behaviour.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Node.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="PathFinding.cpp">
+      <Filter>Source Files\AI Object</Filter>
     </ClCompile>
     <ClCompile Include="Edge.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\AI Object</Filter>
+    </ClCompile>
+    <ClCompile Include="GridMap.cpp">
+      <Filter>Source Files\AI Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Source Files\AI Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PathFinding.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GridMap.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Agent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -45,11 +45,20 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
-    <ClInclude Include="Edge.h">
+    <ClInclude Include="CustomColours.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="PathFinding.h">
+      <Filter>Header Files\AI Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Edge.h">
+      <Filter>Header Files\AI Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="GridMap.h">
+      <Filter>Header Files\AI Objects</Filter>
+    </ClInclude>
     <ClInclude Include="Node.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\AI Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

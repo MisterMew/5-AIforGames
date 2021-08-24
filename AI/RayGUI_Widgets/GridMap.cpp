@@ -1,5 +1,45 @@
 #include "GridMap.h"
 
+Node* GridMap::map[mapHeight][mapWidth]; //Defines 'map' so it can be initialised
+
+#pragma region [ Graph Functions ]
+
+void GridMap::CreateGridNetwork() {
+	Vector2 pos = { 0, 0 };
+	for (int h = 0; h < (mapHeight); h++) {
+		for (int w = 0; w < (mapWidth); w++) {
+			Node* newNode = new Node(pos, {(float)h, (float)w});		 //Create a new Node
+			newNode->SetPos( Vector2{ pos.x, pos.y } ); //Set its position on the screen
+			map[h][w] = newNode;					   //Set the map element to the node
+
+			tempList.push_back(map[h][w]); /// map is an array of nodes, here trying to push each node into a list... ///
+
+			pos.x += 20;
+		}
+		pos.x = 0;
+		pos.y += 20;
+	}
+}
+
+void GridMap::CreateConnections() { //node is the Node we want to create connections from.
+	for (int h = 0; h <= mapHeight; h++) {
+		for (int w = 0; w <=  mapWidth; w++) {
+
+			Node* newNode = new Node();
+			Vector2 nodeGridPos = newNode->GetGridPos(); //Get nodeA's position in the grid
+
+			if (nodeGridPos.x >= 0 && nodeGridPos.x < mapWidth && nodeGridPos.y >= 0 && nodeGridPos.y < mapHeight ) { //Do a safety check
+				if (h < mapHeight - 1) { newNode->connections.push_back(Edge{ map[h + 1][w], axialDist }); }
+				if (w < mapWidth - 1)  { newNode->connections.push_back(Edge{ map[h][w + 1], axialDist }); }
+				if (h > 0) { newNode->connections.push_back(Edge{ map[h - 1][w], axialDist }); }
+				if (w > 0) { newNode->connections.push_back(Edge{ map[h][w - 1], axialDist }); }
+			}
+		}
+	}
+}
+
+#pragma endregion
+#pragma region [ Draw Functions ]
 
  /// DRAW: Grid Lines
 /* Draws out the lines for the grid */
@@ -17,7 +57,7 @@ void GridMap::DrawGrid(Color COLOR) {
 	}
 }
 
-/// DRAW: Grid Points
+ /// DRAW: Grid Points
 /* Draws out the intersectiong points for the grid */
 void GridMap::DrawIntersects(Color COLOR) {
 	Vector2 nodePos = { 0, 0 };
@@ -33,18 +73,26 @@ void GridMap::DrawIntersects(Color COLOR) {
 	}
 }
 
+ /// DRAW: Nodes
+/* Draw a circle for every node in the map */
 void GridMap::DrawNodes(Color COLOR) {
 	if (map == NULL) { return; }
 	for (int h = 0; h < (mapHeight); h++) {
 		for (int w = 0; w < (mapWidth); w++) {
-			Node* newNode = new Node();
-			DrawCircle(map[h][w]->mPosition.x, map[h][w]->mPosition.y, 2, COLOR);
+			DrawCircle(map[h][w]->GetPos().x, map[h][w]->GetPos().y, 2, COLOR);
 		}
 	}
 }
 
-void GridMap::DrawNode(Node* node, bool selected) {
-	//Draw the inner circle
-	if (selected) { DrawCircle(node->mPosition.x, node->mPosition.y, 3, Color{ 250,3,95,255 }); }
-	else { DrawCircle(node->mPosition.x, node->mPosition.y, 3, Color{ 195,250,3,255 }); }
+ /// DRAW: Path
+/* Draw the AI path */
+void GridMap::DrawPath(Node* startNode, Node* endNode) {
+	for (Edge edge : startNode->connections) {
+		DrawLine(startNode->GetGridPos().x, startNode->GetGridPos().y, edge.GetNeighbour()->GetGridPos().x, edge.GetNeighbour()->GetGridPos().y, ORANGE);
+	}
+
+	DrawCircle(startNode->GetGridPos().x, startNode->GetGridPos().y, 3, PALEGREEN); //Draw the start node
+	DrawCircle(endNode->GetGridPos().x, endNode->GetGridPos().y, 3, PALERED); //Draw the end/target node
 }
+
+#pragma endregion

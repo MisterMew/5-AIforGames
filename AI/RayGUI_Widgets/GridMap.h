@@ -1,24 +1,37 @@
 #pragma once
+
+#include "CustomColours.h"
+#include "PathFinding.h"
+#include "raymath.h"
+#include "Node.h"
+
 #include <iostream>
 #include <vector>
-#include "PathFinding.h"
 
 using std::vector;
 
 class GridMap {
-public: ///Public Variables
+private: /// Private Variables
 	static const int gridSpacing = 20;
+	const int axialDist = 10;
+
+public: /// Public Variables
 
 	static const int mapWidth = 64;
 	static const int mapHeight = 36;
-	Node* map[mapHeight][mapWidth]; //36 rows + 64 collumns
+	static Node* map[mapHeight][mapWidth]; //36 rows + 64 collumns //Static class doesn't initialise
+
+	vector<Node*> tempList;
 
 
 public:
+	void CreateGridNetwork();
+	void CreateConnections();
+
 	void DrawGrid(Color COLOR);
 	void DrawIntersects(Color COLOR);
 
 	void DrawNodes(Color COLOR);
-	void DrawNode(Node* node, bool selected);
+	void DrawPath(Node* startNode, Node* endNode);
 };
 

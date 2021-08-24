@@ -1,17 +1,14 @@
 #include "PathFinding.h"
+GridMap grid;
 
-/* 
-* Add distances between every node
-* Add heuristic (smelly cheese) 
-* P(v) = dist(v) + h(v)
-*  P: priority for priority queue
-*  which is the distance + the heuristic
-*/
-
+ /// Sort Nodes
+/* Sort the gCost of two nodes */
 bool PathFind::NodeSort(Node* i, Node* j) { //Use this function to sort nodes using their gScore value
-	return (i->GetGScore() < j->GetGScore());
+	return (i->GetGCost() < j->GetGCost());
 }
 
+ /// PATH-FINDING
+/* A* pathfinding algorithm (modified from AIE Samples) */
 vector<Node*> PathFind::FindPath(Node* startNode, Node* endNode) {
 	if (startNode == nullptr || endNode == nullptr) { return vector<Node*>(); } //Validate the input
 
@@ -21,9 +18,8 @@ vector<Node*> PathFind::FindPath(Node* startNode, Node* endNode) {
 		return singleNodePath;
 	}
 
-	//Initialize the starting node
-	startNode->SetGScore(0);
-	startNode->previous = nullptr;
+	startNode->SetGCost(0);				//Initialize starting node gCost
+	startNode->previous = nullptr;	   //Initialise starting node, previous node
 
 	vector<Node*> openList;			 //List for nodes open to evaluation
 	vector<Node*> closedList;		//List for nodes already evaluated
@@ -31,95 +27,97 @@ vector<Node*> PathFind::FindPath(Node* startNode, Node* endNode) {
 
 	while (!openList.empty()) {
 		Node* currentNode = openList.front(); //Set the current node to the first node in the openList
-
-		for (int i = 0; i < openList.size(); i++) { //Get the node with the lowest fCost
-			if (openList[i]->GetFScore() < currentNode->GetFScore() || openList[i]->GetFScore() == currentNode->GetFScore() && openList[i]->GetHScore() < currentNode->GetHScore()) {
+		
+		for (unsigned int i = 0; i < openList.size(); i++) { //Get the node with the lowest fCost
+			if (openList[i]->GetFCost() < currentNode->GetFCost() || openList[i]->GetFCost() == currentNode->GetFCost() && openList[i]->GetHCost() < currentNode->GetHCost()) {
 				currentNode = openList[i];
 			}
 		}
-
+		
 		openList.erase(openList.begin());   //Remove currentNode from openList
 		closedList.push_back(currentNode); //Add currentNode to closedList
-
-		if (currentNode == endNode) { break; } //If the destination node was added to the closed list, the shortest path has been found
-
-		for (Edge edge : currentNode->connections) { //For each Edge e in currentNode's connections
-
+		
+		if (currentNode == endNode) {		 //If the currentNode is the end/target node
+			RetracePath(startNode, endNode);//Retrace the found path,
+			break;						   //exit the while loop
+		} 
+		
+		for (Edge connection : currentNode->connections) {																  //For each neighbouring Node in currentNode's connections
+			if (find(closedList.begin(), closedList.end(), connection.GetNeighbour()) == closedList.end()) { continue; } //If the neighbour IS in the CLOSED list, continue;
+		
+			int newCostToNeighbour = currentNode->GetGCost() + GetDistance(currentNode, connection.GetNeighbour());									   //Calculate the cost to reach the neighbouring node
+			if (newCostToNeighbour < connection.GetGCost() || find(openList.begin(), openList.end(), connection.GetNeighbour()) != openList.end()) {  //If the neighbour is NOT in the OPEN list, continue;
+				connection.SetGCost( newCostToNeighbour);
+				connection.SetHCost( GetDistance(connection.GetNeighbour(), endNode));
+				connection.SetParent(currentNode);
+		
+				if (find(openList.begin(), openList.end(), connection.GetNeighbour()) != openList.end()) { //If the neighbour is NOT in the OPEN list, continue;
+					openList.push_back(connection.GetNeighbour());
+				}
+			}
 		}
-
-
-
-
-
-
+		
 
 
 		 
-		std::sort(openList.begin(), openList.end(), &NodeSort); //Sort openList based on gScore using the function created above
-		
-		Node* currentNode = openList.front(); //Set the current node to the first node in the openList
-		openList.erase(openList.begin());    //Remove currentNode from openList
-		closedList.push_back(currentNode);  //Add currentNode to closedList
-		
-		if (currentNode == endNode) { break; }	   //If the destination node was added to the closed list, the shortest path has been found
-		for (Edge e : currentNode->connections) { //For each Edge e in currentNode's connections
-			if (std::find(closedList.begin(), closedList.end(), e.target) != closedList.end()) {
-				continue; //If the target node is in the closedList, ignore it
-			}
-			
-			if (std::find(openList.begin(), openList.end(), e.target) == openList.end()) { //If the target node is not in the openList, update it
-				
-				e.target->SetGScore( currentNode->GetGScore() + e.cost ); //Calculate the target node's G Score
-				e.target->previous = currentNode;				//Set the target node's previous to currentNode
-				
-				auto insertionPos = openList.end(); //Find the earliest point we should insert the node to the list to keep it sorted
-				for (auto i = openList.begin(); i != openList.end(); i++) {
-					if (e.target->GetGScore() < (*i)->GetGScore()) {
-						insertionPos = i;
-						break;
-					}
-				}
-				openList.insert(insertionPos, e.target); //Insert the node at the appropriate position
-			}
-			
-			else { //Otherwise the target node IS in the open list
-				if (currentNode->GetGScore() + e.cost < e.target->GetGScore()) { //Compare the new G Score to the old one before updating
-					e.target->SetGScore( currentNode->GetGScore() + e.cost );  //Calculate the target node's G Score
-					e.target->previous = currentNode;				 //Set the target node's previous to currentNode
-				}
-			}
-		}
+		//std::sort(openList.begin(), openList.end(), NodeSort); //Sort openList based on gScore using the function created above
+		//
+		//Node* currentNode = openList.front(); //Set the current node to the first node in the openList
+		//openList.erase(openList.begin());    //Remove currentNode from openList
+		//closedList.push_back(currentNode);  //Add currentNode to closedList
+		//
+		//if (currentNode == endNode) { break; }	   //If the destination node was added to the closed list, the shortest path has been found
+		//for (Edge e : currentNode->connections) { //For each Edge e in currentNode's connections
+		//	if (std::find(closedList.begin(), closedList.end(), e.GetTarget()) != closedList.end()) {
+		//		continue; //If the target node is in the closedList, ignore it
+		//	}
+		//	
+		//	int newCost; ///
+		//	if (std::find(openList.begin(), openList.end(), e.GetTarget()) == openList.end()) { //If the target node is not in the openList, update it
+		//		
+		//		e.GetTarget()->SetGCost( currentNode->GetGCost() + e.GetGCost() ); //Calculate the target node's G Score
+		//		e.GetTarget()->previous = currentNode;				//Set the target node's previous to currentNode
+		//		
+		//		auto insertionPos = openList.end(); //Find the earliest point we should insert the node to the list to keep it sorted
+		//		for (auto i = openList.begin(); i != openList.end(); i++) {
+		//			if (e.GetTarget()->GetGCost() < (*i)->GetGCost()) {
+		//				insertionPos = i;
+		//				break;
+		//			}
+		//		}
+		//		openList.insert(insertionPos, e.GetTarget()); //Insert the node at the appropriate position
+		//	}
+		//	
+		//	else { //Otherwise the target node IS in the open list
+		//		if (currentNode->GetGCost() + e.GetGCost() < e.GetTarget()->GetGCost()) { //Compare the new G Score to the old one before updating
+		//			e.GetTarget()->SetGCost( currentNode->GetGCost() + e.GetGCost());   //Calculate the target node's G Score
+		//			e.GetTarget()->previous = currentNode;						   //Set the target node's previous to currentNode
+		//		}
+		//	}
+		//}
 	}
-	//Create path in reverse from endNode to startNode
+}
+
+ /// Get Distance
+/* Get the distance between two nodes */
+int PathFind::GetDistance(Node* nodeA, Node* nodeB) {
+	int distX = (int)abs( nodeA->GetGridPos().x - nodeB->GetGridPos().x);
+	int distY = (int)abs( nodeA->GetGridPos().y - nodeB->GetGridPos().y);
+
+	if (distX > distY) { return (diagonalDist * distY) + axialDist*(distX - distY); }
+	return (diagonalDist * distX) + axialDist * (distY - distX);
+}
+
+ /// Retrace Path
+/* Retrace the found path from end to beggining */
+void PathFind::RetracePath(Node* startNode, Node* endNode) {
 	vector<Node*> path;
 	Node* currentNode = endNode;
 
-	while (currentNode != nullptr) {
+	while (currentNode != startNode) {
 		path.insert(path.begin(), currentNode); //Add the current node to the beginning of the path
 		currentNode = currentNode->previous;   //Go to the previous node
 	}
-	return path;
-}
 
-
-
-
-void PathFind::DrawGraph(Node* node, std::vector<Node*>* drawnList) {
-	DrawNode(node);
-	drawnList->push_back(node);
-
-	//For each Edge in this node's connections
-	for (Edge e : node->connections) {
-		DrawLine(node->mPosition.x, node->mPosition.y, e.target->mPosition.x, e.target->mPosition.y, WHITE); //Draw the Edge
-		//Draw the cost
-		Vector2 costPos = { (node->mPosition.x + e.target->mPosition.x) / 2, (node->mPosition.y + e.target->mPosition.y) / 2 };
-		static char buffer[10];
-		sprintf_s(buffer, "%.0f", e.cost);
-		DrawText(buffer, costPos.x, costPos.y, 15, WHITE);
-		//Draw the target node
-		if (std::find(drawnList->begin(), drawnList->end(), e.target) == drawnList->end())
-		{
-			DrawGraph(e.target, drawnList);
-		}
-	}
+	grid.DrawPath(startNode, endNode);
 }
