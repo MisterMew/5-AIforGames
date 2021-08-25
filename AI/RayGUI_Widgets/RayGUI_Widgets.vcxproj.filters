@@ -13,15 +13,21 @@
     <Filter Include="Source Files\AI Object">
       <UniqueIdentifier>{6bcd74d4-416c-4269-accd-61643d13cbcd}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Agents">
+      <UniqueIdentifier>{671094f8-aadd-4485-89e6-67f3e5081609}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Agents">
+      <UniqueIdentifier>{7715ae0c-1b24-47df-bac7-104b30723155}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Behaviours">
+      <UniqueIdentifier>{ec893a05-7617-4be5-a9c6-c5af106e38a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Behaviours">
+      <UniqueIdentifier>{a10541a2-0c89-4b99-9b60-686ac9da3a8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Agent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Behaviour.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PathFinding.cpp">
@@ -36,14 +42,35 @@
     <ClCompile Include="Node.cpp">
       <Filter>Source Files\AI Object</Filter>
     </ClCompile>
+    <ClCompile Include="Agent.cpp">
+      <Filter>Source Files\Agents</Filter>
+    </ClCompile>
+    <ClCompile Include="AgentPrey.cpp">
+      <Filter>Source Files\Agents</Filter>
+    </ClCompile>
+    <ClCompile Include="AgentPredator.cpp">
+      <Filter>Source Files\Agents</Filter>
+    </ClCompile>
+    <ClCompile Include="Behaviour.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviourFlee.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviourSeek.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="BehaviourWander.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="EntitySprite.cpp">
+      <Filter>Source Files\Agents</Filter>
+    </ClCompile>
+    <ClCompile Include="EntityObject.cpp">
+      <Filter>Source Files\Agents</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Agent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Behaviour.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="CustomColours.h">
       <Filter>Header Files</Filter>
@@ -59,6 +86,33 @@
     </ClInclude>
     <ClInclude Include="Node.h">
       <Filter>Header Files\AI Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Agent.h">
+      <Filter>Header Files\Agents</Filter>
+    </ClInclude>
+    <ClInclude Include="AgentPredator.h">
+      <Filter>Header Files\Agents</Filter>
+    </ClInclude>
+    <ClInclude Include="AgentPrey.h">
+      <Filter>Header Files\Agents</Filter>
+    </ClInclude>
+    <ClInclude Include="Behaviour.h">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourWander.h">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourSeek.h">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="BehaviourFlee.h">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityObject.h">
+      <Filter>Header Files\Agents</Filter>
+    </ClInclude>
+    <ClInclude Include="EntitySprite.h">
+      <Filter>Header Files\Agents</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

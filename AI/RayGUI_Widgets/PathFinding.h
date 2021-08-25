@@ -27,6 +27,5 @@ public:  /// Public Functions ///
 	vector<Node*> FindPath(Node* startNode, Node* endNode);
 	vector<Node*> RetracePath(Node* startNode, Node* endNode);
 
-	//float ManhattanHeuristic(Node* start, Node* end) { return abs(cell->x - end->x) + abs(end->y - end->y); }
 	int GetDistance(Node* nodeA, Node* nodeB);
 };

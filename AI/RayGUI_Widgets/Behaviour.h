@@ -3,10 +3,10 @@
 
 class Agent;
 class Behaviour {
-public: /// Public Functions ///
+public:
 	Behaviour() {}
-	~Behaviour() {}
+	virtual ~Behaviour() = 0 {};
 
-	virtual bool Update(Agent& agent, float deltaTime) = 0; // pure virtual function for executing the behaviour
+	virtual void Update(Agent& agent, float deltaTime) = 0;
 	virtual const char* GetBehaviorName() = 0;
 };

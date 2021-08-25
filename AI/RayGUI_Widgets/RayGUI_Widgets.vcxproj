@@ -174,20 +174,34 @@
   <ItemGroup>
     <ClCompile Include="Agent.cpp" />
     <ClCompile Include="Behaviour.cpp" />
+    <ClCompile Include="BehaviourFlee.cpp" />
+    <ClCompile Include="BehaviourSeek.cpp" />
+    <ClCompile Include="BehaviourWander.cpp" />
+    <ClCompile Include="EntityObject.cpp" />
+    <ClCompile Include="EntitySprite.cpp" />
     <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="Edge.cpp" />
     <ClCompile Include="GridMap.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="AgentPredator.cpp" />
+    <ClCompile Include="AgentPrey.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agent.h" />
     <ClInclude Include="Behaviour.h" />
+    <ClInclude Include="BehaviourFlee.h" />
+    <ClInclude Include="BehaviourSeek.h" />
+    <ClInclude Include="BehaviourWander.h" />
     <ClInclude Include="CustomColours.h" />
+    <ClInclude Include="EntityObject.h" />
+    <ClInclude Include="EntitySprite.h" />
     <ClInclude Include="PathFinding.h" />
     <ClInclude Include="Edge.h" />
     <ClInclude Include="GridMap.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="AgentPredator.h" />
+    <ClInclude Include="AgentPrey.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

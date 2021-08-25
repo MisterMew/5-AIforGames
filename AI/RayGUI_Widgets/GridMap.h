@@ -30,7 +30,6 @@ public:
 	void DrawIntersects(Color COLOR);
 
 	void DrawNodes(Color COLOR);
-	void DrawPath(Node* startNode, Node* endNode);
 	void DrawPath(vector<Node*>& path);
 
 	Vector2 MouseToGrid(Vector2 mousePos);

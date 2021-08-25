@@ -85,14 +85,6 @@ void GridMap::DrawNodes(Color COLOR) {
 
  /// DRAW: Path
 /* Draw the AI path */
-void GridMap::DrawPath(Node* startNode, Node* endNode) {
-	for (Edge edge : startNode->connections) {
-		DrawLine(startNode->GetGridPos().x, startNode->GetGridPos().y, edge.GetNeighbour()->GetGridPos().x, edge.GetNeighbour()->GetGridPos().y, ORANGE);
-	}
-	DrawCircle(startNode->GetGridPos().x, startNode->GetGridPos().y, 3, PALEGREEN); //Draw the start node
-	DrawCircle(endNode->GetGridPos().x, endNode->GetGridPos().y, 3, PALERED); //Draw the end/target node
-}
-
 void GridMap::DrawPath(vector<Node*>& path) {
 	for (unsigned int i = 0; i < path.size(); i++) {
 		Vector2 pos = path[i]->GetPos();

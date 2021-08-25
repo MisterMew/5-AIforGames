@@ -1,29 +1,41 @@
 #pragma once
 
-#define RAYGUI_IMPLEMENTATION
-#define RAYGUI_SUPPORT_ICONS
-#define RAYGUI_STATIC
+/* TO DO:
+* Create objects
+* Create State Machine
+*/
 
 #include <iostream>
 #include <string>
 #include <vector>
 #include <ctime>
 
+using namespace std;
+
+#define RAYGUI_IMPLEMENTATION
+#define RAYGUI_SUPPORT_ICONS
+#define RAYGUI_STATIC
+
 #include "raylib.h"
 #include "raygui.h"
 #include "raymath.h"
+
+#include "EntityObject.h"
+#include "Agent.h"
+#include "AgentPrey.h"
+#include "AgentPredator.h"
+
+#include "BehaviourSeek.h"
+#include "BehaviourFlee.h"
 
 #include "CustomColours.h"
 #include "PathFinding.h"
 #include "GridMap.h"
 
-using namespace std;
-using std::vector;
+#undef RAYGUI_IMPLEMENTATION
 
 GridMap gridMap;
 PathFind pathFind;
-
-#undef RAYGUI_IMPLEMENTATION
 
 // / / / / / / / / / / | | | \ \ \ \ \ \ \ \ \ \ \\
 
@@ -36,7 +48,24 @@ float deltaTime = 0;
 Vector2 mousePos;
 
 Camera2D camera;
+
+//Vector Lists:
+vector<EntityObject*> entities = {};
+vector<Behaviour*> behaviours;
 vector<Node*> foundPath;
+
+//Behaviours:
+SeekBehaviour* seekBehaviour;
+FleeBehaviour* fleeBehaviour;
+
+#pragma endregion
+#pragma region [ Function Declarations ]
+
+ /// Function Declarations 
+// Definitions below . . .
+void SetupCamera();
+void SpawnEntitiesPrey(unsigned int amount);
+void SpawnEntitiesPred(unsigned int amount);
 
 #pragma endregion
 #pragma region [ Main Program Functions ]
@@ -53,18 +82,21 @@ void Init() {
  /// START FUNCTION
 /* Function to handle the events before running the program (setup) */
 void Start() {
-	deltaTime = 0;
+	SetupCamera();
 
-	camera = Camera2D();
-	camera.zoom = 1.0f;			  // Multiplier
-	camera.target = { 0, 0 };	 //
-	camera.offset = { 10, 10 }; // Offset from target, shifts entire view
-	camera.rotation = 0.0f;    // Nauseating beyblade effect xD 
+	// Create Behaviours //
+	seekBehaviour = new SeekBehaviour();
+	fleeBehaviour = new FleeBehaviour();
+
+	// Spawn Entities //
+	SpawnEntitiesPrey(10);
+	SpawnEntitiesPred(1);
 
 	// Create Nodes //
 	gridMap.CreateGridNetwork();
 	gridMap.CreateConnections();
 
+	deltaTime = 0;
 }
 
  /// UPDATE FUNCTION
@@ -72,6 +104,11 @@ void Start() {
 void Update() {
 	deltaTime = GetFrameTime();		//Get the frame rate
 	mousePos = GetMousePosition(); //Get the mouse coordinates
+
+	// Update Entities //
+	for (auto entity : entities) {
+		entity->Update(deltaTime);
+	}
 
 	// Temp Code //
 	   Vector2 temp = gridMap.MouseToGrid(mousePos);
@@ -94,6 +131,9 @@ void Draw() {
 	gridMap.DrawNodes(ORANGEa);
 	gridMap.DrawPath(foundPath);
 
+	for (auto entity : entities) {
+		entity->Draw();
+	}
 
 	// UI Details //
 	DrawRectangleGradientV(0, 0, screenWidth, screenHeight, Fade(BLACK, 0.3f), Fade(DIRTYGREY, 0.005f)); //Vignette
@@ -106,7 +146,22 @@ void Draw() {
 
  /// DEREFERENCING FUNCTION
 /* Function to deference objects after use */
-void DereferenceObjects() {}
+void DereferenceObjects() {
+	/* Delete Entities */
+	for (unsigned int i = 0; i < entities.size(); i++) {
+		delete entities[i];
+	}
+	entities.clear();
+
+	/* Delete Behaviours */
+	for (unsigned int i = 0; i < behaviours.size(); i++) {
+		delete behaviours[i];
+	}
+	delete seekBehaviour;
+	delete fleeBehaviour;
+
+	behaviours.clear();
+}
 
 /// Main ///
 int main() {
@@ -128,3 +183,29 @@ int main() {
 #pragma endregion
 
 // / / / / / / / / / / | | | \ \ \ \ \ \ \ \ \ \ \\
+
+ /// CAMERA REPOSITION
+/* Reposition the raylib camera to center the graph */
+void SetupCamera() {
+	camera = Camera2D();
+	camera.zoom = 1.0f;			  // Multiplier
+	camera.target = { 0, 0 };	 //
+	camera.offset = { 10, 10 }; // Offset from target, shifts entire view
+	camera.rotation = 0.0f;    // Nauseating beyblade effect xD 
+}
+
+ /// SPAWN: Prey
+/* Spawn the prey entities */
+void SpawnEntitiesPrey(unsigned int amount) {
+	for (int i = 0; i < amount; i++) {
+		entities.push_back(new Prey({ (float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) }));
+	}
+}
+
+ /// SPAWN: Predator
+/* Spawn the predator entities */
+void SpawnEntitiesPred(unsigned int amount) {
+	for (int i = 0; i < amount; i++) {
+		entities.push_back(new Predator({ (float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) }));
+	}
+}
