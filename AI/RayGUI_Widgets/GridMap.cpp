@@ -6,33 +6,32 @@ Node* GridMap::map[mapHeight][mapWidth]; //Defines 'map' so it can be initialise
 
 void GridMap::CreateGridNetwork() {
 	Vector2 pos = { 0, 0 };
-	for (int h = 0; h < (mapHeight); h++) {
-		for (int w = 0; w < (mapWidth); w++) {
-			Node* newNode = new Node(pos, {(float)h, (float)w});		 //Create a new Node
-			newNode->SetPos( Vector2{ pos.x, pos.y } ); //Set its position on the screen
-			map[h][w] = newNode;					   //Set the map element to the node
+	for (int h = 0; h < mapHeight; h++) {
+		for (int w = 0; w < mapWidth; w++) {
+			Node* newNode = new Node(pos, {(float)w, (float)h}); //Create a new Node (h,w swapped, constructor uses a vector2)
+			newNode->SetPos( Vector2{ pos.x, pos.y } );		    //Set its position on the screen
+			map[h][w] = newNode;							   //Set the map element to the node
 
-			tempList.push_back(map[h][w]); /// map is an array of nodes, here trying to push each node into a list... ///
+			tempList.push_back(map[h][w]);
 
-			pos.x += 20;
+			pos.x += gridSpacing;
 		}
 		pos.x = 0;
-		pos.y += 20;
+		pos.y += gridSpacing;
 	}
 }
 
 void GridMap::CreateConnections() { //node is the Node we want to create connections from.
-	for (int h = 0; h <= mapHeight; h++) {
-		for (int w = 0; w <=  mapWidth; w++) {
+	for (int h = 0; h < mapHeight; h++) {
+		for (int w = 0; w <  mapWidth; w++) {
 
-			Node* newNode = new Node();
-			Vector2 nodeGridPos = newNode->GetGridPos(); //Get nodeA's position in the grid
-
+			Node* getNode = map[h][w];					  //Get the node at the h,w position
+			Vector2 nodeGridPos = getNode->GetGridPos(); //Get nodeA's position in the grid
 			if (nodeGridPos.x >= 0 && nodeGridPos.x < mapWidth && nodeGridPos.y >= 0 && nodeGridPos.y < mapHeight ) { //Do a safety check
-				if (h < mapHeight - 1) { newNode->connections.push_back(Edge{ map[h + 1][w], axialDist }); }
-				if (w < mapWidth - 1)  { newNode->connections.push_back(Edge{ map[h][w + 1], axialDist }); }
-				if (h > 0) { newNode->connections.push_back(Edge{ map[h - 1][w], axialDist }); }
-				if (w > 0) { newNode->connections.push_back(Edge{ map[h][w - 1], axialDist }); }
+				if (h < mapHeight - 1) { getNode->connections.push_back(Edge{ map[h + 1][w], axialDist }); }
+				if (w < mapWidth - 1)  { getNode->connections.push_back(Edge{ map[h][w + 1], axialDist }); }
+				if (h > 0) { getNode->connections.push_back(Edge{ map[h - 1][w], axialDist }); }
+				if (w > 0) { getNode->connections.push_back(Edge{ map[h][w - 1], axialDist }); }
 			}
 		}
 	}
@@ -90,9 +89,32 @@ void GridMap::DrawPath(Node* startNode, Node* endNode) {
 	for (Edge edge : startNode->connections) {
 		DrawLine(startNode->GetGridPos().x, startNode->GetGridPos().y, edge.GetNeighbour()->GetGridPos().x, edge.GetNeighbour()->GetGridPos().y, ORANGE);
 	}
-
 	DrawCircle(startNode->GetGridPos().x, startNode->GetGridPos().y, 3, PALEGREEN); //Draw the start node
 	DrawCircle(endNode->GetGridPos().x, endNode->GetGridPos().y, 3, PALERED); //Draw the end/target node
+}
+
+void GridMap::DrawPath(vector<Node*>& path) {
+	for (unsigned int i = 0; i < path.size(); i++) {
+		Vector2 pos = path[i]->GetPos();
+		Color color = ORANGE;
+
+		if (i == path.size() - 1) { color = PALEGREEN; } // Start node
+		else if (i == 0) { color = PALERED; } // End node (reverse order)
+
+		DrawCircle(pos.x, pos.y, 3, color);
+
+		//for (Edge edge : path[i]->connections) {
+		//	DrawLine(pos.x, pos.y, edge.GetNeighbour()->GetPos().x, edge.GetNeighbour()->GetPos().y, ORANGE);
+		//}
+	}
+}
+
+Vector2 GridMap::MouseToGrid(Vector2 mouse) {
+	Vector2 target;
+	target.x = floor( mouse.x / gridSpacing);
+	target.y = floor( mouse.y / gridSpacing);
+
+	return target;
 }
 
 #pragma endregion

@@ -16,13 +16,11 @@ private: /// Private Variables
 	const int axialDist = 10;
 
 public: /// Public Variables
-
 	static const int mapWidth = 64;
 	static const int mapHeight = 36;
 	static Node* map[mapHeight][mapWidth]; //36 rows + 64 collumns //Static class doesn't initialise
 
 	vector<Node*> tempList;
-
 
 public:
 	void CreateGridNetwork();
@@ -33,5 +31,7 @@ public:
 
 	void DrawNodes(Color COLOR);
 	void DrawPath(Node* startNode, Node* endNode);
-};
+	void DrawPath(vector<Node*>& path);
 
+	Vector2 MouseToGrid(Vector2 mousePos);
+};

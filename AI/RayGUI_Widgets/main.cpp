@@ -35,6 +35,9 @@ const int screenHeight = 720;
 float deltaTime = 0;
 Vector2 mousePos;
 
+Camera2D camera;
+vector<Node*> foundPath;
+
 #pragma endregion
 #pragma region [ Main Program Functions ]
 
@@ -52,16 +55,16 @@ void Init() {
 void Start() {
 	deltaTime = 0;
 
+	camera = Camera2D();
+	camera.zoom = 1.0f;			  // Multiplier
+	camera.target = { 0, 0 };	 //
+	camera.offset = { 10, 10 }; // Offset from target, shifts entire view
+	camera.rotation = 0.0f;    // Nauseating beyblade effect xD 
+
 	// Create Nodes //
 	gridMap.CreateGridNetwork();
 	gridMap.CreateConnections();
 
-	Node* startNode = gridMap.map[0][0];
-	Node* endNode = gridMap.map[20][20];
-
-	/// Replacing shortestPath with gridMap.tempList returns a read access violation ///
-	vector<Node*> shortestPath = pathFind.FindPath(startNode, endNode); 
-	cout << shortestPath.size() << endl;
 }
 
  /// UPDATE FUNCTION
@@ -70,13 +73,18 @@ void Update() {
 	deltaTime = GetFrameTime();		//Get the frame rate
 	mousePos = GetMousePosition(); //Get the mouse coordinates
 
+	// Temp Code //
+	   Vector2 temp = gridMap.MouseToGrid(mousePos);
+	   Node* startNode = gridMap.map[0][0];
+	   foundPath = pathFind.FindPath(startNode, gridMap.map[(int)temp.y][(int)temp.x]);
+	// ==== ==== //
 }
 
  /// DRAW FUNCTION
 /* Function to manage drawing to the window while running */
 void Draw() {
 	BeginDrawing();
-
+	BeginMode2D(camera);
 	ClearBackground(DIRTYGREY);
 
 	// Map Drawing //
@@ -84,6 +92,7 @@ void Draw() {
 	gridMap.DrawIntersects(LIGHTGREY);
 
 	gridMap.DrawNodes(ORANGEa);
+	gridMap.DrawPath(foundPath);
 
 
 	// UI Details //
@@ -91,6 +100,7 @@ void Draw() {
 	DrawText(TextFormat("X, Y: [ %i, %i ]", (int)mousePos.x, (int)mousePos.y), 10, 28, 12, RAYWHITE);   //Draws the mouse coords in the top left corner
 	DrawText(TextFormat("FPS: [ %i ]", (int)GetFPS()), 10, 10, 18, RAYWHITE);						   //Draws the FPS in the top left corner
 
+	EndMode2D();
 	EndDrawing();
 }
 
