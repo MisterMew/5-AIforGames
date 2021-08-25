@@ -6,7 +6,7 @@
 
 using namespace std;
 
-enum class EntityType { objPrey, objPredator };
+enum class EntityType { objPrey, objPredator, objObstacle };
 class EntityObject {
 private:
 	EntityObject* mParent = nullptr;

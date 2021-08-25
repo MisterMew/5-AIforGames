@@ -101,12 +101,31 @@ void GridMap::DrawPath(vector<Node*>& path) {
 	}
 }
 
-Vector2 GridMap::MouseToGrid(Vector2 mouse) {
-	Vector2 target;
-	target.x = floor( mouse.x / gridSpacing);
-	target.y = floor( mouse.y / gridSpacing);
+Node* GridMap::AlignVectorToGrid(Vector2 worldPos) {
+	Vector2 newPosition;							   //Create a new vector
+	newPosition.x = floor(worldPos.x / gridSpacing);  //Convert X to grid axis W
+	newPosition.y = floor(worldPos.y / gridSpacing); //Convert Y to grid axis H
 
-	return target;
+	Node* node = map[(int)newPosition.y][(int)newPosition.x]; //Set the node to the grid position
+	return node;
+}
+
+Node* GridMap::AlignMouseClickToGrid(Vector2* mousePos) {
+	Vector2* newPosition = mousePos;						  //Create a new vector
+	newPosition->x = floor((int)mousePos->x / gridSpacing);  //Convert X to grid axis W
+	newPosition->y = floor((int)mousePos->y / gridSpacing); //Convert Y to grid axis H
+
+	Node* node = map[(int)newPosition->y][(int)newPosition->x]; //Set the node to the grid position
+	return node;
+}
+
+Vector2 GridMap::AlignPositionToGrid(Vector2 worldPos) {
+	Vector2 newPosition;							   //Create a new vector
+	newPosition.x = floor(worldPos.x / gridSpacing);  //Convert X to grid axis W
+	newPosition.y = floor(worldPos.y / gridSpacing); //Convert Y to grid axis H
+
+	Node* node = map[(int)newPosition.y][(int)newPosition.x]; //Set the node to the grid position
+	return node->GetPos();
 }
 
 #pragma endregion

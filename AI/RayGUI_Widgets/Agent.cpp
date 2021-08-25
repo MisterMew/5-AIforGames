@@ -14,25 +14,20 @@ void Agent::Update(float deltaTime) {
 
 	SetForce({0, 0});
 
-	/* UPDATE all behaviours */
-	for (auto behaviour : mBehaviours) {
-		behaviour->Update(*this, deltaTime);
-	}
-
 	// If (velocity + steering) equals zero, then there is no movement
 	SetVel( Vector2Truncate((Vector2Add(vel, Vector2Scale(GetForce(), deltaTime))), GetMaxSpeed()) );
 	SetPos( (Vector2Add(pos, Vector2Scale(vel, deltaTime))) );
 
 	SetVel( Vector2Scale(vel, GetFriction()) );
 
-	WrapScreenBounds(&pos); // Changed this to reference 'pos', so that it modifies the value
+	WrapScreenBounds(&pos);
 	SetPos(pos);
 }
 
 #pragma endregion
 #pragma region [ Vector2 Math Operations ]
 
-/// VECTOR2: TRUNCATE
+ /// VECTOR2: TRUNCATE
 /* Truncates the given vector */
 Vector2 Agent::Vector2Truncate(Vector2 vec, float max) {
 	float i = max / Vector2Length(vec);
@@ -40,7 +35,7 @@ Vector2 Agent::Vector2Truncate(Vector2 vec, float max) {
 	return Vector2Scale(vec, i);
 }
 
-/// VECTOR2: Clamp
+ /// VECTOR2: Clamp
 /* Clamp the given vector to be within a set range */
 Vector2 Agent::Vector2Clamp(Vector2 vec, float min, float max) {
 	if (vec.x < min) { vec.x = min; }
@@ -51,7 +46,7 @@ Vector2 Agent::Vector2Clamp(Vector2 vec, float min, float max) {
 	return vec;
 }
 
-/// VECTOR2: Magnitude
+ /// VECTOR2: Magnitude
 /* Return the magnitude of the given vector */
 float Agent::Vector2Magnitude(Vector2 vec) {
 	return sqrt((vec.x * vec.x) + (vec.y * vec.y));
@@ -60,7 +55,7 @@ float Agent::Vector2Magnitude(Vector2 vec) {
 #pragma endregion
 #pragma region [ Private Functions ]
 
-/// INITIALISE CONSTRUCTOR
+ /// INITIALISE CONSTRUCTOR
 /* Called by the constructor to Initialise variables */
 void Agent::Init(Vector2 pos) {
 	EntityObject::SetPos(pos);
@@ -72,7 +67,7 @@ void Agent::Init(Vector2 pos) {
 	SetMaxForce(0.5f);
 }
 
-/// SCREEN WRAP
+ /// SCREEN WRAP
 /* Allows agents to wrap around the screen */
 void Agent::WrapScreenBounds(Vector2* pos) {
 	if (pos->x < 0) { pos->x = (float)GetScreenWidth(); }

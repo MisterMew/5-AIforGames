@@ -1,7 +1,7 @@
 #pragma once
 #include "EntityObject.h"
-#include "CustomColours.h"
 
+#include "CustomColours.h"
 #include "raymath.h"
 #include "raylib.h"
 
@@ -24,5 +24,6 @@ public: /// Public Functions
 
 	void RenderPrey();
 	void RenderPredator();
+	void RenderObstacle();
 };
 

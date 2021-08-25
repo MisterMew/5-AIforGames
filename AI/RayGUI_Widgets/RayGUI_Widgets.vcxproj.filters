@@ -25,6 +25,12 @@
     <Filter Include="Source Files\Behaviours">
       <UniqueIdentifier>{a10541a2-0c89-4b99-9b60-686ac9da3a8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Entities">
+      <UniqueIdentifier>{ff50b1ee-5eff-4a14-841c-99852a1b6a89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entities">
+      <UniqueIdentifier>{c73ace32-538e-4c2e-9e70-4375238fe872}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -51,23 +57,14 @@
     <ClCompile Include="AgentPredator.cpp">
       <Filter>Source Files\Agents</Filter>
     </ClCompile>
-    <ClCompile Include="Behaviour.cpp">
-      <Filter>Source Files\Behaviours</Filter>
-    </ClCompile>
-    <ClCompile Include="BehaviourFlee.cpp">
-      <Filter>Source Files\Behaviours</Filter>
-    </ClCompile>
-    <ClCompile Include="BehaviourSeek.cpp">
-      <Filter>Source Files\Behaviours</Filter>
-    </ClCompile>
-    <ClCompile Include="BehaviourWander.cpp">
-      <Filter>Source Files\Behaviours</Filter>
+    <ClCompile Include="EntityObstacle.cpp">
+      <Filter>Source Files\Entities</Filter>
     </ClCompile>
     <ClCompile Include="EntitySprite.cpp">
-      <Filter>Source Files\Agents</Filter>
+      <Filter>Source Files\Entities</Filter>
     </ClCompile>
     <ClCompile Include="EntityObject.cpp">
-      <Filter>Source Files\Agents</Filter>
+      <Filter>Source Files\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -96,23 +93,14 @@
     <ClInclude Include="AgentPrey.h">
       <Filter>Header Files\Agents</Filter>
     </ClInclude>
-    <ClInclude Include="Behaviour.h">
-      <Filter>Header Files\Behaviours</Filter>
-    </ClInclude>
-    <ClInclude Include="BehaviourWander.h">
-      <Filter>Header Files\Behaviours</Filter>
-    </ClInclude>
-    <ClInclude Include="BehaviourSeek.h">
-      <Filter>Header Files\Behaviours</Filter>
-    </ClInclude>
-    <ClInclude Include="BehaviourFlee.h">
-      <Filter>Header Files\Behaviours</Filter>
-    </ClInclude>
     <ClInclude Include="EntityObject.h">
-      <Filter>Header Files\Agents</Filter>
+      <Filter>Header Files\Entities</Filter>
     </ClInclude>
     <ClInclude Include="EntitySprite.h">
-      <Filter>Header Files\Agents</Filter>
+      <Filter>Header Files\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="EntityObstacle.h">
+      <Filter>Header Files\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

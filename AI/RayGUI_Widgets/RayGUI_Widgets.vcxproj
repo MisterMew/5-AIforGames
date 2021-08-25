@@ -173,11 +173,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Agent.cpp" />
-    <ClCompile Include="Behaviour.cpp" />
-    <ClCompile Include="BehaviourFlee.cpp" />
-    <ClCompile Include="BehaviourSeek.cpp" />
-    <ClCompile Include="BehaviourWander.cpp" />
     <ClCompile Include="EntityObject.cpp" />
+    <ClCompile Include="EntityObstacle.cpp" />
     <ClCompile Include="EntitySprite.cpp" />
     <ClCompile Include="PathFinding.cpp" />
     <ClCompile Include="Edge.cpp" />
@@ -189,12 +186,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agent.h" />
-    <ClInclude Include="Behaviour.h" />
-    <ClInclude Include="BehaviourFlee.h" />
-    <ClInclude Include="BehaviourSeek.h" />
-    <ClInclude Include="BehaviourWander.h" />
     <ClInclude Include="CustomColours.h" />
     <ClInclude Include="EntityObject.h" />
+    <ClInclude Include="EntityObstacle.h" />
     <ClInclude Include="EntitySprite.h" />
     <ClInclude Include="PathFinding.h" />
     <ClInclude Include="Edge.h" />

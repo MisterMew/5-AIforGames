@@ -20,6 +20,10 @@ void EntitySprite::Draw() {
 		RenderPredator();
 		break;
 
+	case EntityType::objObstacle:
+		RenderPredator();
+		break;
+
 	default: break;
 	}
 }
@@ -38,6 +42,12 @@ void EntitySprite::RenderPrey() {
 void EntitySprite::RenderPredator() {
 	DrawPoly(GetPos(), 5, 5, 0, PALEREDa);
 	DrawPolyLines(GetPos(), 5, 6, 0, PALERED);
+}
+
+ /// RENDER: Obstacle
+/* Renders the sprite for the obstacle */
+void EntitySprite::RenderObstacle() {
+	DrawRectangle(GetPos().x, GetPos().y, 20, 20, BLACK);
 }
 
 #pragma endregion

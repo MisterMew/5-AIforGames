@@ -1,16 +1,10 @@
 #pragma once
-#include "raymath.h"
 #include "EntityObject.h"
-#include "Behaviour.h"
-
-#include <iostream>
-#include <vector>
 #include <cmath>
 
 class Behaviour;
 class Agent : public EntityObject {
 private: /// Private Variables ///
-	Vector2 mPosition = { 0,0 };
 	Vector2 mVelocity = { 0,0 };
 	Vector2 mAcceleration = { 0,0 };
 	Vector2 mForce = { 0,0 };
@@ -19,7 +13,7 @@ private: /// Private Variables ///
 	float mFriction = 0.99F;
 
 protected: /// Protected Variables ///
-	std::vector<Behaviour*> mBehaviours;
+	//std::vector<Behaviour*> mBehaviours;
 
 public: /// Public Functions ///
 	Agent();
@@ -31,12 +25,11 @@ public: /// Public Functions ///
 	void Update(float deltaTime) override;
 	void Draw() override {}
 
-	inline void AddBehaviour(Behaviour* behaviour) { mBehaviours.push_back(behaviour); }
-	inline void ClearBehaviour() { mBehaviours.clear(); }
+	//inline void AddBehaviour(Behaviour* behaviour) { mBehaviours.push_back(behaviour); }
+	//inline void ClearBehaviour() { mBehaviours.clear(); }
 
 	 // Function Definitions //
 	/* Get */
-	inline Vector2 GetPos() { return mPosition; }
 	inline Vector2 GetVel() { return mVelocity; }
 	inline Vector2 GetAcc() { return mAcceleration; }
 	inline Vector2 GetForce() { return mForce; }
@@ -45,7 +38,6 @@ public: /// Public Functions ///
 	inline float GetFriction() { return mFriction; }
 
 	/* Set */
-	inline void SetPos(Vector2 position) { mPosition = position; };
 	inline void SetVel(Vector2 velocity) { mVelocity = velocity; };
 	inline void SetAcc(Vector2 acceleration) { mAcceleration = acceleration; }
 	inline void SetForce(Vector2 force) { mForce = force; }

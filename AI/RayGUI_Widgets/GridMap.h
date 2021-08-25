@@ -32,5 +32,8 @@ public:
 	void DrawNodes(Color COLOR);
 	void DrawPath(vector<Node*>& path);
 
-	Vector2 MouseToGrid(Vector2 mousePos);
+	Node* AlignVectorToGrid(Vector2 worldPos);
+	Node* AlignMouseClickToGrid(Vector2* mousePos);
+	Vector2 AlignPositionToGrid(Vector2 worldPos);
+
 };

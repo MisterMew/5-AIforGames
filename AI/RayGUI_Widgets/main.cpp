@@ -24,9 +24,7 @@ using namespace std;
 #include "Agent.h"
 #include "AgentPrey.h"
 #include "AgentPredator.h"
-
-#include "BehaviourSeek.h"
-#include "BehaviourFlee.h"
+#include "EntityObstacle.h"
 
 #include "CustomColours.h"
 #include "PathFinding.h"
@@ -50,13 +48,10 @@ Vector2 mousePos;
 Camera2D camera;
 
 //Vector Lists:
-vector<EntityObject*> entities = {};
+vector<EntityObject*> agents = {};
 vector<Behaviour*> behaviours;
+vector<Obstacle*> obstacles;
 vector<Node*> foundPath;
-
-//Behaviours:
-SeekBehaviour* seekBehaviour;
-FleeBehaviour* fleeBehaviour;
 
 #pragma endregion
 #pragma region [ Function Declarations ]
@@ -66,6 +61,7 @@ FleeBehaviour* fleeBehaviour;
 void SetupCamera();
 void SpawnEntitiesPrey(unsigned int amount);
 void SpawnEntitiesPred(unsigned int amount);
+void SpawnObstacles(unsigned int amount);
 
 #pragma endregion
 #pragma region [ Main Program Functions ]
@@ -84,13 +80,10 @@ void Init() {
 void Start() {
 	SetupCamera();
 
-	// Create Behaviours //
-	seekBehaviour = new SeekBehaviour();
-	fleeBehaviour = new FleeBehaviour();
-
 	// Spawn Entities //
-	SpawnEntitiesPrey(10);
-	SpawnEntitiesPred(1);
+	///SpawnEntitiesPrey(10);
+	///SpawnEntitiesPred(1);
+	SpawnObstacles(20);
 
 	// Create Nodes //
 	gridMap.CreateGridNetwork();
@@ -106,14 +99,11 @@ void Update() {
 	mousePos = GetMousePosition(); //Get the mouse coordinates
 
 	// Update Entities //
-	for (auto entity : entities) {
-		entity->Update(deltaTime);
-	}
+	for (auto entity : agents) { entity->Update(deltaTime); }
 
 	// Temp Code //
-	   Vector2 temp = gridMap.MouseToGrid(mousePos);
 	   Node* startNode = gridMap.map[0][0];
-	   foundPath = pathFind.FindPath(startNode, gridMap.map[(int)temp.y][(int)temp.x]);
+	   foundPath = pathFind.FindPath(startNode, gridMap.AlignVectorToGrid(mousePos));
 	// ==== ==== //
 }
 
@@ -131,9 +121,9 @@ void Draw() {
 	gridMap.DrawNodes(ORANGEa);
 	gridMap.DrawPath(foundPath);
 
-	for (auto entity : entities) {
-		entity->Draw();
-	}
+	// Draw Entities & Objects //
+	for (auto obstacle : obstacles) { obstacle->Draw(); }
+	for (auto entity : agents) { entity->Draw(); }
 
 	// UI Details //
 	DrawRectangleGradientV(0, 0, screenWidth, screenHeight, Fade(BLACK, 0.3f), Fade(DIRTYGREY, 0.005f)); //Vignette
@@ -148,24 +138,21 @@ void Draw() {
 /* Function to deference objects after use */
 void DereferenceObjects() {
 	/* Delete Entities */
-	for (unsigned int i = 0; i < entities.size(); i++) {
-		delete entities[i];
+	for (unsigned int i = 0; i < agents.size(); i++) {
+		delete agents[i];
 	}
-	entities.clear();
+	agents.clear();
 
-	/* Delete Behaviours */
-	for (unsigned int i = 0; i < behaviours.size(); i++) {
-		delete behaviours[i];
+	/* Delete Obstacles */
+	for (unsigned int i = 0; i < obstacles.size(); i++) {
+		delete obstacles[i];
 	}
-	delete seekBehaviour;
-	delete fleeBehaviour;
-
-	behaviours.clear();
+	obstacles.clear();
 }
 
 /// Main ///
 int main() {
-	Init(); //Initialisation
+	Init();
 	Start();
 
 	bool exitWindow = false;
@@ -198,7 +185,7 @@ void SetupCamera() {
 /* Spawn the prey entities */
 void SpawnEntitiesPrey(unsigned int amount) {
 	for (int i = 0; i < amount; i++) {
-		entities.push_back(new Prey({ (float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) }));
+		agents.push_back(new Prey({ (float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) }));
 	}
 }
 
@@ -206,6 +193,14 @@ void SpawnEntitiesPrey(unsigned int amount) {
 /* Spawn the predator entities */
 void SpawnEntitiesPred(unsigned int amount) {
 	for (int i = 0; i < amount; i++) {
-		entities.push_back(new Predator({ (float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) }));
+		agents.push_back(new Predator({ (float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) }));
+	}
+}
+
+ /// SPAWN: Obstacles
+/* Spawn the obstacle entities */
+void SpawnObstacles(unsigned int amount) {
+	for (int i = 0; i < amount; i++) {
+		//obstacles.push_back(new Obstacle(gridMap.AlignPositionToGrid({ (float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })));
 	}
 }
