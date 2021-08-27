@@ -1,27 +1,18 @@
 #include "Agent.h"
 
-Agent::Agent() : Agent({ 0, 0 }) {}
-Agent::Agent(Vector2 pos) { Init(pos); }
-Agent::~Agent() {}
-
-
 #pragma region [ Public Functions ]
 
-// Update the agent and its behaviours
+ /// UPDATE
+/* Update the agent and its behaviours */
 void Agent::Update(float deltaTime) {
-	Vector2 pos = GetPos();
-	Vector2 vel = GetVel();
-
 	SetForce({0, 0});
 
-	// If (velocity + steering) equals zero, then there is no movement
-	SetVel( Vector2Truncate((Vector2Add(vel, Vector2Scale(GetForce(), deltaTime))), GetMaxSpeed()) );
-	SetPos( (Vector2Add(pos, Vector2Scale(vel, deltaTime))) );
+	state.UpdateEntity(this);
 
-	SetVel( Vector2Scale(vel, GetFriction()) );
+	SetVel(Vector2Truncate((Vector2Add(GetVel(), Vector2Scale(GetForce(), deltaTime))), GetMaxSpeed()));
+	SetPos((Vector2Add(GetPos(), Vector2Scale(GetVel(), deltaTime))));
 
-	WrapScreenBounds(&pos);
-	SetPos(pos);
+	SetVel(Vector2Scale(GetVel(), GetFriction()));
 }
 
 #pragma endregion
@@ -31,7 +22,7 @@ void Agent::Update(float deltaTime) {
 /* Truncates the given vector */
 Vector2 Agent::Vector2Truncate(Vector2 vec, float max) {
 	float i = max / Vector2Length(vec);
-	i = i < 1.0 ? i : 1.0;
+	i = i < 1.0F ? i : 1.0F;
 	return Vector2Scale(vec, i);
 }
 
@@ -63,17 +54,8 @@ void Agent::Init(Vector2 pos) {
 	SetVel({ rand() % (int)10.0F - 5.0F, rand() % (int)10.0F - 5.0F }); //Set the velocity's X, Y values
 	SetAcc({ (float)(rand() % 2 + 1), (float)(rand() % 2 + 1) });	   //Set the acceleration's X, Y value
 
-	SetMaxSpeed(2.0f);
-	SetMaxForce(0.5f);
-}
-
- /// SCREEN WRAP
-/* Allows agents to wrap around the screen */
-void Agent::WrapScreenBounds(Vector2* pos) {
-	if (pos->x < 0) { pos->x = (float)GetScreenWidth(); }
-	if (pos->y < 0) { pos->y = (float)GetScreenHeight(); }
-	if (pos->x > (float)GetScreenWidth()) { pos->x = 0; }
-	if (pos->y > (float)GetScreenHeight()) { pos->y = 0; }
+	SetMaxSpeed(5.0F);
+	SetMaxForce(5.0F);
 }
 
 #pragma endregion

@@ -7,19 +7,19 @@
 using namespace std;
 
 enum class EntityType { objPrey, objPredator, objObstacle };
+
 class EntityObject {
-private:
+private: /// Private Varibles
 	EntityObject* mParent = nullptr;
 	vector<EntityObject*> mChildren;
 
-protected:
-	/// Variables
+protected: /// Protected Variables
 	EntityType mEntityType = {};
 	Vector2 mGlobalPos = { 0, 0 };
 	Vector2 mLocalPos = { 0, 0 };
 	Vector2 mVelocity = { 0, 0 };
 
-public:
+public: /// Public Functions
 	EntityObject();
 	EntityObject(Vector2 position);
 	~EntityObject();
@@ -30,26 +30,25 @@ public:
 
 	void UpdatePosition();
 
-	/// Function Definitions:
-   /* SET Functions */
-	void SetEntity(EntityType entity) { mEntityType = entity; }
-	void SetPos(Vector2 position) { SetLocalPos(position); }
-	void SetGlobalPos(Vector2 globalPos) { mGlobalPos = globalPos; }
-	void SetLocalPos(Vector2 localPos) { mLocalPos = localPos; }
-	void SetVel(Vector2 velocity) { mVelocity = velocity; }
+	/* Get */
+	inline EntityType GetEntity() { return mEntityType; }
+	inline Vector2 GetPos() { return GetGlobalPos(); }
+	inline Vector2 GetGlobalPos() { return mGlobalPos; }
+	inline Vector2 GetLocalPos() { return mLocalPos; }
+	inline Vector2 GetVel() { return mVelocity; }
 
-	/* GET Functions */
-	EntityType GetEntity() { return mEntityType; }
-	Vector2 GetPos() { return GetGlobalPos(); }
-	Vector2 GetGlobalPos() { return mGlobalPos; }
-	Vector2 GetLocalPos() { return mLocalPos; }
-	Vector2 GetVel() { return mVelocity; }
+    /* Set */
+	inline void SetEntity(EntityType entity) { mEntityType = entity; }
+	inline void SetPos(Vector2 position) { SetLocalPos(position); }
+	inline void SetGlobalPos(Vector2 globalPos) { mGlobalPos = globalPos; }
+	inline void SetLocalPos(Vector2 localPos) { mLocalPos = localPos; }
+	inline void SetVel(Vector2 velocity) { mVelocity = velocity; }
 
 	/* Children Functions */
-	EntityObject* GetParent() { return mParent; }
-	EntityObject* GetChild(int index) { return mChildren[index]; }
-	bool HasParent() { return mParent != nullptr; }
-	int GetChildCount() { return sizeof(mChildren); }
+	inline EntityObject* GetParent() { return mParent; }
+	inline EntityObject* GetChild(int index) { return mChildren[index]; }
+	inline bool HasParent() { return mParent != nullptr; }
+	inline int GetChildCount() { return sizeof(mChildren); }
 	void AddChild(EntityObject* child);
 	void RemoveChild(EntityObject* child);
 };

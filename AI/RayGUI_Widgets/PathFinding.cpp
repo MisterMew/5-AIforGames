@@ -41,7 +41,8 @@ vector<Node*> PathFind::FindPath(Node* startNode, Node* endNode) {
 			return RetracePath(startNode, endNode); //Retrace the found path,
 		} 
 		
-		for (Edge connection : currentNode->connections) {																  //For each neighbouring Node in currentNode's connections
+		for (Edge connection : currentNode->connections) {
+			if (connection.GetNeighbour() == nullptr) { continue; }														  //For each neighbouring Node in currentNode's connections
 			if (find(closedList.begin(), closedList.end(), connection.GetNeighbour()) != closedList.end()) { continue; } //If the neighbour is NOT in the CLOSED list, continue;
 		
 			int newCostToNeighbour = currentNode->GetGCost() + GetDistance(currentNode, connection.GetNeighbour());									  //Calculate the cost to reach the neighbouring node

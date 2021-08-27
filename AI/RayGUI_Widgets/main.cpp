@@ -1,10 +1,5 @@
 #pragma once
 
-/* TO DO:
-* Create objects
-* Create State Machine
-*/
-
 #include <iostream>
 #include <string>
 #include <vector>
@@ -20,11 +15,15 @@ using namespace std;
 #include "raygui.h"
 #include "raymath.h"
 
+#include "BehaviourPursue.h"
+#include "BehaviourWander.h"
+#include "BehaviourFlee.h"
+
+#include "EntityObstacle.h"
 #include "EntityObject.h"
 #include "Agent.h"
 #include "AgentPrey.h"
 #include "AgentPredator.h"
-#include "EntityObstacle.h"
 
 #include "CustomColours.h"
 #include "PathFinding.h"
@@ -33,7 +32,10 @@ using namespace std;
 #undef RAYGUI_IMPLEMENTATION
 
 GridMap gridMap;
-PathFind pathFind;
+PathFind pafi;
+
+#include <map>
+extern map<Agent*, vector<Node*>> mPath;
 
 // / / / / / / / / / / | | | \ \ \ \ \ \ \ \ \ \ \\
 
@@ -48,10 +50,14 @@ Vector2 mousePos;
 Camera2D camera;
 
 //Vector Lists:
-vector<EntityObject*> agents = {};
+vector<EntityObject*> entities = {};
 vector<Behaviour*> behaviours;
 vector<Obstacle*> obstacles;
 vector<Node*> foundPath;
+
+//Agents:
+Agent* mPredator;
+Agent* mPrey;
 
 #pragma endregion
 #pragma region [ Function Declarations ]
@@ -80,14 +86,19 @@ void Init() {
 void Start() {
 	SetupCamera();
 
-	// Spawn Entities //
-	///SpawnEntitiesPrey(10);
-	///SpawnEntitiesPred(1);
-	SpawnObstacles(20);
+	// Create Behaviours //
+	Pursue* pursue = new Pursue();
+	Wander* wander = new Wander();
+	Flee* flee = new Flee();
 
 	// Create Nodes //
-	gridMap.CreateGridNetwork();
+	gridMap.CreateGridNetwork(); //Safety check ! Do not create if object is in way
 	gridMap.CreateConnections();
+
+	// Spawn Entities //
+	SpawnEntitiesPrey(20);
+	SpawnEntitiesPred(10);
+	//SpawnObstacles(20);  //Move to top
 
 	deltaTime = 0;
 }
@@ -99,11 +110,11 @@ void Update() {
 	mousePos = GetMousePosition(); //Get the mouse coordinates
 
 	// Update Entities //
-	for (auto entity : agents) { entity->Update(deltaTime); }
+	for (auto entity : entities) { entity->Update(deltaTime); }
 
 	// Temp Code //
 	   Node* startNode = gridMap.map[0][0];
-	   foundPath = pathFind.FindPath(startNode, gridMap.AlignVectorToGrid(mousePos));
+	   foundPath = pafi.FindPath(startNode, gridMap.AlignVectorToGrid(mousePos));
 	// ==== ==== //
 }
 
@@ -123,7 +134,11 @@ void Draw() {
 
 	// Draw Entities & Objects //
 	for (auto obstacle : obstacles) { obstacle->Draw(); }
-	for (auto entity : agents) { entity->Draw(); }
+	for (auto entity : entities) { entity->Draw(); }
+
+	for (auto it = mPath.begin(); it != mPath.end(); it++) {
+		DrawCircle(it->second[0]->GetPos().x, it->second[0]->GetPos().y, 20, PINK);
+	}
 
 	// UI Details //
 	DrawRectangleGradientV(0, 0, screenWidth, screenHeight, Fade(BLACK, 0.3f), Fade(DIRTYGREY, 0.005f)); //Vignette
@@ -137,18 +152,18 @@ void Draw() {
  /// DEREFERENCING FUNCTION
 /* Function to deference objects after use */
 void DereferenceObjects() {
-	/* Delete Entities */
-	for (unsigned int i = 0; i < agents.size(); i++) {
-		delete agents[i];
-	}
-	agents.clear();
-
 	/* Delete Obstacles */
 	for (unsigned int i = 0; i < obstacles.size(); i++) {
 		delete obstacles[i];
 	}
 	obstacles.clear();
-}
+
+	/* Delete Entities */
+	for (unsigned int i = 0; i < entities.size(); i++) {
+		delete entities[i];
+	}
+	entities.clear();
+} 
 
 /// Main ///
 int main() {
@@ -185,7 +200,8 @@ void SetupCamera() {
 /* Spawn the prey entities */
 void SpawnEntitiesPrey(unsigned int amount) {
 	for (int i = 0; i < amount; i++) {
-		agents.push_back(new Prey({ (float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) }));
+		entities.push_back(new Prey({ (float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) }));
+
 	}
 }
 
@@ -193,7 +209,7 @@ void SpawnEntitiesPrey(unsigned int amount) {
 /* Spawn the predator entities */
 void SpawnEntitiesPred(unsigned int amount) {
 	for (int i = 0; i < amount; i++) {
-		agents.push_back(new Predator({ (float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) }));
+		entities.push_back(new Predator({ (float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) }));
 	}
 }
 
@@ -201,6 +217,8 @@ void SpawnEntitiesPred(unsigned int amount) {
 /* Spawn the obstacle entities */
 void SpawnObstacles(unsigned int amount) {
 	for (int i = 0; i < amount; i++) {
-		//obstacles.push_back(new Obstacle(gridMap.AlignPositionToGrid({ (float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })));
+		Vector2 posOnGrid = gridMap.AlignPositionToGrid({ (float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) });
+		obstacles.push_back(new Obstacle({ posOnGrid.x, posOnGrid.y }));
 	}
+	gridMap.UpdateGridObstacles();
 }

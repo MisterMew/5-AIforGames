@@ -12,6 +12,7 @@ public: /// Public Variables
 	Obstacle(Vector2 position);
 	~Obstacle();
 
+	void Update();
 	void Draw();
 
 	/* Get */

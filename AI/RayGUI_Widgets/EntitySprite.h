@@ -13,7 +13,6 @@ private: /// Private Variables
 	EntityType mEntityType;
 
 public: /// Public Functions
-	EntitySprite();
 	EntitySprite(EntityType mDrawEntity);
 	~EntitySprite();
 
@@ -24,6 +23,5 @@ public: /// Public Functions
 
 	void RenderPrey();
 	void RenderPredator();
-	void RenderObstacle();
 };
 

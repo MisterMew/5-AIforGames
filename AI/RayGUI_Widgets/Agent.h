@@ -1,35 +1,39 @@
 #pragma once
 #include "EntityObject.h"
+#include "StateMachine.h"
+#include "Behaviour.h"
+#include "raymath.h"
+#include <vector>
 #include <cmath>
 
 class Behaviour;
 class Agent : public EntityObject {
-private: /// Private Variables ///
+private: /// Private Variables
 	Vector2 mVelocity = { 0,0 };
 	Vector2 mAcceleration = { 0,0 };
 	Vector2 mForce = { 0,0 };
 	float mMaxSpeed = 100.0F;
-	float mMaxForce = 100;
-	float mFriction = 0.99F;
+	float mMaxForce = 100.0F;
+	float mFriction = 1.0F;
 
-protected: /// Protected Variables ///
-	//std::vector<Behaviour*> mBehaviours;
+protected: /// Protected Variables
+	State state;
+	vector<Behaviour*> mBehaviours;
 
-public: /// Public Functions ///
-	Agent();
-	Agent(Vector2 position);
-	~Agent();
+public: /// Public Functions
+	Agent() : Agent({ 0, 0 }) {}
+	Agent(Vector2 position) { Init(position); };
+	~Agent() {};
 
-	 // Function Declarations //
 	void Start() override {}
 	void Update(float deltaTime) override;
 	void Draw() override {}
 
-	//inline void AddBehaviour(Behaviour* behaviour) { mBehaviours.push_back(behaviour); }
-	//inline void ClearBehaviour() { mBehaviours.clear(); }
+	inline void AddBehaviour(Behaviour* behaviour) { mBehaviours.push_back(behaviour); }
+	inline void ClearBehaviour() { mBehaviours.clear(); }
 
-	 // Function Definitions //
 	/* Get */
+	BehaviourState GetState() { return state.GetState(); } //Called from StateMachine
 	inline Vector2 GetVel() { return mVelocity; }
 	inline Vector2 GetAcc() { return mAcceleration; }
 	inline Vector2 GetForce() { return mForce; }
@@ -38,6 +42,7 @@ public: /// Public Functions ///
 	inline float GetFriction() { return mFriction; }
 
 	/* Set */
+	void SetState(BehaviourState stat) { state.SetState(stat); } //Called from StateMachine
 	inline void SetVel(Vector2 velocity) { mVelocity = velocity; };
 	inline void SetAcc(Vector2 acceleration) { mAcceleration = acceleration; }
 	inline void SetForce(Vector2 force) { mForce = force; }
@@ -54,8 +59,6 @@ public: /// Public Functions ///
 	Vector2 Vector2Truncate(Vector2 vector, float max);
 	static Vector2 Vector2Clamp(Vector2 vector, float clampMin, float clampMax);
 	static float Vector2Magnitude(Vector2 vector);
-
-	void WrapScreenBounds(Vector2* pos);
 
 private: /// Private Functions ///
 	void Init(Vector2 position);

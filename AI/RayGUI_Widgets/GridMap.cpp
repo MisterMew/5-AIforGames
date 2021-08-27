@@ -101,6 +101,27 @@ void GridMap::DrawPath(vector<Node*>& path) {
 	}
 }
 
+#include "EntityObstacle.h"
+extern vector<Obstacle*> obstacles;
+void GridMap::UpdateGridObstacles() {
+	for (auto obs : obstacles) {
+		Node* node = AlignVectorToGrid(obs->GetPos());
+		RemoveNodeFromGrid(node->GetGridPos().x, node->GetGridPos().y);
+	}
+}
+
+void GridMap::RemoveNodeFromGrid(float x, float y) {
+	if (x > 0 && x < mapHeight && y > 0 && y < mapWidth) {
+		Node* node = map[(int)x][(int)y];
+		for (auto c : node->connections) {
+			c.SetParent(nullptr);
+			c.SetNeighbour(nullptr);
+		}
+		delete node;
+		map[(int)x][(int)y] = nullptr;
+	}
+}
+
 Node* GridMap::AlignVectorToGrid(Vector2 worldPos) {
 	Vector2 newPosition;							   //Create a new vector
 	newPosition.x = floor(worldPos.x / gridSpacing);  //Convert X to grid axis W
@@ -110,19 +131,12 @@ Node* GridMap::AlignVectorToGrid(Vector2 worldPos) {
 	return node;
 }
 
-Node* GridMap::AlignMouseClickToGrid(Vector2* mousePos) {
-	Vector2* newPosition = mousePos;						  //Create a new vector
-	newPosition->x = floor((int)mousePos->x / gridSpacing);  //Convert X to grid axis W
-	newPosition->y = floor((int)mousePos->y / gridSpacing); //Convert Y to grid axis H
+Vector2 GridMap::AlignPositionToGrid(Vector2 vector) {
+	Vector2 newPosition;							 //Create a new vector
+	newPosition.x = floor(vector.x / gridSpacing);  //Convert X to grid axis W
+	newPosition.y = floor(vector.y / gridSpacing); //Convert Y to grid axis H
 
-	Node* node = map[(int)newPosition->y][(int)newPosition->x]; //Set the node to the grid position
-	return node;
-}
-
-Vector2 GridMap::AlignPositionToGrid(Vector2 worldPos) {
-	Vector2 newPosition;							   //Create a new vector
-	newPosition.x = floor(worldPos.x / gridSpacing);  //Convert X to grid axis W
-	newPosition.y = floor(worldPos.y / gridSpacing); //Convert Y to grid axis H
+	//return newPosition;
 
 	Node* node = map[(int)newPosition.y][(int)newPosition.x]; //Set the node to the grid position
 	return node->GetPos();

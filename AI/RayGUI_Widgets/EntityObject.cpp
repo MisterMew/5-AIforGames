@@ -8,7 +8,7 @@ void EntityObject::Start() {}
 void EntityObject::Update(float deltaTime) {}
 void EntityObject::Draw() {}
 
-/// POSITION UPDATE
+ /// POSITION UPDATE
 /* Update an entities relative position */
 void EntityObject::UpdatePosition() {
 	if (mParent != nullptr) {
@@ -17,13 +17,13 @@ void EntityObject::UpdatePosition() {
 	else {
 		SetGlobalPos(GetLocalPos());
 	}
+
 	for (auto entity : mChildren) {
 		entity->UpdatePosition();
 	}
 }
 
-
-/// CHILD: Add
+ /// CHILD: Add
 /* Add a child to a parent */
 void EntityObject::AddChild(EntityObject* child) {
 	child->mParent = this;
@@ -31,7 +31,7 @@ void EntityObject::AddChild(EntityObject* child) {
 	child->UpdatePosition();
 }
 
-/// CHILD: Remove
+ /// CHILD: Remove
 /* Remove a child from existence */
 void EntityObject::RemoveChild(EntityObject* child) {
 	vector<EntityObject*>::iterator position = find(mChildren.begin(), mChildren.end(), child);

@@ -173,6 +173,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Agent.cpp" />
+    <ClCompile Include="Behaviour.cpp" />
+    <ClCompile Include="BehaviourFlee.cpp" />
+    <ClCompile Include="BehaviourPursue.cpp" />
+    <ClCompile Include="BehaviourWander.cpp" />
     <ClCompile Include="EntityObject.cpp" />
     <ClCompile Include="EntityObstacle.cpp" />
     <ClCompile Include="EntitySprite.cpp" />
@@ -183,9 +187,14 @@
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="AgentPredator.cpp" />
     <ClCompile Include="AgentPrey.cpp" />
+    <ClCompile Include="StateMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Agent.h" />
+    <ClInclude Include="Behaviour.h" />
+    <ClInclude Include="BehaviourFlee.h" />
+    <ClInclude Include="BehaviourPursue.h" />
+    <ClInclude Include="BehaviourWander.h" />
     <ClInclude Include="CustomColours.h" />
     <ClInclude Include="EntityObject.h" />
     <ClInclude Include="EntityObstacle.h" />
@@ -197,6 +206,7 @@
     <ClInclude Include="AgentPredator.h" />
     <ClInclude Include="AgentPrey.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="StateMachine.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="ProjectName.rc" />

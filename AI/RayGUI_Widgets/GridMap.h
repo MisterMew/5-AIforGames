@@ -4,7 +4,6 @@
 #include "PathFinding.h"
 #include "raymath.h"
 #include "Node.h"
-
 #include <iostream>
 #include <vector>
 
@@ -32,8 +31,10 @@ public:
 	void DrawNodes(Color COLOR);
 	void DrawPath(vector<Node*>& path);
 
+	void UpdateGridObstacles();
+	void RemoveNodeFromGrid(float x, float y);
+
 	Node* AlignVectorToGrid(Vector2 worldPos);
-	Node* AlignMouseClickToGrid(Vector2* mousePos);
 	Vector2 AlignPositionToGrid(Vector2 worldPos);
 
 };
