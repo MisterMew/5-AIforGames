@@ -92,13 +92,13 @@ void Start() {
 	Flee* flee = new Flee();
 
 	// Create Nodes //
-	gridMap.CreateGridNetwork(); //Safety check ! Do not create if object is in way
+	gridMap.CreateGridNetwork();
 	gridMap.CreateConnections();
 
 	// Spawn Entities //
 	SpawnEntitiesPrey(20);
 	SpawnEntitiesPred(10);
-	//SpawnObstacles(20);  //Move to top
+	SpawnObstacles(20);
 
 	deltaTime = 0;
 }
@@ -137,7 +137,7 @@ void Draw() {
 	for (auto entity : entities) { entity->Draw(); }
 
 	for (auto it = mPath.begin(); it != mPath.end(); it++) {
-		DrawCircle(it->second[0]->GetPos().x, it->second[0]->GetPos().y, 20, PINK);
+		DrawCircle(it->second[0]->GetPos().x, it->second[0]->GetPos().y, 10, Color{255,109,194,100});
 	}
 
 	// UI Details //
@@ -220,5 +220,5 @@ void SpawnObstacles(unsigned int amount) {
 		Vector2 posOnGrid = gridMap.AlignPositionToGrid({ (float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) });
 		obstacles.push_back(new Obstacle({ posOnGrid.x, posOnGrid.y }));
 	}
-	gridMap.UpdateGridObstacles();
+	//gridMap.UpdateGridObstacles();
 }

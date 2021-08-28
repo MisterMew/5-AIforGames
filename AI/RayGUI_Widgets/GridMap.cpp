@@ -113,9 +113,9 @@ void GridMap::UpdateGridObstacles() {
 void GridMap::RemoveNodeFromGrid(float x, float y) {
 	if (x > 0 && x < mapHeight && y > 0 && y < mapWidth) {
 		Node* node = map[(int)x][(int)y];
-		for (auto c : node->connections) {
-			c.SetParent(nullptr);
-			c.SetNeighbour(nullptr);
+		for (auto edge : node->connections) {
+			edge.SetParent(nullptr);
+			edge.SetNeighbour(nullptr);
 		}
 		delete node;
 		map[(int)x][(int)y] = nullptr;
@@ -135,8 +135,6 @@ Vector2 GridMap::AlignPositionToGrid(Vector2 vector) {
 	Vector2 newPosition;							 //Create a new vector
 	newPosition.x = floor(vector.x / gridSpacing);  //Convert X to grid axis W
 	newPosition.y = floor(vector.y / gridSpacing); //Convert Y to grid axis H
-
-	//return newPosition;
 
 	Node* node = map[(int)newPosition.y][(int)newPosition.x]; //Set the node to the grid position
 	return node->GetPos();
