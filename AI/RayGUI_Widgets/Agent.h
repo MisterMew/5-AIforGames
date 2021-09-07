@@ -60,6 +60,9 @@ public: /// Public Functions
 	static Vector2 Vector2Clamp(Vector2 vector, float clampMin, float clampMax);
 	static float Vector2Magnitude(Vector2 vector);
 
+	/* Miscellaneous */
+	inline void DeleteOutOfBounds(Agent* agent);
+
 private: /// Private Functions ///
 	void Init(Vector2 position);
 };

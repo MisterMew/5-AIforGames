@@ -1,9 +1,12 @@
 #include "GridMap.h"
 
 Node* GridMap::map[mapHeight][mapWidth]; //Defines 'map' so it can be initialised
+extern vector<Obstacle*> obstacles;
 
 #pragma region [ Graph Functions ]
 
+ /// GRAPH: Create network
+/* Create the grid network for the nodes */
 void GridMap::CreateGridNetwork() {
 	Vector2 pos = { 0, 0 };
 	for (int h = 0; h < mapHeight; h++) {
@@ -21,6 +24,8 @@ void GridMap::CreateGridNetwork() {
 	}
 }
 
+ /// GRAPH: Create Connections
+/* Create the connections between every node */
 void GridMap::CreateConnections() { //node is the Node we want to create connections from.
 	for (int h = 0; h < mapHeight; h++) {
 		for (int w = 0; w <  mapWidth; w++) {
@@ -78,6 +83,8 @@ void GridMap::DrawNodes(Color COLOR) {
 	if (map == NULL) { return; }
 	for (int h = 0; h < (mapHeight); h++) {
 		for (int w = 0; w < (mapWidth); w++) {
+			if (map[h][w] == nullptr) { continue; }
+
 			DrawCircle(map[h][w]->GetPos().x, map[h][w]->GetPos().y, 2, COLOR);
 		}
 	}
@@ -91,53 +98,56 @@ void GridMap::DrawPath(vector<Node*>& path) {
 		Color color = ORANGE;
 
 		if (i == path.size() - 1) { color = PALEGREEN; } // Start node
-		else if (i == 0) { color = PALERED; } // End node (reverse order)
+		else if (i == 0) { color = PALERED; }			// End node (reverse order)
 
 		DrawCircle(pos.x, pos.y, 3, color);
-
-		//for (Edge edge : path[i]->connections) {
-		//	DrawLine(pos.x, pos.y, edge.GetNeighbour()->GetPos().x, edge.GetNeighbour()->GetPos().y, ORANGE);
-		//}
 	}
 }
 
-#include "EntityObstacle.h"
-extern vector<Obstacle*> obstacles;
-void GridMap::UpdateGridObstacles() {
-	for (auto obs : obstacles) {
-		Node* node = AlignVectorToGrid(obs->GetPos());
-		RemoveNodeFromGrid(node->GetGridPos().x, node->GetGridPos().y);
-	}
-}
-
-void GridMap::RemoveNodeFromGrid(float x, float y) {
-	if (x > 0 && x < mapHeight && y > 0 && y < mapWidth) {
-		Node* node = map[(int)x][(int)y];
-		for (auto edge : node->connections) {
-			edge.SetParent(nullptr);
-			edge.SetNeighbour(nullptr);
-		}
-		delete node;
-		map[(int)x][(int)y] = nullptr;
-	}
-}
-
+ /// ALIGN TO GRID: Vector
+/* Align a vector input to the grid and return a Node */
 Node* GridMap::AlignVectorToGrid(Vector2 worldPos) {
-	Vector2 newPosition;							   //Create a new vector
-	newPosition.x = floor(worldPos.x / gridSpacing);  //Convert X to grid axis W
-	newPosition.y = floor(worldPos.y / gridSpacing); //Convert Y to grid axis H
+	Vector2 newPosition;							   // Create a new vector
+	newPosition.x = floor(worldPos.x / gridSpacing);  // Convert X to grid axis W
+	newPosition.y = floor(worldPos.y / gridSpacing); // Convert Y to grid axis H
 
-	Node* node = map[(int)newPosition.y][(int)newPosition.x]; //Set the node to the grid position
+	Node* node = map[(int)newPosition.y][(int)newPosition.x]; // Set the node to the grid position
+
+	if (node == nullptr) {					     // If there is no node (ie. Obstacle)
+		for (int h = -1; h <= 1; h++) {		    // Loop through y
+			for (int w = -1; w <= 1; w++) {    // Loop through x
+				if (w == 0 && h == 0) { continue; }   // Continute if is the obstacle
+				
+				node = map[(int)newPosition.y + h][(int)newPosition.x + w];		  // Set the new node position
+				if (node != nullptr) { break; }
+			}
+			if (node != nullptr) { break; }
+		}
+		//node = map[(int)newPosition.y][(int)newPosition.x]; //
+	}
+
 	return node;
 }
-
-Vector2 GridMap::AlignPositionToGrid(Vector2 vector) {
-	Vector2 newPosition;							 //Create a new vector
-	newPosition.x = floor(vector.x / gridSpacing);  //Convert X to grid axis W
-	newPosition.y = floor(vector.y / gridSpacing); //Convert Y to grid axis H
-
-	Node* node = map[(int)newPosition.y][(int)newPosition.x]; //Set the node to the grid position
-	return node->GetPos();
-}
-
 #pragma endregion
+
+ /// NODE: DELETE
+/* Delete the nodes located at each obstacle */
+void GridMap::DeleteObstacleNodes() {
+	Node* toBeDeleted;
+
+	for (auto obs : obstacles) {						//For each obstacle
+		Node* node = AlignVectorToGrid(obs->GetPos()); //Create a pointer to the node at the obstacles grid position
+
+		for (Edge edge : node->connections) {						  //For each edge in the nodes connections
+			auto connections = &edge.GetNeighbour()->connections;	 //Set connections to the neighbours edge (pointer to remove from list)
+			for (int i = 0; i < node->connections.size(); i++) {	//For each of the nodes edges(connections)
+				if (connections->at(i).GetNeighbour() == node) {   //Get the connections [i] neighbour
+					connections->erase(connections->begin() + i); //Erase the [i]th connection
+					break;
+				}
+			}
+		}
+		map[(int)node->GetGridPos().y][(int)node->GetGridPos().x] = nullptr; //
+		//delete node;
+	}
+}

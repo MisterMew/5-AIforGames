@@ -33,6 +33,7 @@ using namespace std;
 
 GridMap gridMap;
 PathFind pafi;
+Agent agt;
 
 #include <map>
 extern map<Agent*, vector<Node*>> mPath;
@@ -98,7 +99,7 @@ void Start() {
 	// Spawn Entities //
 	SpawnEntitiesPrey(20);
 	SpawnEntitiesPred(10);
-	SpawnObstacles(20);
+	SpawnObstacles(200);
 
 	deltaTime = 0;
 }
@@ -135,10 +136,6 @@ void Draw() {
 	// Draw Entities & Objects //
 	for (auto obstacle : obstacles) { obstacle->Draw(); }
 	for (auto entity : entities) { entity->Draw(); }
-
-	for (auto it = mPath.begin(); it != mPath.end(); it++) {
-		DrawCircle(it->second[0]->GetPos().x, it->second[0]->GetPos().y, 10, Color{255,109,194,100});
-	}
 
 	// UI Details //
 	DrawRectangleGradientV(0, 0, screenWidth, screenHeight, Fade(BLACK, 0.3f), Fade(DIRTYGREY, 0.005f)); //Vignette
@@ -177,7 +174,6 @@ int main() {
 		Update();
 		Draw();
 	}
-
 	DereferenceObjects();
 	CloseWindow();
 }
@@ -201,7 +197,6 @@ void SetupCamera() {
 void SpawnEntitiesPrey(unsigned int amount) {
 	for (int i = 0; i < amount; i++) {
 		entities.push_back(new Prey({ (float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) }));
-
 	}
 }
 
@@ -217,8 +212,8 @@ void SpawnEntitiesPred(unsigned int amount) {
 /* Spawn the obstacle entities */
 void SpawnObstacles(unsigned int amount) {
 	for (int i = 0; i < amount; i++) {
-		Vector2 posOnGrid = gridMap.AlignPositionToGrid({ (float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) });
+		Vector2 posOnGrid = gridMap.AlignVectorToGrid({ (float)GetRandomValue(0, screenWidth), (float)GetRandomValue(0, screenHeight) })->GetPos();
 		obstacles.push_back(new Obstacle({ posOnGrid.x, posOnGrid.y }));
 	}
-	//gridMap.UpdateGridObstacles();
+	gridMap.DeleteObstacleNodes();
 }

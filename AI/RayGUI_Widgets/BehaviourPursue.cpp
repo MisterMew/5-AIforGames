@@ -19,7 +19,7 @@ void Pursue::SetTargetPos(Agent* agent, Vector2 pos) {
 }
 
 void Pursue::Update(Agent* agent, float deltaTime) {
-	if (mPath.find(agent) == mPath.end() && mPath[agent].size() > 0) { return; } //No path found, return
+	if (mPath.find(agent) == mPath.end() || mPath[agent].size() <= 0) { return; }	 //No path found, return
 
 	Node* node = mPath[agent][0];
 

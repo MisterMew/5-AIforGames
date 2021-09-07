@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CustomColours.h"
+#include "EntityObstacle.h"
 #include "PathFinding.h"
 #include "raymath.h"
 #include "Node.h"
@@ -31,10 +32,12 @@ public:
 	void DrawNodes(Color COLOR);
 	void DrawPath(vector<Node*>& path);
 
-	void UpdateGridObstacles();
-	void RemoveNodeFromGrid(float x, float y);
 
 	Node* AlignVectorToGrid(Vector2 worldPos);
 	Vector2 AlignPositionToGrid(Vector2 worldPos);
 
+	void UpdateGridObstacles();
+	void RemoveNodeFromGrid(float x, float y);
+	
+	void DeleteObstacleNodes();
 };

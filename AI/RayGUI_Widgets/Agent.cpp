@@ -1,5 +1,8 @@
 #include "Agent.h"
 
+
+extern vector<EntityObject*> entities;
+
 #pragma region [ Public Functions ]
 
  /// UPDATE
@@ -11,6 +14,8 @@ void Agent::Update(float deltaTime) {
 
 	SetVel(Vector2Truncate((Vector2Add(GetVel(), Vector2Scale(GetForce(), deltaTime))), GetMaxSpeed()));
 	SetPos((Vector2Add(GetPos(), Vector2Scale(GetVel(), deltaTime))));
+
+	DeleteOutOfBounds(this);
 
 	SetVel(Vector2Scale(GetVel(), GetFriction()));
 }
@@ -56,6 +61,28 @@ void Agent::Init(Vector2 pos) {
 
 	SetMaxSpeed(5.0F);
 	SetMaxForce(5.0F);
+}
+
+ /// DELETE OUT OF BOUNDS
+/* Delete the agent if is out of bounds */
+void Agent::DeleteOutOfBounds(Agent* agent) {
+	bool isOutOfBounds = false;
+
+	if (agent->GetPos().x > GetScreenWidth())  { isOutOfBounds = true; }
+	if (agent->GetPos().y > GetScreenHeight()) { isOutOfBounds = true; }
+	if (agent->GetPos().x < 0.0F) { isOutOfBounds = true; }
+	if (agent->GetPos().y < 0.0F) { isOutOfBounds = true; }
+
+	if (isOutOfBounds) { 
+		for (int i = 0; i < entities.size(); i++) {
+			if (entities[i] == agent) {
+				entities.erase(entities.begin() + i);
+				break;
+			}
+		}
+		delete agent;
+	}
+	else { return; }
 }
 
 #pragma endregion
