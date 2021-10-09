@@ -18,7 +18,7 @@ private: /// Private Variables
 public: /// Public Variables
 	static const int mapWidth = 64;
 	static const int mapHeight = 36;
-	static Node* map[mapHeight][mapWidth]; //36 rows + 64 collumns //Static class doesn't initialise
+	static Node* map[mapHeight][mapWidth]; //36 rows + 64 columns //Static class doesn't initialise
 
 	vector<Node*> tempList;
 
